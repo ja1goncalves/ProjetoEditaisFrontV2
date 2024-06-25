@@ -1,5 +1,5 @@
 import { DashAdm } from "@/components/DashAdm";
 
-export default function InArea() {
+export default function dashboard() {
   return <DashAdm />;
 }

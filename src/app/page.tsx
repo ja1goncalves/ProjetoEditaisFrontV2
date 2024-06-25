@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { DashEditais } from '@/components/DashEditais';
 
 export default function Home() {
-  redirect("/login");
-  return null;
+  return <DashEditais />;
 }
