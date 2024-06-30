@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { createUser } from "../lib/api";
 import { Cards } from "./Cards";
-import Sidebar from "./Sidebar";
+import { Header } from "./Header";
+import Image from 'next/image'
+
+import recAnt1 from '../../public/images/RecifeAntigo.png'
+import '../../public/curva.css'; 
 
 export function DashEditais() {
   const [name, setName] = useState("");
@@ -38,13 +42,16 @@ export function DashEditais() {
   return (
     <>
       <div className="min-h-screen">
-        <div className="flex items-center border-b border-gray-300">
-          <h1 className="text-3xl m-4 ">Dashboard</h1>
+        <Header/>
+        <div className="w-full">
+          <section className="relative flex flex-col items-center min-h-[400px]">
+            {/*<Image src={img01} alt="Pessoa utilizando a máquina da Recicletool" layout="fill" objectFit="contain" className="hidden lg:flex"/>*/}
+            <Image src={recAnt1} alt="ImagemTuristica" objectFit="contain" className="h-[80vh] absolute opacity-60"/>
+            <div className="w-full h-[80vh] bg-[#088395]"/>
+            <div className="curve"/>
+          </section>
         </div>
         <div className="container flex">
-          <div className="w-1/4 h-screen">
-            <Sidebar userProfilePic="/images/user.jpeg" username="Jonh Due" />
-          </div>
           <div className="w-3/4 p-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {cardData.map((card, index) => (
