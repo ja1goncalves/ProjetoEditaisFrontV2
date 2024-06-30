@@ -68,7 +68,7 @@ export function Login() {
               </div>
               <div className='flex justify-between w-full mb-1'>
                   <label className='flex items-center text-xs'><input type='checkbox' name='lembre-se' className='mr-2 ml-12'/>Lembre-se de mim</label>
-                  <a href='#' className='text-xs mr-12 hover:text-[#7D0A0A] hover:underline'>Esqueci minha senha</a>
+                  <Link href={'/ForgotPassword'} className='text-xs mr-12 hover:text-[#7D0A0A] hover:underline'>Esqueci minha senha</Link>
               </div>
               <button type="submit" className='w-1/2 mb-4 text-[18px] mt-6 rounded-full border-4 border-[#7D0A0A] px-4 bg-transparent text-[#7D0A0A] hover:bg-[#7D0A0A] hover:border-[#7D0A0A hover:text-white py-2 transition-colors duration-300'>Entrar</button>
             </div>
