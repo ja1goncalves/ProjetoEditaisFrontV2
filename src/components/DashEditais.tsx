@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createUser } from "../lib/api";
-import { Cards } from "./Cards";
+import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
 import Image from "next/image";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-
+import { IoIosArrowDown } from "react-icons/io";
+import { MdTableRows } from "react-icons/md";
+import { CiGrid41 } from "react-icons/ci";
 import igreja from "../../public/images/igreja.jpg";
 import portoGalinhas from "../../public/images/portoGalinhas.jpg";
 import recAnt1 from "../../public/images/recAntigo1.jpg";
@@ -15,23 +16,31 @@ import poli from "../../public/images/poli.png";
 
 interface Card {
   title: string;
-  description: string;
-  image: string;
+  publication: string;
+  edital: string;
 }
 
 export function DashEditais() {
   const cardData = [
     {
-      title: "Is my community healthy?",
-      description:
-        "Id reprehenderit cupidatat duis proident ipsum cupidatat ea tempor non exercitation nulla duis sunt. Cupidatat labore irure...",
-      image: "/images/Marca-FACEPE.png",
+      title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
+      publication: "6 de junho de 2024",
+      edital: "facepe",
     },
     {
-      title: "Most impactful channels",
-      description:
-        "Id reprehenderit cupidatat duis proident ipsum cupidatat ea tempor non exercitation nulla duis sunt. Cupidatat labore irure...",
-      image: "/images/Marca-FACEPE.png",
+      title: "18/2024 - APQ – Universal (Auxílio a Projetos de Pesquisa)",
+      publication: "27 de maio de 2024",
+      edital: "facepe",
+    },
+    {
+      title: "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
+      publication: "30 de maio de 2024",
+      edital: "facepe",
+    },
+    {
+      title: "16/2024 - 16/2024 – IPECTI Energias Renováveis e Descarbonização",
+      publication: "16 de maio de 2024",
+      edital: "facepe",
     },
   ];
 
@@ -44,6 +53,8 @@ export function DashEditais() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [igreja, portoGalinhas, recAnt1, recAntigo2]
+
+  const [vizualizacao, setVizualizacao] = useState("row");
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -86,9 +97,9 @@ export function DashEditais() {
     <>
       <div className="min-h-screen">
         <HeaderOut/>
-        <div className="w-full">
+        <div className="w-full mb-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
-            <Image src={images[currentIndex]} alt="ImagemTuristica" objectFit="contain" className="h-[80vh] absolute opacity-40"/>
+            <Image src={images[currentIndex]} alt="ImagemTuristica" objectFit="fit" className="h-[80vh] absolute opacity-40"/>
             <div className="w-full h-[80vh] bg-[#088395]" />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-7">
               <p className="text-white text-5xl font-medium px-96 text-center">
@@ -98,22 +109,11 @@ export function DashEditais() {
                 Acesse as principais oportunidades de apoio à pesquisa
                 oferecidas por instituições de referência
               </p>
-              <div className="w-full h-full max-w-xl max-h-14 mt-4">
-                <div className="flex items-center overflow-hidden p-1 bg-white rounded-3xl">
-                  <button>
-                    <FaMagnifyingGlass className="w-auto pl-4 text-[#37B7C3]" />
-                  </button>
-                  
-                  <input
-                    type="text"
-                    placeholder="Buscar editais..."
-                    className="text-gray-400 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-[1em]"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                </div>
-              </div>
+    
+                <button className="flex justify-center gap-x-3 leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
+                  <p>Comece agora a explorar os editais </p><IoIosArrowDown />
+                </button>
+     
             
             
             </div>
@@ -128,23 +128,36 @@ export function DashEditais() {
             </div>
           </section>
         </div>
-
-        <div className="w-full">
-          <div className="w-3/4 p-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {filteredCards.map((card, index) => (
-                <Cards
+        
+        <div className="justify-center flex flex-col border mx-40 rounded-3xl">
+          <div className="border-b flex flex-row w-full items-center"> 
+            <p>input + filtros</p> 
+            <button onClick={()=> setVizualizacao("row")}><MdTableRows /></button> 
+            <button onClick={()=> setVizualizacao("grid")}><CiGrid41 /></button>
+          </div>
+          <div className={`${vizualizacao=='grid'?('grid grid-cols-2'):('flex flex-col')} m-10 gap-x-20 gap-y-16`}>
+            {filteredCards.map((card, index) => (
+              vizualizacao === 'grid' ? (
+                <CardsGrid
                   key={index}
                   title={card.title}
-                  description={card.description}
-                  image={card.image}
+                  publication={card.publication}
+                  edital={card.edital}
                 />
-              ))}
-            </div>
+              ) : vizualizacao === 'row' ? (
+                <CardsRow
+                  key={index}
+                  title={card.title}
+                  publication={card.publication}
+                  edital={card.edital}
+                />
+              ) : null
+            ))}
           </div>
+          <div className="flex flex-col w-full items-center">botoes de navegacao</div>
         </div>
 
-        <div className="w-full">
+        <div className="w-full mt-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
             <div className="absolute top-0 left-0 w-[100%] overflow-hidden z-10">
               <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ width: "calc(100% + 1.3px)", transform: "scaleX(-1) scaleY(-1)"}}>
