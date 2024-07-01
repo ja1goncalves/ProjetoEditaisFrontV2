@@ -33,10 +33,11 @@ export function HeaderOut() {
               </Link>
             </li>
           </ul>
+          <Link href={'/login'}>
           <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
             <IoEnterOutline /> Login
           </button>
-          
+          </Link>
         </div>
       </div>
     </div>

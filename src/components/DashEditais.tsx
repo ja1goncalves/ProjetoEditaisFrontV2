@@ -18,6 +18,7 @@ import {
   FaChevronRight,
   FaMagnifyingGlass,
 } from "react-icons/fa6";
+import { FaFilter } from "react-icons/fa";
 
 interface Card {
   title: string;
@@ -180,6 +181,9 @@ export function DashEditais() {
 
             <button>
               <FaMagnifyingGlass className="w-auto pl-4 text-[#37B7C3]" />
+            </button>
+            <button className="rounded-xl ml-auto justify-center border border-[] py-2 px-4 flex flex-row items-center bg-white w-16 h-12">
+              <FaFilter className="w-auto flex items-center text-2xl text-[#37B7C3]"/>
             </button>
           </div>
         </div>
