@@ -85,6 +85,9 @@ const config: Config = {
   variants: {
     extend: {
       boxShadow: ['button', 'button-hover-focus', 'input', 'input-hover-focus'],
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
     },
   },
   plugins: [
