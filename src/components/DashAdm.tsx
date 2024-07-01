@@ -1,5 +1,5 @@
 "use client"
-import { Header } from "./Header";
+import { HeaderIn } from "./Header";
 import { useEffect, useState } from "react";
 import React from 'react';;
 import { COLORS } from '../../src/lib/AppStyles'
@@ -62,7 +62,7 @@ export function DashAdm(){
 
   return(
     <div className={`bg-[${COLORS.bgDark}] h-[100vh] py-24`}>
-      <Header url={currentPage} setUrl={setCurrentPage} />
+      <HeaderIn/>
       <div className="mx-11 h-full flex flex-row justify-between gap-x-10">
         <div 
           className={`flex flex-col px-10 pb-10 pt-5 gap-8 rounded-xl w-[80%] overflow-y-scroll`}
@@ -110,7 +110,7 @@ export function DashAdm(){
                 <form className="flex flex-col justify-start w-full mt-6 mb-4">
                   <label htmlFor="nomeEdital" className={`text-generic-fields font-bold`}>Nome do Edital</label>
                   <div className="relative mt-2 mb-8 w-full">
-                    <input className={`focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
+                    <input className={`focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
                               id="nomeEdital" 
                               value={nomeEdital}
                               onChange={(e) => setNomeEdital(e.target.value)}
@@ -119,7 +119,7 @@ export function DashAdm(){
 
                   <label htmlFor="orgaoEdital" className={`text-generic-fields font-bold`}>Orgão de Fomento</label>
                   <div className="relative mt-2 mb-8 w-full">
-                    <input className={`focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
+                    <input className={`focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
                               id="orgaoEdital" 
                               value={orgaoEdital}
                               onChange={(e) => setOrgaoEdital(e.target.value)}
@@ -128,7 +128,7 @@ export function DashAdm(){
 
                   <label htmlFor="orgaoEdital" className={`text-generic-fields font-bold`}>Área</label>
                   <div className="relative mt-2 mb-8 w-full">
-                    <input className={`focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
+                    <input className={`focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus`} 
                               id="orgaoEdital" 
                               value={area}
                               onChange={(e) => setArea(e.target.value)}
@@ -139,7 +139,7 @@ export function DashAdm(){
                     <label htmlFor="dataIni" className={`text-generic-fields font-bold`}>Inicio</label>
                     <div className="relative mt-2 mb-8 w-full">
                       <input
-                          className="focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
+                          className="focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
                           id="dataIni"
                           type="date"
                           autoComplete="off"
@@ -156,7 +156,7 @@ export function DashAdm(){
                     <label htmlFor="dataFim" className={`text-generic-fields font-bold`}>Fim</label>
                     <div className="relative mt-2 mb-8 w-full">
                       <input
-                          className="focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
+                          className="focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
                           id="dataFim"
                           type="date"
                           autoComplete="off"
@@ -173,7 +173,7 @@ export function DashAdm(){
                     <label htmlFor="dataRes" className={`text-generic-fields font-bold`}>Resultado</label>
                     <div className="relative mt-2 mb-8 w-full">
                       <input
-                          className="focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields placeholder:font-semibold w-full border-none outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight shadow-input hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
+                          className="focus:ring-0 focus:outline-none focus:border-gray-600 appearance-none leading-tight border border-gray-200 placeholder:text-generic-fields placeholder:font-semibold w-full outline-none rounded-xl py-[1em] pl-[2em] pr-[4em] text-sm bg-generic-bgLight focus:opacity-60 hover:shadow-input-hover-focus focus:shadow-input-hover-focus"
                           id="dataRes"
                           type="date"
                           autoComplete="off"
@@ -188,7 +188,7 @@ export function DashAdm(){
 
                   <label 
                     title="UparEdital"
-                    className={`flex justify-center gap-x-3 leading-none w-full border-none outline-none rounded-xl bg-gray-100 px-4 py-2 text-black items-center cursor-pointer mb-6 shadow-button hover:shadow-button-hover-focus focus:shadow-button-hover-focus`}
+                    className={`flex justify-center gap-x-3 leading-none w-full border-none outline-none rounded-xl bg-gray-100 px-4 py-2 text-black items-center cursor-pointer mb-6 hover:shadow-button-hover-focus focus:shadow-button-hover-focus`}
                   >
                     Upload PDF
                     <input
@@ -203,7 +203,7 @@ export function DashAdm(){
                   <button 
                     title="Cadastrar"
                     type="submit" 
-                    className={`leading-none w-full border-none outline-none rounded-xl bg-generic-tittleButton p-4 text-generic-bgLight font-bold cursor-pointer mb-6 shadow-button hover:shadow-button-hover-focus focus:shadow-button-hover-focus`}>
+                    className={`leading-none w-full border-none outline-none rounded-xl bg-generic-tittleButton p-4 text-generic-bgLight font-bold cursor-pointer mb-6 hover:shadow-button-hover-focus focus:shadow-button-hover-focus`}>
                     Cadastrar
                   </button>
                 </form>

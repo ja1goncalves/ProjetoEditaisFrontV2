@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CardsProps {
   title: string;
@@ -10,7 +11,7 @@ export const Cards: React.FC<CardsProps> = ({ title, description, image }) => {
   return (
     <div className="border rounded-lg shadow-md bg-white overflow-hidden">
       <div className="relative">
-        <img src={image} alt={title} className="h-64 w-full object-cover" />
+        <img src={image} alt={title} className="h-64 w-full object-fill" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-gray-200"></div>
       </div>
       <div className="p-6">
