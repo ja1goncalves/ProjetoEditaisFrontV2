@@ -40,7 +40,7 @@ export function Login() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py-2 bg-[#F0F3FF]'>
+    <div className='flex flex-col items-center justify-center min-h-screen py-2 bg-[#EBF4F6]'>
       <main className='flex flex-col items-center justify-center w-full flex-1 px-6 sm:px-10 text-center'>
         <div className='bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl'>
           <div className='w-full md:w-3/5 p-6 md:p-10'>
@@ -48,37 +48,42 @@ export function Login() {
               <span>LogoApp</span>
             </div>
             <div className='py-6 md:py-10'>
-              <h2 className='text-3xl font-bold text-[#7D0A0A] mb-2'>Acesse sua conta</h2>
-              <div className='border-2 w-10 border-[#7D0A0A] inline-block mb-8'></div>
+              <h2 className='text-3xl text-left font-sans ml-12 text-[#088395] mb-6'>Acesse sua conta</h2>
               <div className='flex flex-col items-center text-left'>
-                <div className="relative my-4 w-4/5">
+              <div className="relative my-4 w-4/5">
                   <input 
-                    type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                    className="peer border-gray-300 rounded-md px-3 py-2 w-full block text-sm text-[#7D0A0A] bg-transparent border-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#BF3131]" placeholder=" " />
-                  <label className="absolute text-sm text-[#7D0A0A] duration-300 transform -translate-y-6 scale-75 top-1 origin-[0] peer-focus:left-0 peer-focus:text-[#7D0A0A] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1.5 peer-placeholder-shown:translate-x-2 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
-                  <MdOutlineEmail className='absolute top-3 right-4 text-[#7D0A0A]'/>
+                    type="email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="peer border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
+                    placeholder=" " 
+                  />
+                  <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
+                  <label className="absolute text-sm text-[#1C1C1C] peer-focus:opacity-0  top-2 origin-[0] left-10 ">E-mail</label>
                 </div>
                 <div className="relative my-4 w-4/5">
                   <input 
-                    type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                    className="peer border-gray-300 rounded-md px-3 py-2 w-full block text-sm text-[#7D0A0A] bg-transparent border-2 appearance-none focus:outline-none focus:ring-0 focus:border-[#BF3131]" placeholder=" " />
-                  <label className="absolute text-sm text-[#7D0A0A] duration-300 transform -translate-y-6 scale-75 top-1 origin-[0] peer-focus:left-0 peer-focus:text-[#7D0A0A] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1.5 peer-placeholder-shown:translate-x-2 peer-focus:scale-75 peer-focus:-translate-y-6">Senha</label>
-                  <AiOutlineLock className='absolute top-3 right-4 text-[#7D0A0A]'/>
+                    type="password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="peer border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
+                    placeholder=" " 
+                  />
+                  <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
+                  <label className="absolute text-sm text-[#1C1C1C] peer-focus:opacity-0  top-2 origin-[0] left-10 ">Senha</label>
                 </div>
               </div>
               <div className='flex justify-between w-full mb-1'>
                   <label className='flex items-center text-xs'><input type='checkbox' name='lembre-se' className='mr-2 ml-12'/>Lembre-se de mim</label>
-                  <Link href={'/ForgotPassword'} className='text-xs mr-12 hover:text-[#7D0A0A] hover:underline'>Esqueci minha senha</Link>
+                  <Link href={'/ForgotPassword'} className='text-xs mr-12 hover:text-[#088395] hover:underline'>Esqueci minha senha</Link>
               </div>
-              <button type="submit" className='w-1/2 mb-4 text-[18px] mt-6 rounded-full border-4 border-[#7D0A0A] px-4 bg-transparent text-[#7D0A0A] hover:bg-[#7D0A0A] hover:border-[#7D0A0A hover:text-white py-2 transition-colors duration-300'>Entrar</button>
+              <button type="submit" className='w-48 mb-4 text-[18px] mt-6 rounded-xl bg-gradient-to-r from-[#37B7C3] to-[#088395] px-4 text-white font-semibold font-sans py-2 '>Entrar</button>
             </div>
+            <span className='text-[#1C1C1C] text-left font-sans'>Não tem uma conta? <Link className='hover:text-[#088395] font-sans text-left hover:underline font-bold' href={'/cadastro'}>Cadastre-se</Link></span>
           </div>
-          <div className='w-full md:w-2/5 bg-[#7D0A0A] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12'>
-            <h2 className='text-3xl font-bold mb-2'>Novo aqui?</h2>
-            <div className='border-2 w-10 border-white inline-block mb-2'></div>
-            <p className='mb-8'>Crie sua conta e receba os melhores editais de tecnologia diretamente.</p>
-            <button type="submit" className='w-full mb-4 text-[18px] mt-6 rounded-full border-4 border-white px-4 bg-transparent text-white hover:bg-[#F5F5F5] hover:border-[#F5F5F5] hover:text-[#BF3131] py-2 transition-colors duration-300'>Cadastre-se</button>
+          <div className='w-full md:w-2/5  bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12'>
           </div>
+          
         </div>
       </main>
     </div>
