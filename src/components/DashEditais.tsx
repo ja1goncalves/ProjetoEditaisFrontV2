@@ -1,24 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createUser } from "../lib/api";
-import { CardsGrid, CardsRow } from "./Cards";
+import { RiSearchEyeLine } from "react-icons/ri";
 import { HeaderOut } from "./Header";
 import Image from "next/image";
-import { IoIosArrowDown } from "react-icons/io";
-import { MdTableRows } from "react-icons/md";
-import { CiGrid41 } from "react-icons/ci";
+import Link from "next/link";
+
 import igreja from "../../public/images/igreja.jpg";
 import portoGalinhas from "../../public/images/portoGalinhas.jpg";
 import recAnt1 from "../../public/images/recAntigo1.jpg";
 import recAntigo2 from "../../public/images/recAntigo2.png";
 
 import poli from "../../public/images/poli.png";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaMagnifyingGlass,
-} from "react-icons/fa6";
-import { FaFilter } from "react-icons/fa";
+
+
 
 interface Card {
   title: string;
@@ -61,14 +56,12 @@ export function DashEditais() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [igreja, portoGalinhas, recAnt1, recAntigo2];
 
-  const [vizualizacao, setVizualizacao] = useState("row");
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 10000);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -127,7 +120,7 @@ export function DashEditais() {
   return (
     <>
       <div className="min-h-screen">
-        <HeaderOut />
+        <HeaderOut fix={false}/>
         <div className="w-full mb-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
             <Image
@@ -146,9 +139,11 @@ export function DashEditais() {
                 oferecidas por instituições de referência
               </p>
 
-              <button className="flex justify-center gap-x-3 leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
-                <p>Comece agora a explorar os editais </p>
-                <IoIosArrowDown />
+              <button className=" flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
+                <Link href="/search" className="flex flex-row w-full items-center gap-x-3">
+                  <p>Comece agora a explorar os editais </p>
+                  <RiSearchEyeLine />
+                </Link>
               </button>
             </div>
 
@@ -167,99 +162,7 @@ export function DashEditais() {
               </svg>
             </div>
           </section>
-        </div>
-        <div className="w-full h-full max-w-xl max-h-14 mt-4">
-          <div className="flex items-center overflow-hidden p-1 rounded-3xl">
-            <input
-              type="text"
-              placeholder="Buscar editais..."
-              className="text-gray-400 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-[1em]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-
-            <button>
-              <FaMagnifyingGlass className="w-auto pl-4 text-[#37B7C3]" />
-            </button>
-            <button className="rounded-xl ml-auto justify-center border border-[] py-2 px-4 flex flex-row items-center bg-white w-16 h-12">
-              <FaFilter className="w-auto flex items-center text-2xl text-[#37B7C3]"/>
-            </button>
-          </div>
-        </div>
-        <div className="flex flex-col border mx-40 rounded-3xl">
-          <div className="border-b flex flex-row w-full items-center justify-between px-24 py-4">
-            <p className="text-xl">
-              Total de {filteredCards.length} editais disponíveis
-            </p>
-            <div
-              className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full"
-              style={{ width: "132px", height: "42px" }}
-            >
-              <button onClick={() => setVizualizacao("grid")} className="p-2">
-                <CiGrid41 size={24} />
-              </button>
-              <div className="border-l h-6 mx-2 border-white"></div>
-              <button onClick={() => setVizualizacao("row")} className="p-2">
-                <MdTableRows size={24} />
-              </button>
-            </div>
-          </div>
-          <div
-            className={`${
-              vizualizacao == "grid" ? "grid grid-cols-2" : "flex flex-col"
-            } m-10 gap-x-20 gap-y-16`}
-          >
-            {filteredCards.map((card, index) =>
-              vizualizacao === "grid" ? (
-                <CardsGrid
-                  key={index}
-                  title={card.title}
-                  publication={card.publication}
-                  edital={card.edital}
-                />
-              ) : vizualizacao === "row" ? (
-                <CardsRow
-                  key={index}
-                  title={card.title}
-                  publication={card.publication}
-                  edital={card.edital}
-                />
-              ) : null
-            )}
-          </div>
-          <div className="flex items-center justify-center border rounded-full p-2">
-            <button
-              onClick={handlePrevious}
-              disabled={currentPage === 1}
-              className="flex items-center text-[#37B7C3] disabled:opacity-50"
-            >
-              <FaChevronLeft />
-              <span className="ml-1">Anterior</span>
-            </button>
-            <div className="flex mx-4">
-              {pageNumbers.map((number) => (
-                <button
-                  key={number}
-                  onClick={() => handlePageChange(number)}
-                  className={`mx-1 px-2 py-1 rounded-full ${
-                    currentPage === number ? "bg-[#37B7C3] text-white" : ""
-                  }`}
-                >
-                  {number}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              className="flex items-center text-[#37B7C3] disabled:opacity-50"
-            >
-              <span className="mr-1">Próximo</span>
-              <FaChevronRight />
-            </button>
-          </div>
-        </div>
+        </div>   
 
         <div className="w-full mt-44">
           <section className="relative flex flex-col items-center min-h-[400px]">

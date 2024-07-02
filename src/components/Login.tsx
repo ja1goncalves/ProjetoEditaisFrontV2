@@ -56,10 +56,11 @@ export function Login() {
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     className="peer border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
-                    placeholder=" " 
+                    placeholder="E-mail" 
+                    required
                   />
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
-                  <label className="absolute text-sm text-[#1C1C1C] peer-focus:opacity-0  top-2 origin-[0] left-10 ">E-mail</label>
+                  
                 </div>
                 <div className="relative my-4 w-4/5">
                   <input 
@@ -67,10 +68,11 @@ export function Login() {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
                     className="peer border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
-                    placeholder=" " 
+                    placeholder="Senha" 
+                    required
                   />
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
-                  <label className="absolute text-sm text-[#1C1C1C] peer-focus:opacity-0  top-2 origin-[0] left-10 ">Senha</label>
+                  
                 </div>
               </div>
               <div className='flex justify-between w-full mb-1'>
