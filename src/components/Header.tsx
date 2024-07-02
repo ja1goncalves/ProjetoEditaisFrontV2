@@ -5,11 +5,15 @@ import Image from "next/image";
 import { FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
 
+interface HeaderProps {
+  fix: boolean;
+}
 
-export function HeaderOut() {
+
+export function HeaderOut(props: HeaderProps) {
   return (
     <div 
-      className={`flex justify-center w-full text-white font-semibold text-xl py-3 bg-opacity-90 absolute top-0 z-40`}>
+      className={`${props.fix?('fixed bg-[#088395] bg-opacity-60'):('absolute')} flex justify-center w-full text-white font-semibold text-xl py-3 bg-opacity-90 top-0 z-40`}>
       <div className="container h-full px-8 lg:px-0">
         <div className="flex items-center h-full justify-between">
 
@@ -19,11 +23,11 @@ export function HeaderOut() {
           <ul className={`hidden lg:flex gap-x-6 items-center justify-center`}>
             <li>
               <Link href="/">
-                <p className={``}>Início</p>
+                <p className={`/`}>Início</p>
               </Link>
             </li>
             <li>
-              <Link href={``}>
+              <Link href={`/search`}>
                 <p className={``}>Editais Disponíveis</p>
               </Link>
             </li>
