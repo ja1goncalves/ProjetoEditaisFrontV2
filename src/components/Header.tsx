@@ -74,9 +74,9 @@ export function HeaderIn() {
               </Link>
             </li>
           </ul>
-          <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+          <Link href={`/api/auth/logout`} className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
             <IoEnterOutline /> Sair
-          </button>
+          </Link>
           
         </div>
       </div>
