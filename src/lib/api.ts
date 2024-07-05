@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "http://127.0.0.1:8000/api/"
+const urlBase = "http://localhost:8081/upe/"
 
 export async function getEditais() {
   const response = await api.get('/editais', {});
@@ -41,13 +41,13 @@ export async function deleteUser(id: string) {
   return response.data;
 }
 
-export async function loginUser(email: string, password: string) {
-  const response = await api.post('/login', {
-    email: email,
-    password: password,
+export async function loginUser(login: string, senha: string) {
+  const response = await api.post('usuario/login', {
+    login: login,
+    senha: senha,
   });
   if (response){
-    return true
+    return response
   }
 }
 
