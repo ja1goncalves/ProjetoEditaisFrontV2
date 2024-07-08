@@ -4,12 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaRegEye } from "react-icons/fa6";
-import { AiOutlineLock } from 'react-icons/ai';
+import { AiOutlineLock, AiOutlineMail } from 'react-icons/ai';
 import { AuthContext } from "../app/contexts/AuthContext"
 import { AxiosError } from 'axios';
 import { parseCookies } from 'nookies';
+import { FaRegUserCircle } from 'react-icons/fa';
 
-export function Login() {
+export function Register() {
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   const { signIn } = useContext(AuthContext)
@@ -41,52 +42,47 @@ export function Login() {
               <p className="flex flex-row items-center gap-x-2">EditalView <FaRegEye/></p>
             </div>
             <div className='py-6 md:py-10'>
-              <h2 className='text-3xl text-left font-sans ml-12 text-[#088395] mb-6'>Acesse sua conta</h2>
+              <h2 className='text-3xl text-left font-sans ml-12 text-[#088395] mb-2'>Cadastro de Usuário</h2>
+              <p className='text-sm text-left font-sans ml-12 mr-3 text-gray-400 mb-5'>Crie sua conta e encontre oportunidades de inovação tecnológica facilmente.</p>
               <div className='flex flex-col items-center text-left'>
-              <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
+                <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
                   <input 
                     type="username" 
                     value={login} 
-                    onChange={(e) => setLogin(e.target.value)}
+                    className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
+                    placeholder="Nome Completo" 
+                    required
+                  />
+                  <FaRegUserCircle className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]"/>
+                </div>
+                <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
+                  <input 
+                    type="username" 
+                    value={login} 
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
                     placeholder="Usuário" 
                     required
                   />
-                  <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
-                  
+                  <AiOutlineMail  className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
                 </div>
                 <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
                   <input 
                     type="password" 
                     value={senha} 
-                    onChange={(e) => setSenha(e.target.value)}
                     className="hover:opacity-70 border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]" 
                     placeholder="Senha" 
                     required
                   />
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
-                  
                 </div>
               </div>
-              <div className='flex justify-between w-full mb-1'>
-                  <label className='flex items-center text-xs'><input type='checkbox' name='lembre-se' className='mr-2 ml-12'/>Lembre-se de mim</label>
-                  <Link href={'/ForgotPassword'} className='text-xs mr-12 hover:text-[#088395] hover:underline'>Esqueci minha senha</Link>
-              </div>
-              <button type="submit" className='hover:opacity-70 w-48 mb-4 text-[18px] mt-6 rounded-xl bg-gradient-to-r from-[#37B7C3] to-[#088395] px-4 text-white font-semibold font-sans py-2 '>Entrar</button>
-              {badLogin && (
-              <div className="text-red-400 pt-3">
-                Email ou senha incorreto(s)
-              </div>
-            )}
+              <button type="submit" className='hover:opacity-70 w-48 mb-4 text-[18px] mt-6 rounded-xl bg-gradient-to-r from-[#37B7C3] to-[#088395] px-4 text-white font-semibold font-sans py-2 '>Enviar</button>
             </div>
-            <span className='text-[#1C1C1C] text-left font-sans'>Não tem uma conta?</span> <Link href={'/register'} className='hover:text-[#088395] font-sans text-left hover:underline font-bold'>Cadastre-se</Link>
           </form>
           <div className='w-full md:w-2/5  bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12'>
           </div>
-          
         </div>
       </main>
     </div>
   );
 }
-
