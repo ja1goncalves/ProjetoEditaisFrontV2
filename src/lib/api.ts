@@ -8,7 +8,7 @@ export async function getEditais() {
 }
 
 export async function getUsers() {
-  const response = await api.get('/usuarios', {});
+  const response = await api.get('/usuario', {});
   return response.data;
 }
 
@@ -17,11 +17,12 @@ export async function getUser(id: string) {
   return response.data;
 }
 
-export async function createUser(name: string, email: string, password: string) {
-  const response = await api.post('/usuario/create', {
-    name: name,
-    email: email,
-    password: password,
+export async function createUser(nome: string, login: string, senha: string, idPerfil: number) {
+  const response = await api.post('/usuario', {
+    nome: nome,
+    login: login,
+    senha: senha,
+    idPerfil: idPerfil
   });
   return response;
 }
@@ -36,7 +37,7 @@ export async function updateUser(id: string, name: string, email: string, passwo
   return response;
 }
 
-export async function deleteUser(id: string) {
+export async function deleteUser(id: number) {
   const response = await api.delete('/usuario/'+id, {});
   return response.data;
 }
