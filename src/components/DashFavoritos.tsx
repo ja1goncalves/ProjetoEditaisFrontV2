@@ -1,11 +1,13 @@
 "use client"
-import { HeaderIn } from "./Header";
 import { useEffect, useState } from "react";
-import React from 'react';
-import { COLORS } from '../../src/lib/AppStyles'
+import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
 import { getEditais } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import { FaFileUpload, FaRegEdit, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
+import { HeaderIn } from "./Header";
+import { COLORS } from '../../src/lib/AppStyles';
+import Image from "next/image";
+import Marca_FACEPE from '../../public/images/Marca-FACEPE.png'
+import FINEP from '../../public/images/FINEP.png'
 
 interface Edital {
   id: string;
@@ -20,36 +22,36 @@ interface Edital {
 interface Card {
   title: string;
   publication: string;
-  edital: string;
+  orgao: string;
 }
 
 export function DashFavoritos() {
-  const cardData = [
+  const cardData: Card[] = [
     {
       title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
       publication: "6 de junho de 2024",
-      edital: "facepe",
+      orgao: "FACEPE",
     },
     {
       title: "18/2024 - APQ – Universal (Auxílio a Projetos de Pesquisa)",
       publication: "27 de maio de 2024",
-      edital: "facepe",
+      orgao: "FACEPE",
     },
     {
-      title:
-        "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
+      title: "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
       publication: "30 de maio de 2024",
-      edital: "facepe",
+      orgao: "FACEPE",
     },
   ];
-  
+
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState("editais");
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
   const [editais, setEditais] = useState<Edital[]>([]);
-  const [showConfirmation, setShowConfirmation] = useState(false); // Estado para controlar o aviso de confirmação
-  const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null); // Estado para armazenar o edital selecionado para remoção
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null);
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
 
@@ -57,7 +59,7 @@ export function DashFavoritos() {
     const isAuthenticated = localStorage.getItem('token');
 
     if (!isAuthenticated) {
-      //router.push('/login');
+      // router.push('/login');
     } else {
       getEditais().then((result) => {
         setEditais(result);
@@ -86,11 +88,10 @@ export function DashFavoritos() {
     }
   };
 
-  const onClick = () => {
+  const onClickSearch = () => {
     searchCards(searchTerm);
   };
 
-  
   const handleEditalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -98,13 +99,14 @@ export function DashFavoritos() {
       console.log("Selected file:", file);
     }
   };
-  function showEditais() {
-    setCurrentPage("editais");
+
+  function showEditais(card: Card) {
+    setSelectedCard(card);
     setIsEditaisVisible(true);
   }
 
-  function handleRemoveFavoriteClick(edital: Edital) {
-    setSelectedEdital(edital);
+  function handleRemoveFavoriteClick(card: Card) {
+    setSelectedCard(card);
     setShowConfirmation(true);
   }
 
@@ -113,16 +115,15 @@ export function DashFavoritos() {
       const updatedEditais = editais.filter((edital) => edital.id !== selectedEdital.id);
       setEditais(updatedEditais);
     }
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
   }
 
   function cancelRemoveFavorite() {
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
   }
 
   return (
-  <div>
-    <div className={`bg-[${COLORS.bgDark}] h-[100vh] py-24`}>
+    <div className={`bg-[${COLORS.bgDark}] h-screen py-24`}>
       <HeaderIn />
       <div className="mx-11 h-full flex flex-row justify-between gap-x-10">
         <div className="rounded-xl w-[30%] h-[80vh] flex flex-col items-center"
@@ -130,97 +131,142 @@ export function DashFavoritos() {
             boxShadow: '5px 5px 5px rgba(0, 0, 0, 0.4), -5px -5px 5px rgba(255, 255, 255, 0.5)',
             transition: 'opacity 0.3s ease-in-out',
           }}>
-          {(currentPage === "editais") && (<h1 className="font-bold border-b border-b-gray-100 flex flex-row w-full justify-center py-3 text-xl"><FaRegStar className="mr-2 items-center flex" />Favoritos</h1>)}
-          {(currentPage === "editais") &&
-            (
-              <>
-                <div className="overflow-y-scroll"  style={{ maxHeight: '80vh', scrollbarWidth: 'thin' }}>
-                  <div className="flex flex-col items-center justify-start w-full mt-6 mb-2">
-                    <div className="flex items-center bg-white w-80 rounded-2xl pl-2 pr-2 py-2 mb-6">
-                      <input
-                        type="text"
-                        placeholder="Buscar editais..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        className="text-gray-400 text-lg pr-2 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-1 px-2"
-                      />
-                      <button
-                        onClick={onClick}
-                        className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-6 py-3"
-                      >
-                        <FaSearch className="text-white" />
-                      </button>
-                    </div>
-                    {cardData.map((card, index) => (
-                      <div
-                        key={index}
-                        className="bg-white rounded-xl p-3 m-3 mb-4 shadow-md flex flex-col justify-between"
-                      >
-                        <div className="flex ml-auto mb-2">
+          {(currentPage === "editais") && (
+            <h1 className="font-bold text-[#088395] items-center bg-[#C5E2E6] border-b-gray-100 flex flex-row w-full justify-center py-3 text-xl">
+              <FaRegStar className="mr-2 items-center flex" />
+              Favoritos
+            </h1>
+          )}
+          {(currentPage === "editais") && (
+            <>
+              <div className="overflow-y-scroll bg-[#C5E2E6]" style={{ maxHeight: '80vh', scrollbarWidth: 'thin' }}>
+                <div className="flex flex-col items-center justify-start w-full mt-6 mb-2">
+                  <div className="flex items-center bg-white w-80 rounded-2xl pl-2 pr-2 py-2 mb-6">
+                    <input
+                      type="text"
+                      placeholder="Buscar editais..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      className="text-gray-400 text-lg pr-2 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-1 px-2"
+                    />
+                    <button
+                      onClick={onClickSearch}
+                      className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-6 py-3"
+                    >
+                      <FaSearch className="text-white" />
+                    </button>
+                  </div>
+                  {filteredCards.map((card, index) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-xl p-3 m-3 mb-4 shadow-md flex flex-col justify-between cursor-pointer"
+                      onClick={() => showEditais(card)}
+                    >
+                      <div className="flex ml-auto mb-2">
                         <label className="mr-2 text-[#37B7C3] cursor-pointer">
-                            <input
-                              type="file"
-                              accept="application/pdf"
-                              style={{ display: "none" }}
-                              onChange={handleEditalUpload}
-                            />
-                            <FaFileUpload />
-                          </label>
-                          <button  className="text-[#37B7C3]" onClick={() => handleRemoveFavoriteClick(card)} ><FaStar /></button>
-                        </div>
-                        <button className="items-start"
-                          onClick={showEditais}>
-                        <div className="flex items-start justify-between mb-4">
-                          <h2 className="text-xl font-bold">{card.title}</h2>
-                        </div>
-                        <div className="flex justify-between mb-2">
-                          <p className="text-sm text-gray-600">Publicação: {card.publication}</p>
-                        </div>
-                    
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            style={{ display: "none" }}
+                            onChange={handleEditalUpload}
+                          />
+                          <FaFileUpload />
+                        </label>
+                        <button className="text-[#37B7C3]" onClick={() => handleRemoveFavoriteClick(card)}>
+                          <FaStar />
                         </button>
                       </div>
-                    ))}
-                  </div>
+                      <div className="flex items-start justify-between mb-4">
+                        <h2 className="text-xl font-bold">{card.title}</h2>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <p className="text-sm text-gray-600">Publicação: {card.publication}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </>
-            )}
+              </div>
+            </>
+          )}
         </div>
 
-        {isEditaisVisible && (
+        {isEditaisVisible && selectedCard && (
           <div
-            className={`flex flex-col px-10 pb-10 pt-5 gap-8 rounded-xl w-[70%] overflow-y-scroll`}
+            className={`flex bg-white flex-col px-10 pb-10 pt-5 gap-8 rounded-xl w-[70%] h-[80vh] overflow-y-scroll`}
             style={{
               boxShadow: '5px 5px 5px rgba(0, 0, 0, 0.4), -5px -5px 5px rgba(255, 255, 255, 0.5)',
               transition: 'opacity 0.3s ease-in-out',
-            }}>
-            {(currentPage === "editais") && <button className="w-full font-bold text-left">Editais</button>}
-  
-            {currentPage === "editais" && editais.map((edital) => (
-              <div
-                key={edital.id}
-                className="border items-start border-gray-100 flex flex-col w-full justify-center px-6 pt-5 rounded-lg gap-y-5"
-              >
-                <div className="flex flex-row justify-between w-full">
-                  <p className="font-bold text-lg">{edital.nome}</p>
-                </div>
-                <div className="flex flex-row justify-between gap-x-10">
-                  <p>Inicio: {edital.dataIni}</p>
-                  <p>Fim: {edital.dataFim}</p>
-                  <p>Resultado: {edital.dataFim}</p>
-                </div>
-                <p>{edital.area}</p>
+            }}
+          >
+            <div className=" flex flex-col w-full justify-center px-6 pt-5 rounded-lg gap-y-5">
+            <div className="flex justify-center items-center">
+              {selectedCard.orgao === 'FACEPE' ? (
+                <Image
+                  src={Marca_FACEPE}
+                  alt="Descrição da imagem do FACEPE"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <Image
+                  src={FINEP}
+                  alt="Descrição da imagem da FINEP"
+                  width={300}
+                  height={200}
+                />
+              )}
+            </div>
+
+              <div className="flex text-center flex-row justify-between w-full">
+                <p className="font-bold text-lg">{selectedCard.title}</p>
               </div>
-            ))}
+              <div className=" gap-x-10">
+                <div className="flex">
+                  <p className="mb-1 font-semibold">Publicação:</p>
+                  <p className="ml-1">{selectedCard.publication}</p>
+                </div>
+                <div className="flex">
+                  <p className="mb-1 font-semibold">Órgão de Fomento:</p>
+                  <p className="ml-1">{selectedCard.orgao}</p>
+                </div>
+                <div className="flex">
+                  <p className="mb-1 font-semibold">Área:</p>
+                </div>
+                <div className="flex">
+                  <p className="mb-1 font-semibold">Modalidade:</p>
+                </div>
+                <div className="font-semibold mt-3 mb-1">
+                  <p>Descrição:</p>
+                </div>
+                <div className="border rounded-sm h-[100px] overflow-y-scroll" style={{ maxHeight: '100px', scrollbarWidth: 'thin' }}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                  </div>
+              </div>
+              <div className="ml-auto mt-2">
+                <label className="mr-2 flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395]">
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    style={{ display: "none" }}
+                    onChange={handleEditalUpload}
+                  />
+                  <FaFileUpload className="mr-2"/> Adicionar Pré-projeto
+                  </label>
+              </div>
+            </div>
           </div>
         )}
       </div>
-    </div>
-    {showConfirmation && (
+      {showConfirmation && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-md shadow-md w-96">
-            <p className="text-lg font-semibold mb-4">Tem certeza que deseja remover este edital dos favoritos?</p>
-            <div className="flex justify-center">
+            <p className="text-lg font-semibold mb-2">Tem certeza que deseja remover este edital dos favoritos?</p>
+            <p className="text-sm mb-4">Ao fazer isso, arquivos anexados serão removidos.</p>
+            <div className="flex justify-center gap-3">
               <button onClick={confirmRemoveFavorite} className="bg-[#228B22] hover:bg-[#1E5324] text-white px-4 py-2 rounded-md mr-2">Confirmar</button>
               <button onClick={cancelRemoveFavorite} className="bg-[#FF0000] hover:bg-[#800000] text-white px-4 py-2 rounded-md">Cancelar</button>
             </div>
