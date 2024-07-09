@@ -18,7 +18,7 @@ export function DashboardUsuarios(){
   }
 
   function handleDeleteUser(id: number, login:string) {
-    if (confirm(`Deseja apagar o email: "${login}"?`) == true) {
+    if (confirm(`Deseja apagar o usuário: "${login}"?`) == true) {
       deleteUser(id)
       const updatedUser = user.filter((us) => us.id !== id);
       setUser(updatedUser);

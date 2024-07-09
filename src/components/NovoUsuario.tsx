@@ -16,7 +16,7 @@ export function NovoUsuario(props:NumberProps) {
   const [rule, setRule] = useState('USER')
 
   async function handleNewUser() {
-    let idP = rule === 'USER' ? 1 : 2;
+    let idP = rule === 'USER' ? 2 : 1;
     try {
       await createUser(nome, login, senha, idP);
       props.setNewUser(!props.newUser)

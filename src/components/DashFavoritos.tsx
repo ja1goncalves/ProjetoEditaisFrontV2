@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
 import { getEditais } from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,8 @@ import { COLORS } from '../../src/lib/AppStyles';
 import Image from "next/image";
 import Marca_FACEPE from '../../public/images/Marca-FACEPE.png'
 import FINEP from '../../public/images/FINEP.png'
+import { AuthContext } from "@/app/contexts/AuthContext";
+import { userInfo } from "os";
 
 interface Edital {
   id: string;
@@ -46,6 +48,8 @@ export function DashFavoritos() {
 
   const router = useRouter();
 
+  const userInfo = useContext(AuthContext).user
+
   const [currentPage, setCurrentPage] = useState("editais");
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
   const [editais, setEditais] = useState<Edital[]>([]);
@@ -56,15 +60,10 @@ export function DashFavoritos() {
   const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('token');
-
-    if (!isAuthenticated) {
-      // router.push('/login');
-    } else {
-      getEditais().then((result) => {
+    getEditais().then((result) => {
         setEditais(result);
       });
-    }
+    
   }, []);
 
   function handleLogout() {
@@ -124,7 +123,6 @@ export function DashFavoritos() {
 
   return (
     <div className={`bg-[${COLORS.bgDark}] h-screen py-24`}>
-      <HeaderIn />
       <div className="mx-11 h-full flex flex-row justify-between gap-x-10">
         <div className="rounded-xl w-[30%] h-[80vh] flex flex-col items-center"
           style={{
