@@ -66,17 +66,6 @@ export function DashEditais() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const response = await createUser(name, email, password);
-    console.log(response);
-    if (response) {
-      alert("Cadastro Realizado com sucesso!");
-    } else {
-      alert("Conta já cadastrada");
-    }
-  };
-
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 

@@ -26,7 +26,7 @@ interface Card {
   edital: string;
 }
 
-export function DashBoard() {
+export function PesquisaEditais() {
   const cardData = [
     {
       title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
@@ -143,7 +143,7 @@ export function DashBoard() {
       {showFilterModal && <Modal onClose={closeFilterModal} />}
       <div className="relative ">
         <div className="min-h-screen bg-[#EBF4F6]">
-          <HeaderOut fix={false} />
+          <HeaderOut fix={false}/>
           <section className="relative flex flex-col items-center min-h-[400px]">
             <div className="w-full h-[70vh] bg-[#088395]" />
             <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">

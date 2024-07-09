@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
     }
   },[])
 
-  async function signIn(data: signInData) {
+  async function signIn(data: signInData): Promise<void> {
     try {
         const result = await loginUser(data.login, data.senha);
         if (result) {
@@ -66,8 +66,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
             });
         }
     } catch (error) {
-        console.error('Login failed:', error);
-    }
+      console.error('Login error:', error);
+      throw error; // Rethrow the error to be handled elsewhere
+  }
 }
   
 
