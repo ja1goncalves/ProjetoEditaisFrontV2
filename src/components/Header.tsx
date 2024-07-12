@@ -1,9 +1,11 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
+import { parseCookies } from "nookies";
+import { IoIosHome } from "react-icons/io";
 
 interface HeaderOutProps {
   fix: boolean;
@@ -16,6 +18,16 @@ interface HeaderInProps {
 }
 
 export function HeaderOut(props: HeaderOutProps) {
+
+  const [logged, setLogged] = useState(false);
+
+  useEffect(() => {
+    const { 'engsoft.token': token } = parseCookies()
+    if(token){
+      setLogged(true)
+    }
+  },[])
+
   return (
     <div 
       className={`${props.fix?('fixed bg-[#088395] bg-opacity-60'):('absolute')} flex justify-center w-full text-white font-semibold text-xl py-3 bg-opacity-90 top-0 z-40`}>
@@ -42,11 +54,26 @@ export function HeaderOut(props: HeaderOutProps) {
               </Link>
             </li>
           </ul>
-          <Link href={'/login'}>
-          <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-            <IoEnterOutline /> Login
-          </button>
-          </Link>
+          {!logged&&(<Link href={'/login'}>
+            <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+              <IoEnterOutline /> Login
+            </button>
+          </Link>)}
+
+          {logged&&(
+            <div className="flex flex-row justify-end gap-x-5 items-center">
+              <Link href={`/dashboard`} onClick={()=>{setLogged(false)}}>
+                <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <AiOutlineDashboard /> Dashboard
+                </button>
+              </Link>
+              <Link href={`/api/auth/logout`} onClick={()=>{setLogged(false)}}>
+                <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <IoEnterOutline /> Sair
+                </button>
+              </Link>
+            </div>
+            )}
         </div>
       </div>
     </div>
@@ -79,9 +106,18 @@ export function HeaderIn(props: HeaderInProps) {
               </button>
             </li>
           </ul>
-          <Link href={`/api/auth/logout`} className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-            <IoEnterOutline /> Sair
-          </Link>
+          <div className="flex flex-row justify-end gap-x-5 items-center">
+              <Link href={`/`}>
+                <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <IoIosHome  /> Inicio
+                </button>
+              </Link>
+              <Link href={`/api/auth/logout`}>
+                <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <IoEnterOutline /> Sair
+                </button>
+              </Link>
+            </div>
           
         </div>
       </div>

@@ -28,16 +28,19 @@ export function DashboardUsuarios(){
 
   useEffect(() => {
     getUsers().then((result) => {
-      console.log(result)
-      const newUsers = result.map((user: User) => ({
-        id: user.id,
-        nome: user.nome,
-        login: user.login,
-        idPerfil: user.idPerfil,
-      }));
+      console.log(result);
+      const newUsers = result
+        .filter((user: User) => user.login !== "Bot"&&user.login !== "bot")
+        .map((user: User) => ({
+          id: user.id,
+          nome: user.nome,
+          login: user.login,
+          idPerfil: user.idPerfil,
+        }));
       setUser(newUsers);
     });
   }, [newUser]);
+  
   
   
 

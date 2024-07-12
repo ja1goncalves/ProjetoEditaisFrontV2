@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "http://localhost:8081/upe/"
+export const urlBase = "http://localhost:8081/upe/"
 
 export async function getEditais() {
   const response = await api.get('/editais', {});
@@ -14,6 +14,11 @@ export async function getUsers() {
 
 export async function getUser(id: string) {
   const response = await api.get('/usuario/'+id, {});
+  return response.data;
+}
+
+export async function getUserLogin(login: string) {
+  const response = await api.get('/usuario/login/'+login, {});
   return response.data;
 }
 
@@ -50,6 +55,11 @@ export async function loginUser(login: string, senha: string) {
   if (response){
     return response
   }
+}
+
+export async function getEditaisId(id: string) {
+  const response = await api.get('/edital/usuario/'+id, {});
+  return response.data;
 }
 
 export const api = axios.create({

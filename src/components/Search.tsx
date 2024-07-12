@@ -1,94 +1,68 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { createUser } from "../lib/api";
+import { getEditaisId, getUserLogin, urlBase } from "../lib/api";
 import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
-import Image from "next/image";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoGrid } from "react-icons/io5";
 import { MdTableRows } from "react-icons/md";
-import { CiGrid41 } from "react-icons/ci";
-import igreja from "../../public/images/igreja.jpg";
-import portoGalinhas from "../../public/images/portoGalinhas.jpg";
-import recAnt1 from "../../public/images/recAntigo1.jpg";
-import recAntigo2 from "../../public/images/recAntigo2.png";
 import { FaSearch, FaFilter } from "react-icons/fa";
 
-import poli from "../../public/images/poli.png";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaMagnifyingGlass,
-} from "react-icons/fa6";
-
 interface Card {
-  title: string;
-  publication: string;
-  edital: string;
+  id: number;
+  nome: string;
+  categoria: string;
+  publicoAlvo: string;
+  area: string;
+  dataPublicacao: string;
+  dataInicial: string;
+  dataFinal: string;
+  resultado: string;
+  idOrgaoFomento: number;
+  criadoPorBot: boolean,
+  link: string
 }
 
 export function Search() {
-  const cardData = [
-    {
-      title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
-      publication: "6 de junho de 2024",
-      edital: "facepe",
-    },
-    {
-      title: "18/2024 - APQ – Universal (Auxílio a Projetos de Pesquisa)",
-      publication: "27 de maio de 2024",
-      edital: "facepe",
-    },
-    {
-      title:
-        "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
-      publication: "30 de maio de 2024",
-      edital: "facepe",
-    },
-    {
-      title: "16/2024 - 16/2024 – IPECTI Energias Renováveis e Descarbonização",
-      publication: "16 de maio de 2024",
-      edital: "facepe",
-    },
-  ];
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [igreja, portoGalinhas, recAnt1, recAntigo2];
+  const [cardData, setCardData] = useState<Card[]>([]);
+  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
 
   const [vizualizacao, setVizualizacao] = useState("row");
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 10000);
-
-    return () => clearInterval(intervalId);
+    getUserLogin('Bot').then((result) => {
+      console.log(result)
+      getEditaisId(result.id).then((result2) => {
+        console.log(result2)
+        const newEditais = result2.map((edital: Card) => ({
+          id: edital.id,
+          nome: edital.nome,
+          categoria: edital.categoria,
+          publicoAlvo: edital.publicoAlvo,
+          area: edital.id,
+          dataPublicacao: edital.dataPublicacao,
+          dataInicial: edital.dataInicial,
+          dataFinal: edital.dataFinal,
+          resultado: edital.resultado,
+          idOrgaoFomento: edital.idOrgaoFomento,
+          criadoPorBot: edital.criadoPorBot,
+          link: `${urlBase}edital/${edital.id}/pdf`
+        }));
+        setCardData(newEditais);
+        setFilteredCards(newEditais);
+      })
+    });
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const response = await createUser(name, email, password);
-    console.log(response);
-    if (response) {
-      alert("Cadastro Realizado com sucesso!");
-    } else {
-      alert("Conta já cadastrada");
-    }
-  };
 
+  
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
-      card.title.toLowerCase().includes(lowerCaseSearch)
+      card.nome.toLowerCase().includes(lowerCaseSearch)
     );
 
     setFilteredCards(filtered);
@@ -104,33 +78,10 @@ export function Search() {
     searchCards(searchTerm);
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 3;
-
-  const handlePageChange = (page: React.SetStateAction<number>) => {
-    setCurrentPage(page);
-  };
-
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
-  };
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative">
         <div className="min-h-screen">
           <HeaderOut fix={true}/>
           <section className="relative flex flex-col items-center min-h-[400px]">
@@ -151,7 +102,7 @@ export function Search() {
             </div>
           </section>
 
-          <div className="absolute top-28">
+          <div className="absolute top-[14.58vh] w-[100vw]">
             <div className="flex flex-col justify-center">
               <p className="text-white text-5xl font-semibold px-96 pb-8 text-center">
                 Pesquisar
@@ -185,7 +136,7 @@ export function Search() {
               </div>
 
               {/* -------------- DASHBOARD -------------- */}
-              <div className="flex flex-col mx-40 rounded-3xl bg-white">
+              <div className="flex flex-col mx-40 rounded-3xl bg-white border-2 border-[#088395]">
                 <div className="border-b flex flex-row w-full items-center justify-between px-24 py-4">
                   <p className="text-xl">
                     Total de {filteredCards.length} editais disponíveis
@@ -196,76 +147,53 @@ export function Search() {
                   >
                     <button
                       onClick={() => setVizualizacao("grid")}
-                      className="p-2"
+                      className={`p-2 hover:opacity-60 ${vizualizacao==('grid')&&'opacity-60'}`}
                     >
-                      <CiGrid41 size={24} />
+                      <IoGrid  size={20} />
                     </button>
                     <div className="border-l h-6 mx-2 border-white"></div>
                     <button
                       onClick={() => setVizualizacao("row")}
-                      className="p-2"
+                      className={`p-2 hover:opacity-60 ${vizualizacao==('row')&&'opacity-60'}`}
                     >
                       <MdTableRows size={24} />
                     </button>
                   </div>
                 </div>
-                <div
-                  className={`${
-                    vizualizacao == "grid"
-                      ? "grid grid-cols-2"
-                      : "flex flex-col"
-                  } m-10 gap-x-20 gap-y-16`}
-                >
+                <div className={`${ vizualizacao == "grid" ? "grid grid-cols-2" : "flex flex-col"} m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}>
                   {filteredCards.map((card, index) =>
                     vizualizacao === "grid" ? (
                       <CardsGrid
-                        key={index}
-                        title={card.title}
-                        publication={card.publication}
-                        edital={card.edital}
-                      />
+                      key={index}
+                      nome={card.nome}
+                      categoria={card.categoria}
+                      publicoAlvo={card.publicoAlvo}
+                      area={card.area}
+                      dataPublicacao={card.dataPublicacao}
+                      dataInicial={card.dataInicial}
+                      dataFinal={card.dataFinal}
+                      resultado={card.resultado}
+                      idOrgaoFomento={card.idOrgaoFomento}
+                      criadoPorBot={card.criadoPorBot}
+                      link={card.link}
+                    />
                     ) : vizualizacao === "row" ? (
                       <CardsRow
                         key={index}
-                        title={card.title}
-                        publication={card.publication}
-                        edital={card.edital}
+                        nome={card.nome}
+                        categoria={card.categoria}
+                        publicoAlvo={card.publicoAlvo}
+                        area={card.area}
+                        dataPublicacao={card.dataPublicacao}
+                        dataInicial={card.dataInicial}
+                        dataFinal={card.dataFinal}
+                        resultado={card.resultado}
+                        idOrgaoFomento={card.idOrgaoFomento}
+                        criadoPorBot={card.criadoPorBot}
+                        link={card.link}
                       />
                     ) : null
                   )}
-                </div>
-                <div className="flex items-center justify-center border rounded-full p-2">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentPage === 1}
-                    className="flex items-center text-[#37B7C3] disabled:opacity-50"
-                  >
-                    <FaChevronLeft />
-                    <span className="ml-1">Anterior</span>
-                  </button>
-                  <div className="flex mx-4">
-                    {pageNumbers.map((number) => (
-                      <button
-                        key={number}
-                        onClick={() => handlePageChange(number)}
-                        className={`mx-1 px-2 py-1 rounded-full ${
-                          currentPage === number
-                            ? "bg-[#37B7C3] text-white"
-                            : ""
-                        }`}
-                      >
-                        {number}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                    className="flex items-center text-[#37B7C3] disabled:opacity-50"
-                  >
-                    <span className="mr-1">Próximo</span>
-                    <FaChevronRight />
-                  </button>
                 </div>
               </div>
               <div className="mt-32 w-full h-[8vh] bg-[#088395]" />

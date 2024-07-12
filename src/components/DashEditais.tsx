@@ -6,11 +6,12 @@ import { HeaderOut } from "./Header";
 import Image from "next/image";
 import Link from "next/link";
 
-import igreja from "../../public/images/igreja.jpg";
 import portoGalinhas from "../../public/images/portoGalinhas.jpg";
-import recAnt1 from "../../public/images/recAntigo1.jpg";
-import recAntigo2 from "../../public/images/recAntigo2.png";
-
+import recAntigo1 from "../../public/images/recAntigo2.png";
+import rec1 from "../../public/images/rec1.jpg";
+import rec2 from "../../public/images/rec2.jpg";
+import rec3 from "../../public/images/rec3.jpg";
+import rec4 from "../../public/images/rec4.jpg";
 import poli from "../../public/images/poli.png";
 
 
@@ -54,7 +55,7 @@ export function DashEditais() {
   const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [igreja, portoGalinhas, recAnt1, recAntigo2];
+  const images = [rec4, rec3,  portoGalinhas, rec2, recAntigo1, rec1];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -112,12 +113,16 @@ export function DashEditais() {
         <HeaderOut fix={false}/>
         <div className="w-full mb-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
-            <Image
-              src={images[currentIndex]}
-              alt="ImagemTuristica"
-              objectFit="fit"
-              className="h-[80vh] absolute opacity-40"
-            />
+            <div className="flex flex-row w-full justify-end absolute">
+              {images.map((image, index) => (
+                <div 
+                  key={index}
+                  className={`justify-center flex h-[80vh] w-[100vw] overflow-hidden relative `}
+                  style={index === currentIndex ?{transition: 'opacity 1s ease-in-out', position: 'absolute', opacity:'1'}:{transition: 'opacity 1s ease-in-out', position: 'absolute', opacity:'0' }}>
+                  <Image src={image} alt='' objectFit="fit" className="w-[100vw] absolute opacity-40"/>
+              </div>
+              ))}
+            </div>
             <div className="w-full h-[80vh] bg-[#088395]" />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-7">
               <p className="text-white text-5xl font-medium px-96 text-center">
