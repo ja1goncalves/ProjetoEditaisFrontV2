@@ -1,7 +1,7 @@
 "use client"
 import { useContext, useEffect, useState } from "react";
 import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
-import { getEditais } from "@/lib/api";
+import { getEditais, getEditaisId, getUserLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { HeaderIn } from "./Header";
 import { COLORS } from '../../src/lib/AppStyles';
@@ -12,39 +12,27 @@ import { AuthContext } from "@/app/contexts/AuthContext";
 import { userInfo } from "os";
 
 interface Edital {
-  id: string;
+  id: number;
   nome: string;
-  orgaoDeFomento: string;
+  categoria: string;
+  publicoAlvo: string;
   area: string;
-  dataIni: string;
-  dataFim: string;
-  dataResul: string;
+  dataPublicacao: string;
+  dataInicial: string;
+  dataFinal: string;
+  resultado: string;
+  idOrgaoFomento: number;
+  criadoPorBot: boolean,
+  link: string
 }
 
 interface Card {
-  title: string;
-  publication: string;
-  orgao: string;
+  nome: string;
+  dataPublicacao: string;
+  idOrgaoFomento: number;
 }
 
 export function DashFavoritos() {
-  const cardData: Card[] = [
-    {
-      title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
-      publication: "6 de junho de 2024",
-      orgao: "FACEPE",
-    },
-    {
-      title: "18/2024 - APQ – Universal (Auxílio a Projetos de Pesquisa)",
-      publication: "27 de maio de 2024",
-      orgao: "FACEPE",
-    },
-    {
-      title: "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
-      publication: "30 de maio de 2024",
-      orgao: "FACEPE",
-    },
-  ];
 
   const router = useRouter();
 
@@ -57,7 +45,8 @@ export function DashFavoritos() {
   const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
+  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
+  const [cardData, setCardData] = useState<Card[]>([]);
 
   useEffect(() => {
     getEditais().then((result) => {
@@ -66,16 +55,43 @@ export function DashFavoritos() {
     
   }, []);
 
-  function handleLogout() {
-    localStorage.removeItem('token');
-    router.push('/login');
-  }
+  useEffect(() => {
+    getUserLogin('Bot').then((result) => {
+      console.log(result)
+      getEditaisId(result.id).then((result2) => {
+        console.log(result2)
+        const newEditais = result2.map((edital: Edital) => ({
+          id: edital.id,
+          nome: edital.nome,
+          categoria: edital.categoria,
+          publicoAlvo: edital.publicoAlvo,
+          area: edital.id,
+          dataPublicacao: edital.dataPublicacao,
+          dataInicial: edital.dataInicial,
+          dataFinal: edital.dataFinal,
+          resultado: edital.resultado,
+          idOrgaoFomento: edital.idOrgaoFomento,
+          criadoPorBot: edital.criadoPorBot,
+          link: `http://localhost:8081/upe/edital/${edital.id}/pdf`
+        }));
+
+        const newCards = result2.map((card: Card) => ({
+          nome: card.nome,
+          dataPublicacao: card.dataPublicacao,
+          idOrgaoFomento: card.idOrgaoFomento
+        }));
+        setEditais(newEditais);
+        setFilteredCards(newCards);
+        setCardData(newCards);
+      })
+    });
+  }, []);
 
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
-      card.title.toLowerCase().includes(lowerCaseSearch)
+      card.nome.toLowerCase().includes(lowerCaseSearch)
     );
 
     setFilteredCards(filtered);
@@ -137,7 +153,7 @@ export function DashFavoritos() {
           )}
           {(currentPage === "editais") && (
             <>
-              <div className="overflow-y-scroll bg-[#C5E2E6]" style={{ maxHeight: '80vh', scrollbarWidth: 'thin' }}>
+              <div className="overflow-y-scroll bg-[#C5E2E6] w-full h-full" style={{ maxHeight: '80vh', scrollbarWidth: 'thin' }}>
                 <div className="flex flex-col items-center justify-start w-full mt-6 mb-2">
                   <div className="flex items-center bg-white w-80 rounded-2xl pl-2 pr-2 py-2 mb-6">
                     <input
@@ -158,7 +174,7 @@ export function DashFavoritos() {
                   {filteredCards.map((card, index) => (
                     <div
                       key={index}
-                      className="bg-white rounded-xl p-3 m-3 mb-4 shadow-md flex flex-col justify-between cursor-pointer"
+                      className={`bg-white rounded-xl p-3 mb-4 shadow-md w-[90%] hover:opacity-60 flex flex-col justify-between cursor-pointer ${card==selectedCard&&'opacity-60'}`}
                       onClick={() => showEditais(card)}
                     >
                       <div className="flex ml-auto mb-2">
@@ -176,10 +192,10 @@ export function DashFavoritos() {
                         </button>
                       </div>
                       <div className="flex items-start justify-between mb-4">
-                        <h2 className="text-xl font-bold">{card.title}</h2>
+                        <h2 className="text-xl font-bold">{card.nome}</h2>
                       </div>
                       <div className="flex justify-between mb-2">
-                        <p className="text-sm text-gray-600">Publicação: {card.publication}</p>
+                        <p className="text-sm text-gray-600">Publicação: {card.dataPublicacao}</p>
                       </div>
                     </div>
                   ))}
@@ -199,7 +215,7 @@ export function DashFavoritos() {
           >
             <div className=" flex flex-col w-full justify-center px-6 pt-5 rounded-lg gap-y-5">
             <div className="flex justify-center items-center">
-              {selectedCard.orgao === 'FACEPE' ? (
+              {selectedCard.idOrgaoFomento === 1 ? (
                 <Image
                   src={Marca_FACEPE}
                   alt="Descrição da imagem do FACEPE"
@@ -217,16 +233,16 @@ export function DashFavoritos() {
             </div>
 
               <div className="flex text-center flex-row justify-between w-full">
-                <p className="font-bold text-lg">{selectedCard.title}</p>
+                <p className="font-bold text-lg">{selectedCard.nome}</p>
               </div>
               <div className=" gap-x-10">
                 <div className="flex">
                   <p className="mb-1 font-semibold">Publicação:</p>
-                  <p className="ml-1">{selectedCard.publication}</p>
+                  <p className="ml-1">{selectedCard.dataPublicacao}</p>
                 </div>
                 <div className="flex">
                   <p className="mb-1 font-semibold">Órgão de Fomento:</p>
-                  <p className="ml-1">{selectedCard.orgao}</p>
+                  <p className="ml-1">{selectedCard.idOrgaoFomento === 1?('FACEPE'):('FINEP')}</p>
                 </div>
                 <div className="flex">
                   <p className="mb-1 font-semibold">Área:</p>
