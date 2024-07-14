@@ -12,9 +12,11 @@ import rec1 from "../../public/images/rec1.jpg";
 import rec2 from "../../public/images/rec2.jpg";
 import rec3 from "../../public/images/rec3.jpg";
 import rec4 from "../../public/images/rec4.jpg";
+import facepe from "../../public/images/facepe_img.jpg";
+import finep from "../../public/images/finep_img.jpg";
+
 import poli from "../../public/images/poli.png";
-
-
+import { Footer } from "./Footer";
 
 interface Card {
   title: string;
@@ -23,39 +25,8 @@ interface Card {
 }
 
 export function DashEditais() {
-  const cardData = [
-    {
-      title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
-      publication: "6 de junho de 2024",
-      edital: "facepe",
-    },
-    {
-      title: "18/2024 - APQ – Universal (Auxílio a Projetos de Pesquisa)",
-      publication: "27 de maio de 2024",
-      edital: "facepe",
-    },
-    {
-      title:
-        "17/2024 - Apoio aos laboratórios multiusuários e aos acervos científicos de Pernambuco",
-      publication: "30 de maio de 2024",
-      edital: "facepe",
-    },
-    {
-      title: "16/2024 - 16/2024 – IPECTI Energias Renováveis e Descarbonização",
-      publication: "16 de maio de 2024",
-      edital: "facepe",
-    },
-  ];
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredCards, setFilteredCards] = useState<Card[]>(cardData);
-
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [rec4, rec3,  portoGalinhas, rec2, recAntigo1, rec1];
+  const images = [rec4, rec3, portoGalinhas, rec2, recAntigo1, rec1];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -67,60 +38,38 @@ export function DashEditais() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const searchCards = (searchTerm: string) => {
-    const lowerCaseSearch = searchTerm.toLowerCase().trim();
-
-    const filtered = cardData.filter((card) =>
-      card.title.toLowerCase().includes(lowerCaseSearch)
-    );
-
-    setFilteredCards(filtered);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      searchCards(searchTerm);
-    }
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 16;
-
-  const handlePageChange = (page: React.SetStateAction<number>) => {
-    setCurrentPage(page);
-  };
-
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
-  };
-
   return (
     <>
       <div className="min-h-screen">
-        <HeaderOut fix={false}/>
+        <HeaderOut fix={false} />
         <div className="w-full mb-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
             <div className="flex flex-row w-full justify-end absolute">
               {images.map((image, index) => (
-                <div 
+                <div
                   key={index}
                   className={`justify-center flex h-[80vh] w-[100vw] overflow-hidden relative `}
-                  style={index === currentIndex ?{transition: 'opacity 1s ease-in-out', position: 'absolute', opacity:'1'}:{transition: 'opacity 1s ease-in-out', position: 'absolute', opacity:'0' }}>
-                  <Image src={image} alt='' objectFit="fit" className="w-[100vw] absolute opacity-40"/>
-              </div>
+                  style={
+                    index === currentIndex
+                      ? {
+                          transition: "opacity 1s ease-in-out",
+                          position: "absolute",
+                          opacity: "1",
+                        }
+                      : {
+                          transition: "opacity 1s ease-in-out",
+                          position: "absolute",
+                          opacity: "0",
+                        }
+                  }
+                >
+                  <Image
+                    src={image}
+                    alt=""
+                    objectFit="fit"
+                    className="w-[100vw] absolute opacity-40"
+                  />
+                </div>
               ))}
             </div>
             <div className="w-full h-[80vh] bg-[#088395]" />
@@ -134,7 +83,10 @@ export function DashEditais() {
               </p>
 
               <button className=" flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
-                <Link href="/search" className="flex flex-row w-full items-center gap-x-3">
+                <Link
+                  href="/search"
+                  className="flex flex-row w-full items-center gap-x-3"
+                >
                   <p>Comece agora a explorar os editais </p>
                   <RiSearchEyeLine />
                 </Link>
@@ -156,7 +108,63 @@ export function DashEditais() {
               </svg>
             </div>
           </section>
-        </div>   
+        </div>
+
+        <h2
+          id="sobre"
+          className=" mb-7 text-[#1d7982] font-bold text-4xl text-center py-5 rounded-lg"
+        >
+          Sobre as Instituições
+        </h2>
+
+        {/* Bloco sobre a FACEPE */}
+        <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg mb-36">
+          <div className="md:w-1/2 md:pl-28 pr-28">
+            <h2 className="text-3xl mb-10 bg-[#3ecad7] text-[#1d7982] text-center py-5 rounded-lg">
+              FACEPE
+            </h2>
+            <p className="text-gray-700 text-xl text-center w-full">
+              A Fundação de Amparo à Ciência e Tecnologia de Pernambuco (FACEPE)
+              é uma instituição que promove o desenvolvimento científico e
+              tecnológico do estado. Apoia pesquisas em diversas áreas do
+              conhecimento, incentivando a produção de conhecimento e a
+              inovação. Suas iniciativas incluem programas de fomento à
+              pesquisa, bolsas de estudo e cooperações internacionais.
+            </p>
+          </div>
+          <div className="flex justify-center md:w-1/2 mb-6 md:mb-0">
+            <Image
+              src={facepe}
+              alt="FACEPE"
+              className="w-3/4 h-auto rounded-lg"
+            />
+          </div>
+        </div>
+
+        {/* Bloco sobre o FINEP */}
+        <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg">
+          <div className="flex justify-center md:w-1/2 mb-6 md:mb-0">
+            <Image
+              src={finep}
+              alt="FINEP"
+              className="w-3/4 h-auto rounded-lg"
+            />
+          </div>
+          <div className="md:w-1/2 md:pl-28 pr-28">
+            <h2 className="text-3xl mb-10 bg-[#3ecad7] text-[#1d7982] text-center py-5 rounded-lg">
+              FINEP
+            </h2>
+            <p className="text-gray-700 text-xl text-center w-full">
+              A Financiadora de Estudos e Projetos (FINEP) é uma empresa pública
+              brasileira vinculada ao Ministério da Ciência, Tecnologia e
+              Inovações (MCTI). A FINEP apoia a inovação e a pesquisa científica
+              e tecnológica em empresas, universidades, institutos tecnológicos
+              e outras entidades. Suas iniciativas incluem financiamento de
+              projetos, concessão de bolsas e investimentos em infraestrutura de
+              pesquisa.
+            </p>
+          </div>
+        </div>
 
         <div className="w-full mt-44">
           <section className="relative flex flex-col items-center min-h-[400px]">
@@ -209,6 +217,7 @@ export function DashEditais() {
             <div></div>
             <div></div>
           </div>
+          <Footer />
         </div>
       </div>
     </>
