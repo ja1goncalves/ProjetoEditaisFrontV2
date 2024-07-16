@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
                     setCookie(undefined, 'engsoft.token', token, {
                         maxAge: 60 * 60 * 3, // 3 hours
                     });
-                    router.push('/dashboard');
+                    router.push('/search');
                 }
             });
         }

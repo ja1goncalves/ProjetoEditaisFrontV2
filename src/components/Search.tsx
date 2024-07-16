@@ -6,6 +6,16 @@ import { HeaderOut } from "./Header";
 import { IoGrid } from "react-icons/io5";
 import { MdTableRows } from "react-icons/md";
 import { FaSearch, FaFilter } from "react-icons/fa";
+import { parseCookies } from 'nookies'
+import decode from "jwt-decode";
+
+type User = {
+  id: number,
+  login: string,
+  nome: string,
+  idPerfil: number,
+  senha: string
+};
 
 interface Card {
   id: number;
@@ -18,209 +28,50 @@ interface Card {
   dataFinal: string;
   resultado: string;
   idOrgaoFomento: number;
-  criadoPorBot: boolean;
-  link: string;
+  idUsuario: number;
+  criadoPorBot: boolean,
+  link: string
 }
 
 export function Search() {
+  const [user, setUser] = useState<User | null>(null)
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const [cardData, setCardData] = useState<Card[]>([
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-    {
-      id: 1,
-      nome: "Edital de Pesquisa 2024",
-      categoria: "Pesquisa Científica",
-      publicoAlvo: "Pesquisadores e Estudantes",
-      area: "Ciências Exatas",
-      dataPublicacao: "2024-07-15",
-      dataInicial: "2024-08-01",
-      dataFinal: "2024-09-30",
-      resultado: "Em andamento",
-      idOrgaoFomento: 123,
-      criadoPorBot: true,
-      link: "http://example.com/edital/1/pdf",
-    },
-    {
-      id: 2,
-      nome: "Edital de Inovação Tecnológica 2024",
-      categoria: "Inovação e Tecnologia",
-      publicoAlvo: "Empresas e Startups",
-      area: "Tecnologia da Informação",
-      dataPublicacao: "2024-07-20",
-      dataInicial: "2024-08-15",
-      dataFinal: "2024-10-15",
-      resultado: "Previsto",
-      idOrgaoFomento: 456,
-      criadoPorBot: false,
-      link: "http://example.com/edital/2/pdf",
-    },
-  ]);
+  const [cardData, setCardData] = useState<Card[]>([]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
 
   const [vizualizacao, setVizualizacao] = useState("row");
 
   useEffect(() => {
-    getUserLogin("Bot").then((result) => {
-      console.log(result);
+    const { 'engsoft.token': token } = parseCookies()
+    if(token){
+      const user: User = decode(token)
+      setUser(user)
+    }
+  },[])
+
+  useEffect(() => {
+    getUserLogin('Bot').then((result) => {
+      console.log(result)
       getEditaisId(result.id).then((result2) => {
-        console.log(result2);
+        console.log(result2)
         const newEditais = result2.map((edital: Card) => ({
           id: edital.id,
           nome: edital.nome,
           categoria: edital.categoria,
           publicoAlvo: edital.publicoAlvo,
-          area: edital.id,
+          area: edital.area,
           dataPublicacao: edital.dataPublicacao,
           dataInicial: edital.dataInicial,
           dataFinal: edital.dataFinal,
           resultado: edital.resultado,
           idOrgaoFomento: edital.idOrgaoFomento,
           criadoPorBot: edital.criadoPorBot,
-          link: `${urlBase}edital/${edital.id}/pdf`,
+          idUsuario: edital.idUsuario,
+          link: `${urlBase}edital/${edital.id}/pdf`
         }));
         setCardData(newEditais);
         setFilteredCards(newEditais);
-      });
+      })
     });
   }, []);
 
@@ -329,6 +180,7 @@ export function Search() {
                     vizualizacao === "grid" ? (
                       <CardsGrid
                         key={index}
+                        id={card.id}
                         nome={card.nome}
                         categoria={card.categoria}
                         publicoAlvo={card.publicoAlvo}
@@ -338,12 +190,17 @@ export function Search() {
                         dataFinal={card.dataFinal}
                         resultado={card.resultado}
                         idOrgaoFomento={card.idOrgaoFomento}
+                        idUsuario={card.idUsuario}
                         criadoPorBot={card.criadoPorBot}
                         link={card.link}
+                        filteredCards = {filteredCards}
+                        setFilteredCards = {setFilteredCards}
+                        logged = {user?.idPerfil==2?(true):(false)}
                       />
                     ) : vizualizacao === "row" ? (
                       <CardsRow
                         key={index}
+                        id={card.id}
                         nome={card.nome}
                         categoria={card.categoria}
                         publicoAlvo={card.publicoAlvo}
@@ -353,18 +210,22 @@ export function Search() {
                         dataFinal={card.dataFinal}
                         resultado={card.resultado}
                         idOrgaoFomento={card.idOrgaoFomento}
+                        idUsuario={card.idUsuario}
                         criadoPorBot={card.criadoPorBot}
                         link={card.link}
+                        filteredCards = {filteredCards}
+                        setFilteredCards = {setFilteredCards}
+                        logged = {user?.idPerfil==2?(true):(false)}
                       />
                     ) : null
                   )}
                 </div>
               </div>
+              <div className="mt-32 w-full h-[8vh] bg-[#088395]" />
             </div>
           </div>
         </div>
       </div>
-      {/*<div className="p-7 bg-[#088395] w-full bottom-0"></div>*/}
     </>
   );
 }

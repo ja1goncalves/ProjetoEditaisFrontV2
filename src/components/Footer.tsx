@@ -4,12 +4,12 @@ import React from "react";
 export function Footer() {
   return (
     <>
-      <footer className="pt-6">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between text-center md:text-left">
-          <div className="mb-6 md:mb-0 w-full md:w-auto">
+      <footer>
+        <div className="container mx-auto flex flex-col md:flex-row justify-center gap-x-[15vw] my-[10vh]">
+          <div className="mb-6 md:mb-0">
             <h3 className="text-xl mb-6 text-[#1d7982]">INFORMAÇÕES</h3>
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-12">
-              <ul className="flex-1">
+            <div className="flex space-x-12">
+              <ul>
                 <li className="mb-2">
                   <a href="#" className="text-gray-600 hover:text-gray-800">
                     Página Inicial
@@ -26,7 +26,7 @@ export function Footer() {
                   </a>
                 </li>
               </ul>
-              <ul className="flex-1">
+              <ul>
                 <li className="mb-2">
                   <a href="#" className="text-gray-600 hover:text-gray-800">
                     Política de Privacidade
@@ -45,7 +45,7 @@ export function Footer() {
               </ul>
             </div>
           </div>
-          <div className="w-full md:w-auto pb-4 mt-10 md:mt-0 md:ml-2">
+          <div className="pb-4 w-[32%]">
             <h3 className="text-xl mb-6 text-[#1d7982]">CONTATO</h3>
             <p className="mb-2">
               Queremos ouvir de você! Envie suas perguntas, comentários ou
@@ -63,7 +63,7 @@ export function Footer() {
                 Contato@EditalView.upe.br
               </a>
             </p>
-            <div className="flex justify-center md:justify-start space-x-4">
+            <div className="flex space-x-4">
               <a href="#" className="text-gray-600 hover:text-gray-800">
                 <i className="fab fa-instagram"></i>
               </a>
