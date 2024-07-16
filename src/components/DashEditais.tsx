@@ -67,33 +67,31 @@ export function DashEditais() {
                     src={image}
                     alt=""
                     objectFit="fit"
-                    className="w-[100vw] absolute opacity-40"
+                    className="w-full md:w-[75vw] lg:w-[100vw] h-[80vh] absolute opacity-40"
                   />
                 </div>
               ))}
             </div>
             <div className="w-full h-[80vh] bg-[#088395]" />
-            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-7">
-              <p className="text-white text-5xl font-medium px-96 text-center">
+            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-7 px-4 md:px-96">
+              <p className="text-white text-2xl md:text-5xl font-medium text-center">
                 Encontre os editais ideais para você em um só lugar
               </p>
-              <p className="text-white font-[300] text-2xl px-96 text-center">
+              <p className="text-white font-[300] text-lg md:text-2xl text-center">
                 Acesse as principais oportunidades de apoio à pesquisa
                 oferecidas por instituições de referência
               </p>
-
-              <button className=" flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
+              <button className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
                 <Link
                   href="/search"
                   className="flex flex-row w-full items-center gap-x-3"
                 >
-                  <p>Comece agora a explorar os editais </p>
+                  <p>Comece agora a explorar os editais</p>
                   <RiSearchEyeLine />
                 </Link>
               </button>
             </div>
-
-            <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden">
               <svg
                 data-name="Layer 1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,65 +108,67 @@ export function DashEditais() {
           </section>
         </div>
 
-        <h2
-          id="sobre"
-          className=" mb-7 text-[#1d7982] font-bold text-4xl text-center py-5 rounded-lg"
-        >
-          Sobre as Instituições
-        </h2>
-
-        {/* Bloco sobre a FACEPE */}
-        <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg mb-36">
-          <div className="md:w-1/2 md:pl-28 pr-28">
-            <h2 className="text-3xl mb-10 bg-[#3ecad7] text-[#1d7982] text-center py-5 rounded-lg">
-              FACEPE
+        <section id="sobre" className="pt-12 lg:py-16">
+          <div className="container mx-auto">
+            <h2 className="text-[#1d7982] text-4xl lg:text-5xl font-bold mb-10 text-center">
+              Sobre as Instituições
             </h2>
-            <p className="text-gray-700 text-xl text-center w-full">
-              A Fundação de Amparo à Ciência e Tecnologia de Pernambuco (FACEPE)
-              é uma instituição que promove o desenvolvimento científico e
-              tecnológico do estado. Apoia pesquisas em diversas áreas do
-              conhecimento, incentivando a produção de conhecimento e a
-              inovação. Suas iniciativas incluem programas de fomento à
-              pesquisa, bolsas de estudo e cooperações internacionais.
-            </p>
-          </div>
-          <div className="flex justify-center md:w-1/2 mb-6 md:mb-0">
-            <Image
-              src={facepe}
-              alt="FACEPE"
-              className="w-3/4 h-auto rounded-lg"
-            />
-          </div>
-        </div>
 
-        {/* Bloco sobre o FINEP */}
-        <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg">
-          <div className="flex justify-center md:w-1/2 mb-6 md:mb-0">
-            <Image
-              src={finep}
-              alt="FINEP"
-              className="w-3/4 h-auto rounded-lg"
-            />
-          </div>
-          <div className="md:w-1/2 md:pl-28 pr-28">
-            <h2 className="text-3xl mb-10 bg-[#3ecad7] text-[#1d7982] text-center py-5 rounded-lg">
-              FINEP
-            </h2>
-            <p className="text-gray-700 text-xl text-center w-full">
-              A Financiadora de Estudos e Projetos (FINEP) é uma empresa pública
-              brasileira vinculada ao Ministério da Ciência, Tecnologia e
-              Inovações (MCTI). A FINEP apoia a inovação e a pesquisa científica
-              e tecnológica em empresas, universidades, institutos tecnológicos
-              e outras entidades. Suas iniciativas incluem financiamento de
-              projetos, concessão de bolsas e investimentos em infraestrutura de
-              pesquisa.
-            </p>
-          </div>
-        </div>
+            {/* Bloco sobre a FACEPE */}
+            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between p-6 lg:p-10 rounded-lg mb-10 lg:mb-16 bg-white shadow-lg">
+              <div className="lg:w-1/2 text-center lg:text-left lg:pr-10 order-2 lg:order-1">
+                <h3 className="text-[#3ecad7] text-3xl lg:text-4xl mb-6 font-bold py-3 rounded-lg">
+                  FACEPE
+                </h3>
+                <p className="text-gray-700 text-lg lg:text-xl">
+                  A Fundação de Amparo à Ciência e Tecnologia de Pernambuco
+                  (FACEPE) é uma instituição que promove o desenvolvimento
+                  científico e tecnológico do estado. Apoia pesquisas em
+                  diversas áreas do conhecimento, incentivando a produção de
+                  conhecimento e a inovação. Suas iniciativas incluem programas
+                  de fomento à pesquisa, bolsas de estudo e cooperações
+                  internacionais.
+                </p>
+              </div>
+              <div className="lg:w-1/2 mb-6 lg:mb-0 order-1 lg:order-2">
+                <Image
+                  src={facepe}
+                  alt="FACEPE"
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
+            </div>
 
-        <div className="w-full mt-44">
+            {/* Bloco sobre o FINEP */}
+            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between p-6 lg:p-10 rounded-lg bg-white shadow-lg">
+              <div className="lg:w-1/2 mt-6 lg:mb-0 order-2 lg:order-1">
+                <Image
+                  src={finep}
+                  alt="FINEP"
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
+              <div className="lg:w-1/2 text-center lg:text-left lg:pl-10 order-1 lg:order-2">
+                <h3 className="text-[#3ecad7] text-3xl lg:text-4xl mb-6 font-bold py-3 rounded-lg">
+                  FINEP
+                </h3>
+                <p className="text-gray-700 text-lg lg:text-xl">
+                  A Financiadora de Estudos e Projetos (FINEP) é uma empresa
+                  pública brasileira vinculada ao Ministério da Ciência,
+                  Tecnologia e Inovações (MCTI). A FINEP apoia a inovação e a
+                  pesquisa científica e tecnológica em empresas, universidades,
+                  institutos tecnológicos e outras entidades. Suas iniciativas
+                  incluem financiamento de projetos, concessão de bolsas e
+                  investimentos em infraestrutura de pesquisa.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="w-full mt-20">
           <section className="relative flex flex-col items-center min-h-[400px]">
-            <div className="absolute top-0 left-0 w-[100%] overflow-hidden z-10">
+            <div className="absolute top-0 left-0 w-full overflow-hidden z-10">
               <svg
                 data-name="Layer 1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +196,7 @@ export function DashEditais() {
               />
             </div>
 
-            <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden">
               <svg
                 data-name="Layer 1"
                 xmlns="http://www.w3.org/2000/svg"

@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { FaRegEye } from "react-icons/fa6";
+import { FaBars, FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
 import { parseCookies } from "nookies";
 import { IoIosHome } from "react-icons/io";
+import { FaTimes } from "react-icons/fa";
 
 interface HeaderOutProps {
   fix: boolean;
@@ -19,6 +20,7 @@ interface HeaderInProps {
 
 export function HeaderOut(props: HeaderOutProps) {
   const [logged, setLogged] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const { "engsoft.token": token } = parseCookies();
@@ -38,55 +40,69 @@ export function HeaderOut(props: HeaderOutProps) {
               EditalView <FaRegEye />
             </p>
           </Link>
-          <ul className={`hidden lg:flex gap-x-6 items-center justify-center`}>
-            <li>
+          <div className="lg:hidden">
+            <button
+              className="text-white focus:outline-none"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            </button>
+          </div>
+          <ul
+            className={`lg:flex gap-x-6 items-center justify-center ${
+              menuOpen ? "flex" : "hidden"
+            } flex-col lg:flex-row absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto bg-[#088395] lg:bg-transparent lg:opacity-100 opacity-90`}
+          >
+            <li className="w-full lg:w-auto">
               <Link href="/">
-                <p className={`/`}>Início</p>
+                <p className="py-3 lg:py-0 text-center lg:text-left">Início</p>
               </Link>
             </li>
-            <li>
-              <Link href={`/search`}>
-                <p className={``}>Editais Disponíveis</p>
+            <li className="w-full lg:w-auto">
+              <Link href="/search">
+                <p className="py-3 lg:py-0 text-center lg:text-left">
+                  Editais Disponíveis
+                </p>
               </Link>
             </li>
-            <li>
-              <Link href={"/#sobre"}>
-                <p className={``}>Sobre</p>
+            <li className="w-full lg:w-auto">
+              <Link href="/#sobre">
+                <p className="py-3 lg:py-0 text-center lg:text-left">Sobre</p>
               </Link>
             </li>
           </ul>
-          {!logged && (
-            <Link href={"/login"}>
-              <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-                <IoEnterOutline /> Login
-              </button>
-            </Link>
-          )}
-
-          {logged && (
-            <div className="flex flex-row justify-end gap-x-5 items-center">
-              <Link
-                href={`/dashboard`}
-                onClick={() => {
-                  setLogged(false);
-                }}
-              >
+          <div className="flex items-center gap-x-5">
+            {!logged ? (
+              <Link href="/login">
                 <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-                  <AiOutlineDashboard /> Dashboard
+                  <IoEnterOutline /> Login
                 </button>
               </Link>
-              <Link
-                href={`/api/auth/logout`}
-                onClick={() => {
-                  setLogged(false);
-                }}
-              >
-                <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-                  <IoEnterOutline /> Sair
-                </button>
-              </Link>
-            </div>
-          )}
+            ) : (
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={() => {
+                    setLogged(false);
+                  }}
+                >
+                  <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                    <AiOutlineDashboard /> Dashboard
+                  </button>
+                </Link>
+                <Link
+                  href="/api/auth/logout"
+                  onClick={() => {
+                    setLogged(false);
+                  }}
+                >
+                  <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                    <IoEnterOutline /> Sair
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

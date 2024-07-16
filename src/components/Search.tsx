@@ -18,24 +18,192 @@ interface Card {
   dataFinal: string;
   resultado: string;
   idOrgaoFomento: number;
-  criadoPorBot: boolean,
-  link: string
+  criadoPorBot: boolean;
+  link: string;
 }
 
 export function Search() {
-
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const [cardData, setCardData] = useState<Card[]>([]);
+  const [cardData, setCardData] = useState<Card[]>([
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+    {
+      id: 1,
+      nome: "Edital de Pesquisa 2024",
+      categoria: "Pesquisa Científica",
+      publicoAlvo: "Pesquisadores e Estudantes",
+      area: "Ciências Exatas",
+      dataPublicacao: "2024-07-15",
+      dataInicial: "2024-08-01",
+      dataFinal: "2024-09-30",
+      resultado: "Em andamento",
+      idOrgaoFomento: 123,
+      criadoPorBot: true,
+      link: "http://example.com/edital/1/pdf",
+    },
+    {
+      id: 2,
+      nome: "Edital de Inovação Tecnológica 2024",
+      categoria: "Inovação e Tecnologia",
+      publicoAlvo: "Empresas e Startups",
+      area: "Tecnologia da Informação",
+      dataPublicacao: "2024-07-20",
+      dataInicial: "2024-08-15",
+      dataFinal: "2024-10-15",
+      resultado: "Previsto",
+      idOrgaoFomento: 456,
+      criadoPorBot: false,
+      link: "http://example.com/edital/2/pdf",
+    },
+  ]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
 
   const [vizualizacao, setVizualizacao] = useState("row");
 
   useEffect(() => {
-    getUserLogin('Bot').then((result) => {
-      console.log(result)
+    getUserLogin("Bot").then((result) => {
+      console.log(result);
       getEditaisId(result.id).then((result2) => {
-        console.log(result2)
+        console.log(result2);
         const newEditais = result2.map((edital: Card) => ({
           id: edital.id,
           nome: edital.nome,
@@ -48,16 +216,14 @@ export function Search() {
           resultado: edital.resultado,
           idOrgaoFomento: edital.idOrgaoFomento,
           criadoPorBot: edital.criadoPorBot,
-          link: `${urlBase}edital/${edital.id}/pdf`
+          link: `${urlBase}edital/${edital.id}/pdf`,
         }));
         setCardData(newEditais);
         setFilteredCards(newEditais);
-      })
+      });
     });
   }, []);
 
-
-  
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
@@ -78,12 +244,11 @@ export function Search() {
     searchCards(searchTerm);
   };
 
-
   return (
     <>
       <div className="relative">
         <div className="min-h-screen">
-          <HeaderOut fix={true}/>
+          <HeaderOut fix={true} />
           <section className="relative flex flex-col items-center min-h-[400px]">
             <div className="w-full h-[70vh] bg-[#088395]" />
             <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
@@ -104,17 +269,17 @@ export function Search() {
 
           <div className="absolute top-[14.58vh] w-[100vw]">
             <div className="flex flex-col justify-center">
-              <p className="text-white text-5xl font-semibold px-96 pb-8 text-center">
+              <p className="text-white text-5xl font-semibold px-8 lg:px-96 pb-8 text-center">
                 Pesquisar
               </p>
-              <p className="text-white font-[400] text-2xl pb-10 px-96 text-center">
+              <p className="text-white font-[400] text-2xl pb-10 px-8 lg:px-96 text-center">
                 Descubra editais relevantes para você
               </p>
             </div>
             {/* -------------- BARRA DE PESQUISA -------------- */}
             <div className="flex flex-col w-full">
-              <div className="flex items-center justify-between mb-8 mx-40">
-                <div className="flex items-center bg-white w-full rounded-2xl pl-5 pr-2 py-2 mr-6">
+              <div className="flex items-center justify-between mb-8 px-4 lg:px-40">
+                <div className="flex items-center bg-white w-full rounded-2xl pl-3 pr-2 py-2 mr-6">
                   <input
                     type="text"
                     placeholder="Buscar editais..."
@@ -125,58 +290,57 @@ export function Search() {
                   />
                   <button
                     onClick={onClick}
-                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-16 py-7"
+                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-5 py-5 lg:px-16 lg:py-7"
                   >
                     <FaSearch className="text-white" />
                   </button>
                 </div>
-                <button className="flex items-center justify-center bg-white rounded-2xl px-10 py-9">
+                <button className="flex items-center justify-center bg-white rounded-2xl px-6 py-7 lg:px-10 lg:py-9">
                   <FaFilter className="text-[#37B7C3]" />
                 </button>
               </div>
 
               {/* -------------- DASHBOARD -------------- */}
-              <div className="flex flex-col mx-40 rounded-3xl bg-white border-2 border-[#088395]">
-                <div className="border-b flex flex-row w-full items-center justify-between px-24 py-4">
-                  <p className="text-xl">
+              <div className="flex flex-col mx-4 lg:mx-40 rounded-3xl bg-white border-2 border-[#088395] mb-16">
+                <div className="border-b flex flex-row w-full items-center justify-between px-4 lg:px-24 py-4">
+                  <p className="text-lg lg:text-xl">
                     Total de {filteredCards.length} editais disponíveis
                   </p>
-                  <div
-                    className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full"
-                    style={{ width: "132px", height: "42px" }}
-                  >
+                  <div className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
                     <button
                       onClick={() => setVizualizacao("grid")}
-                      className={`p-2 hover:opacity-60 ${vizualizacao==('grid')&&'opacity-60'}`}
+                      className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "grid" && "opacity-60"}`}
                     >
-                      <IoGrid  size={20} />
+                      <IoGrid size={20} />
                     </button>
                     <div className="border-l h-6 mx-2 border-white"></div>
                     <button
                       onClick={() => setVizualizacao("row")}
-                      className={`p-2 hover:opacity-60 ${vizualizacao==('row')&&'opacity-60'}`}
+                      className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "row" && "opacity-60"}`}
                     >
                       <MdTableRows size={24} />
                     </button>
                   </div>
                 </div>
-                <div className={`${ vizualizacao == "grid" ? "grid grid-cols-2" : "flex flex-col"} m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}>
+                <div
+                  className={`${vizualizacao == "grid" ? "grid grid-cols-2" : "flex flex-col"} m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}
+                >
                   {filteredCards.map((card, index) =>
                     vizualizacao === "grid" ? (
                       <CardsGrid
-                      key={index}
-                      nome={card.nome}
-                      categoria={card.categoria}
-                      publicoAlvo={card.publicoAlvo}
-                      area={card.area}
-                      dataPublicacao={card.dataPublicacao}
-                      dataInicial={card.dataInicial}
-                      dataFinal={card.dataFinal}
-                      resultado={card.resultado}
-                      idOrgaoFomento={card.idOrgaoFomento}
-                      criadoPorBot={card.criadoPorBot}
-                      link={card.link}
-                    />
+                        key={index}
+                        nome={card.nome}
+                        categoria={card.categoria}
+                        publicoAlvo={card.publicoAlvo}
+                        area={card.area}
+                        dataPublicacao={card.dataPublicacao}
+                        dataInicial={card.dataInicial}
+                        dataFinal={card.dataFinal}
+                        resultado={card.resultado}
+                        idOrgaoFomento={card.idOrgaoFomento}
+                        criadoPorBot={card.criadoPorBot}
+                        link={card.link}
+                      />
                     ) : vizualizacao === "row" ? (
                       <CardsRow
                         key={index}
@@ -196,11 +360,11 @@ export function Search() {
                   )}
                 </div>
               </div>
-              <div className="mt-32 w-full h-[8vh] bg-[#088395]" />
             </div>
           </div>
         </div>
       </div>
+      {/*<div className="p-7 bg-[#088395] w-full bottom-0"></div>*/}
     </>
   );
 }
