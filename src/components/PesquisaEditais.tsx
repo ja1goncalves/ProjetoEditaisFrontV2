@@ -18,6 +18,8 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaMagnifyingGlass,
+  FaRegStar,
+  FaStar,
 } from "react-icons/fa6";
 
 interface Card {
@@ -27,6 +29,7 @@ interface Card {
 }
 
 export function PesquisaEditais() {
+  
   const cardData = [
     {
       title: "20/2024 - IPECTI: Cidades inteligentes e resilientes",
@@ -145,7 +148,7 @@ export function PesquisaEditais() {
         <div className="min-h-screen bg-[#EBF4F6]">
           <HeaderOut fix={false}/>
           <section className="relative flex flex-col items-center min-h-[400px]">
-            <div className="w-full h-[70vh] bg-[#088395]" />
+            <div className="w-full h-[70vh] bg-gradient-to-r from-[#37B7C3] to-[#088395]" />
             <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
               <svg
                 data-name="Layer 1"
@@ -164,41 +167,41 @@ export function PesquisaEditais() {
 
           <div className="absolute top-28">
             <div className="flex flex-col justify-center">
-              <p className="text-white text-5xl font-semibold px-96 pb-8 text-center">
+              <p className="text-white text-5xl font-semibold px-96 pb-3 text-center font-sans">
                 Pesquisar
               </p>
-              <p className="text-white font-[400] text-2xl pb-10 px-96 text-center">
+              <p className="text-white font-[400] text-xl pb-12 px-96 text-center font-sans">
                 Descubra editais relevantes para você
               </p>
             </div>
             {/* -------------- BARRA DE PESQUISA -------------- */}
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between mb-8 mx-40">
-                <div className="flex items-center bg-white w-full rounded-2xl pl-5 pr-2 py-2 mr-6">
+                <div className="flex items-center shadow-lg bg-white w-full h-[8vh] rounded-xl pl-5 pr-2 py-2 mr-6">
                   <input
                     type="text"
                     placeholder="Buscar editais..."
-                    className="text-gray-400 text-lg pr-2 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-[1em]"
+                    className="text-gray-400  h-[8vh] text-lg pr-2 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-[1em]"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyDown={handleKeyDown}
                   />
                   <button
                     onClick={onClick}
-                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-16 py-7"
+                    className="flex items-center justify-center bg-[#37B7C3] rounded-xl px-8 py-3"
                   >
-                    <FaSearch className="text-white" />
+                    <FaSearch className="text-white" size={20} />
                   </button>
                 </div>
-                <button onClick={openFilterModal} className="flex items-center justify-center bg-white rounded-2xl px-10 py-9">
-                  <FaFilter className="text-[#37B7C3]" />
+                <button onClick={openFilterModal} className="flex shadow-lg items-center justify-center bg-white rounded-2xl px-4 py-4">
+                  <FaFilter className="text-[#37B7C3]" size={20} />
                 </button>
               </div>
 
               {/* -------------- DASHBOARD -------------- */}
               <div className="flex flex-col mx-40 rounded-3xl bg-white">
-                <div className="border-b flex flex-row w-full items-center justify-between px-24 py-4">
-                  <p className="text-xl">
+                <div className="border-b flex flex-row w-full items-center justify-between px-10 py-3">
+                  <p className="text-xl justify-start font-sans">
                     Total de {filteredCards.length} editais disponíveis
                   </p>
                   <div

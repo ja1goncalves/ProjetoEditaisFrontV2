@@ -123,6 +123,37 @@ export async function removerEdital(id: number) {
   return response.data;
 }
 
+
+export async function getEditaisFavoritos(idUsuario: number) {
+  try {
+    const response = await api.get(`/usuario/${idUsuario}/editais-favoritos`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao pegar editais favoritos:', error);
+    throw error;
+  }
+}
+
+export async function setEditalFavorito(idUsuario: string, idEdital: string){
+  try {
+    const response = await api.get(`/edital/${idEdital}/usuario/${idUsuario}/favoritar`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao favoritar edital', error);
+    throw error;
+  } 
+}
+
+export async function removeEditalFavorito(idUsuario: number, idEdital: number){
+  try {
+    const response = await api.delete(`/edital/${idEdital}/usuario/${idUsuario}/desfavoritar`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao desfavoritar edital', error);
+    throw error;
+  }
+}
+
 export const api = axios.create({
   baseURL: urlBase
 })
