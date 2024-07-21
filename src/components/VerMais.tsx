@@ -62,6 +62,17 @@ export function VerMais(props:CardsProps) {
   const [dataResultado, setDataResultado] = useState(props.resultado.split(' ')[0]);
   const [horaResultado, setHoraResultado] = useState(props.resultado.split(' ')[1]);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [showModal]);
+
   function formatDate(date:any) {
     const [day, month, year] = date.split('/');
     return `${year}-${month}-${day}`;
