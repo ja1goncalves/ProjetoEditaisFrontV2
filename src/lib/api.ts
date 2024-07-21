@@ -118,7 +118,9 @@ export async function setEditalFavorito(idUsuario: number, idEdital: number){
 
 export async function removeEditalFavorito(idUsuario: number, idEdital: number){
   try {
+    console.log('oi');
     const response = await api.delete(`/edital/${idEdital}/usuario/${idUsuario}/desfavoritar`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Erro ao desfavoritar edital', error);
