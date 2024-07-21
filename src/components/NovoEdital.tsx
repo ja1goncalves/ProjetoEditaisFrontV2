@@ -1,7 +1,7 @@
 "use client"
 import { AuthContext } from "@/app/contexts/AuthContext";
 import { criarEdital } from "@/lib/api";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaFilePdf } from "react-icons/fa6";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
@@ -14,28 +14,33 @@ type User = {
   };
 
 interface ModalProps {
+
     isOpen: boolean;
     onClose: () => void;
+    user: User
+    cardData: Card[];
+    setCardData: (cards: Card[]) => void;
+    filteredEditais: Card[];
+    setFilteredEditais: (editais: Card[]) => void;
 };
 
-interface Edital {
-    id: number;
-    nome: string;
-    categoria: string;
-    publicoAlvo: string;
-    area: string;
-    dataPublicacao: string;
-    dataInicial: string;
-    dataFinal: string;
-    resultado: string;
-    idOrgaoFomento: number;
-    idUsuario: number;
-    criadoPorBot: boolean,
-    link: string
-  }
+interface Card {
+  id: number;
+  nome: string;
+  categoria: string;
+  publicoAlvo: string;
+  area: string;
+  dataPublicacao: string;
+  dataInicial: string;
+  dataFinal: string;
+  resultado: string;
+  idOrgaoFomento: number;
+  idUsuario: number;
+  criadoPorBot: boolean,
+  link: string
+}
   
 export function NovoEdital(props :ModalProps){
-    const userInfo = useContext(AuthContext).user
     const [showModal, setShowModal] = useState(false);
     const [editaisData, setEditaisData] = useState({
         nome: '',
@@ -48,11 +53,22 @@ export function NovoEdital(props :ModalProps){
         resultado: '',
         idOrgaoFomento: 1, 
         criadoPorBot: false,
-        idUsuario: userInfo.id,
+        idUsuario: props.user.id,
         horaPublicacao: '',
         horaInicial: '',
         horaFinal: ''
       });
+
+      useEffect(() => {
+        if (props.isOpen) {
+          document.body.classList.add("overflow-hidden");
+        } else {
+          document.body.classList.remove("overflow-hidden");
+        }
+        return () => {
+          document.body.classList.remove("overflow-hidden");
+        };
+      }, [props.isOpen]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -85,9 +101,16 @@ export function NovoEdital(props :ModalProps){
           };
 
         try {
-        await criarEdital(editalData);
-        console.log(userInfo.id);
-        console.log("Edital cadastrado com sucesso.");
+            const novoEdital = await criarEdital(editalData);
+      
+            const updatedCardData = [...props.cardData, novoEdital];
+            const updatedFilteredEditais = [...props.filteredEditais, novoEdital];
+      
+            props.setCardData(updatedCardData);
+            props.setFilteredEditais(updatedFilteredEditais);
+    
+            props.onClose();
+            console.log("Edital cadastrado com sucesso.");
         } catch (error) {
         console.error("Erro ao criar edital", error);
         }
