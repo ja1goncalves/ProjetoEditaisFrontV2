@@ -4,7 +4,7 @@ import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
 import { getEditais, getUserLogin, getEditaisId, getEditaisFavoritos, removeEditalFavorito } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { HeaderIn, HeaderOut } from "./Header";
-import { COLORS } from '../lib/AppStyles';
+import { COLORS } from '../../src/lib/AppStyles';
 import Image from "next/image";
 import Marca_FACEPE from '../../public/images/Marca-FACEPE.png';
 import FINEP from '../../public/images/FINEP.png';
@@ -28,91 +28,76 @@ interface Edital {
 
 interface Card {
   nome: string;
-  id: number;
   dataPublicacao: string;
   idOrgaoFomento: number;
 }
 
 
-export function DashFavoritos(){
+export function Teste() {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
 
-  const userInfo = useContext(AuthContext).user;
+  const userInfo = useContext(AuthContext).user
   
   const [currentPage, setCurrentPage] = useState("editais");
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
   const [editais, setEditais] = useState<Edital[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedEdital, setSelectedEdital] = useState<Edital| null>(null);
-  const [selectedCard, setSelectedCard] = useState<Edital| null>(null);
+  const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null);
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredCards, setFilteredCards] = useState<Edital[]>([]);
-  const [cardData, setCardData] = useState<Edital[]>([]);
+  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
+  const [cardData, setCardData] = useState<Card[]>([]);
   const [favoritos, setFavoritos] = useState<Edital[]>([]);
   const [isHovered, setIsHovered] = useState(false);
-
-  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
 
   useEffect(() => {
     searchCards(searchTerm);
   }, [searchTerm]);
 
   useEffect(() => {
-    async function fetchEditais() {
-      try {
-        const user = await getUserLogin('Bot');
-        const editaisData = await getEditaisId(user.id);
-        const newEditais = editaisData.map((edital: Edital) => ({
-          id: edital.id,
-          nome: edital.nome,
-          categoria: edital.categoria,
-          publicoAlvo: edital.publicoAlvo,
-          area: edital.id,
-          dataPublicacao: edital.dataPublicacao,
-          dataInicial: edital.dataInicial,
-          dataFinal: edital.dataFinal,
-          resultado: edital.resultado,
-          idOrgaoFomento: edital.idOrgaoFomento,
-          criadoPorBot: edital.criadoPorBot,
-          link: `http://localhost:8081/upe/edital/${edital.id}/pdf`
-        }));
+    getEditaisFavoritos(userInfo.id).then((result2) => {
+      console.log(result2)
+      const newEditais = result2.map((edital: Edital) => ({
+        id: edital.id,
+        nome: edital.nome,
+        categoria: edital.categoria,
+        publicoAlvo: edital.publicoAlvo,
+        area: edital.id,
+        dataPublicacao: edital.dataPublicacao,
+        dataInicial: edital.dataInicial,
+        dataFinal: edital.dataFinal,
+        resultado: edital.resultado,
+        idOrgaoFomento: edital.idOrgaoFomento,
+        criadoPorBot: edital.criadoPorBot,
+        link: `http://localhost:8081/upe/edital/${edital.id}/pdf`
+      }));
 
-        setEditais(newEditais);
-        setFilteredCards(newEditais);
-        setCardData(newEditais);
-      } catch (error) {
-        console.error("Erro ao buscar editais:", error);
-      }
-    }
+      const newCards = result2.map((card: Card) => ({
+        nome: card.nome,
+        dataPublicacao: card.dataPublicacao,
+        idOrgaoFomento: card.idOrgaoFomento
+      }));
+      
 
-    fetchEditais();
+      setFavoritos(newCards);
+      setFilteredCards(newCards);
+      setCardData(newCards);
+    })
   }, []);
-
-  useEffect(() => {
-    async function fetchFavoritos() {
-      try {
-        const favoritosData = await getEditaisFavoritos(userInfo.id);
-        setFavoritos(favoritosData);
-      } catch (error) {
-        console.log(userInfo.id);
-        console.error("Erro ao buscar editais favoritados:", error);
-      }
-    }
-    fetchFavoritos();
-  }, [userInfo.id]);
 
   function handleLogout() {
     localStorage.removeItem('token');
     router.push('/login');
   }
-const searchCards = (searchTerm: string) => {
+  const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
+
     const filtered = cardData.filter((card) =>
       card.nome.toLowerCase().includes(lowerCaseSearch)
     );
+
     setFilteredCards(filtered);
-    console.log("Filtrando Cards", filtered);
+    console.log("Filtrando Cards", filtered); // Log para verificar dados filtrados
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -133,7 +118,7 @@ const searchCards = (searchTerm: string) => {
     }
   };
 
-  function showEditais(card: Edital) {
+  function showEditais(card: Card) {
     setSelectedCard(card);
     setIsEditaisVisible(true);
   }
@@ -155,7 +140,6 @@ const searchCards = (searchTerm: string) => {
       setFavoritos(updatedFavoritos);
 
       console.log(`Edital '${selectedEdital.nome}' removido dos favoritos.`);
-      console.log(userInfo.id)
     } catch (error) {
       console.error("Erro ao remover edital dos favoritos:", error);
     } finally {
@@ -213,21 +197,22 @@ const searchCards = (searchTerm: string) => {
               </div>
             </div>
             <div className="flex flex-col w-full px-5 overflow-y-scroll" style={{ maxHeight: '80vh', scrollbarWidth: 'thin' }} >
-              {filteredCards.map((card, index) => (
+              {favoritos.map((card, index) => (
                 <div
                   key={index}
                   className="bg-white rounded-xl border border-[#C0C0C0] shadow-md p-4 mb-3 cursor-pointer"
                   onClick={() => showEditais(card)}
-                  onMouseOver={() => setHoveredCardIndex(index)}
-                  onMouseOut={() => setHoveredCardIndex(null)}
+                  onMouseOver={() => setIsHovered(true)}
+                  onMouseOut={() => setIsHovered(false)}
                 >
                   <h2 className="text-lg font-semibold text-[#333333]">{card.nome}</h2>
                   <p className="text-sm text-gray-500">{card.dataPublicacao}</p>
                   <div className={"items-end justify-end flex"}>
-                  {hoveredCardIndex === index ? (
+                  {isHovered ? (
                     <FaRegStar
                       className="text-[#088395] cursor-pointer"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         handleRemoveFavoriteClick(card);
                       }}
                     />
