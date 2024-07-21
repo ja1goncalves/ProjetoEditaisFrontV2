@@ -58,10 +58,7 @@ export function DashFavoritos() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
   const [cardData, setCardData] = useState<Card[]>([]);
-
-  const [file, setFile] = useState<File | undefined>()
   const [preProjetos, setPreProjetos] = useState<PreProj[]>([]);
-
 
   async function handlePreProjeto (e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
