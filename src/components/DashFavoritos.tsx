@@ -16,8 +16,6 @@ import Marca_FACEPE from "../../public/images/Marca-FACEPE.png";
 import FINEP from "../../public/images/FINEP.png";
 import { AuthContext } from "@/app/contexts/AuthContext";
 
-import finep from "../../public/images/FINEP.png";
-
 interface Edital {
   id: number;
   nome: string;
@@ -41,13 +39,7 @@ interface Card {
 }
 
 export function DashFavoritos() {
-  const userInfo = {
-    id: 1,
-    login: "usuario123",
-    nome: "João da Silva",
-    idPerfil: 2,
-    senha: "senhaSegura",
-  }; //useContext(AuthContext).user;
+  const userInfo = useContext(AuthContext).user;
 
   const [currentPage, setCurrentPage] = useState("editais");
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
@@ -69,205 +61,6 @@ export function DashFavoritos() {
 
   useEffect(() => {
     console.log(userInfo);
-
-    const result2 = [
-      {
-        id: 1,
-        nome: "Edital de Pesquisa 2024",
-        categoria: "Pesquisa",
-        publicoAlvo: "Estudantes de Mestrado",
-        area: "1",
-        dataPublicacao: "2024-01-15",
-        dataInicial: "2024-02-01",
-        dataFinal: "2024-06-30",
-        resultado: "Aprovado",
-        idOrgaoFomento: 10,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 2,
-        nome: "Edital de Extensão 2024",
-        categoria: "Extensão",
-        publicoAlvo: "Estudantes de Graduação",
-        area: "2",
-        dataPublicacao: "2024-03-01",
-        dataInicial: "2024-03-15",
-        dataFinal: "2024-09-15",
-        resultado: "Pendente",
-        idOrgaoFomento: 20,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 3,
-        nome: "Edital de Inovação 2024",
-        categoria: "Inovação",
-        publicoAlvo: "Empresas",
-        area: "3",
-        dataPublicacao: "2024-05-10",
-        dataInicial: "2024-06-01",
-        dataFinal: "2024-12-31",
-        resultado: "Em análise",
-        idOrgaoFomento: 30,
-        criadoPorBot: false,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 1,
-        nome: "Edital de Pesquisa 2024",
-        categoria: "Pesquisa",
-        publicoAlvo: "Estudantes de Mestrado",
-        area: "1",
-        dataPublicacao: "2024-01-15",
-        dataInicial: "2024-02-01",
-        dataFinal: "2024-06-30",
-        resultado: "Aprovado",
-        idOrgaoFomento: 10,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 2,
-        nome: "Edital de Extensão 2024",
-        categoria: "Extensão",
-        publicoAlvo: "Estudantes de Graduação",
-        area: "2",
-        dataPublicacao: "2024-03-01",
-        dataInicial: "2024-03-15",
-        dataFinal: "2024-09-15",
-        resultado: "Pendente",
-        idOrgaoFomento: 20,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 3,
-        nome: "Edital de Inovação 2024",
-        categoria: "Inovação",
-        publicoAlvo: "Empresas",
-        area: "3",
-        dataPublicacao: "2024-05-10",
-        dataInicial: "2024-06-01",
-        dataFinal: "2024-12-31",
-        resultado: "Em análise",
-        idOrgaoFomento: 30,
-        criadoPorBot: false,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 1,
-        nome: "Edital de Pesquisa 2024",
-        categoria: "Pesquisa",
-        publicoAlvo: "Estudantes de Mestrado",
-        area: "1",
-        dataPublicacao: "2024-01-15",
-        dataInicial: "2024-02-01",
-        dataFinal: "2024-06-30",
-        resultado: "Aprovado",
-        idOrgaoFomento: 10,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 2,
-        nome: "Edital de Extensão 2024",
-        categoria: "Extensão",
-        publicoAlvo: "Estudantes de Graduação",
-        area: "2",
-        dataPublicacao: "2024-03-01",
-        dataInicial: "2024-03-15",
-        dataFinal: "2024-09-15",
-        resultado: "Pendente",
-        idOrgaoFomento: 20,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 3,
-        nome: "Edital de Inovação 2024",
-        categoria: "Inovação",
-        publicoAlvo: "Empresas",
-        area: "3",
-        dataPublicacao: "2024-05-10",
-        dataInicial: "2024-06-01",
-        dataFinal: "2024-12-31",
-        resultado: "Em análise",
-        idOrgaoFomento: 30,
-        criadoPorBot: false,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 1,
-        nome: "Edital de Pesquisa 2024",
-        categoria: "Pesquisa",
-        publicoAlvo: "Estudantes de Mestrado",
-        area: "1",
-        dataPublicacao: "2024-01-15",
-        dataInicial: "2024-02-01",
-        dataFinal: "2024-06-30",
-        resultado: "Aprovado",
-        idOrgaoFomento: 10,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 2,
-        nome: "Edital de Extensão 2024",
-        categoria: "Extensão",
-        publicoAlvo: "Estudantes de Graduação",
-        area: "2",
-        dataPublicacao: "2024-03-01",
-        dataInicial: "2024-03-15",
-        dataFinal: "2024-09-15",
-        resultado: "Pendente",
-        idOrgaoFomento: 20,
-        criadoPorBot: true,
-        link: "../../public/images/FINEP.png",
-      },
-      {
-        id: 3,
-        nome: "Edital de Inovação 2024",
-        categoria: "Inovação",
-        publicoAlvo: "Empresas",
-        area: "3",
-        dataPublicacao: "2024-05-10",
-        dataInicial: "2024-06-01",
-        dataFinal: "2024-12-31",
-        resultado: "Em análise",
-        idOrgaoFomento: 30,
-        criadoPorBot: false,
-        link: "../../public/images/FINEP.png",
-      },
-    ];
-
-    const newEditais = result2.map((edital: Edital) => ({
-      id: edital.id,
-      nome: edital.nome,
-      categoria: edital.categoria,
-      publicoAlvo: edital.publicoAlvo,
-      area: edital.area,
-      dataPublicacao: edital.dataPublicacao,
-      dataInicial: edital.dataInicial,
-      dataFinal: edital.dataFinal,
-      resultado: edital.resultado,
-      idOrgaoFomento: edital.idOrgaoFomento,
-      criadoPorBot: edital.criadoPorBot,
-      link: edital.link,
-    }));
-
-    const newCards = result2.map((card: Card) => ({
-      id: card.id,
-      nome: card.nome,
-      dataPublicacao: card.dataPublicacao,
-      idOrgaoFomento: card.idOrgaoFomento,
-    }));
-
-    setEditais(newEditais);
-    setFilteredCards(newCards);
-    setCardData(newCards);
-
-    /*
     getEditaisFavoritos(userInfo.id).then((result2) => {
       console.log(result2);
       const newEditais = result2.map((edital: Edital) => ({
@@ -295,7 +88,6 @@ export function DashFavoritos() {
       setFilteredCards(newCards);
       setCardData(newCards);
     });
-*/
   }, [userInfo]);
 
   const searchCards = (searchTerm: string) => {
