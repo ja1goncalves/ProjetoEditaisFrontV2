@@ -6,7 +6,7 @@ import { FaBars, FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
 import { parseCookies } from "nookies";
 import { IoIosHome } from "react-icons/io";
-import { FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 interface HeaderOutProps {
   fix: boolean;
@@ -149,6 +149,11 @@ export function HeaderIn(props: HeaderInProps) {
             <Link href={`/`}>
               <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                 <IoIosHome /> Inicio
+              </button>
+            </Link>
+            <Link href={`/search`}>
+              <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                <FaSearch /> Editais
               </button>
             </Link>
             <Link href={`/api/auth/logout`}>

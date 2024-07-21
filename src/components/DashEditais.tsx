@@ -81,15 +81,15 @@ export function DashEditais() {
                 Acesse as principais oportunidades de apoio à pesquisa
                 oferecidas por instituições de referência
               </p>
-              <button className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg items-center cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
                 <Link
                   href="/search"
-                  className="flex flex-row w-full items-center gap-x-3"
+                  
+                  className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus items-center flex-row gap-x-3"
                 >
                   <p>Comece agora a explorar os editais</p>
                   <RiSearchEyeLine />
                 </Link>
-              </button>
+
             </div>
             <div className="absolute bottom-0 left-0 w-full overflow-hidden">
               <svg
