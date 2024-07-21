@@ -96,7 +96,6 @@ export function Teste() {
     localStorage.removeItem('token');
     router.push('/login');
   }
-
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
@@ -105,6 +104,7 @@ export function Teste() {
     );
 
     setFilteredCards(filtered);
+    console.log("Filtrando Cards", filtered); // Log para verificar dados filtrados
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
