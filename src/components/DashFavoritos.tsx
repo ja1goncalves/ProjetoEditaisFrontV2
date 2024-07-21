@@ -1,7 +1,7 @@
 "use client"
 import { useContext, useEffect, useState } from "react";
 import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
-import { getEditais, getEditaisId, getUserLogin } from "@/lib/api";
+import { getEditais, getEditaisFavoritos, getEditaisId, getUserLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { HeaderIn } from "./Header";
 import { COLORS } from '../../src/lib/AppStyles';
@@ -56,9 +56,8 @@ export function DashFavoritos() {
   }, []);
 
   useEffect(() => {
-    getUserLogin('Bot').then((result) => {
-      console.log(result)
-      getEditaisId(result.id).then((result2) => {
+   
+    getEditaisFavoritos(userInfo.id).then((result2) => {
         console.log(result2)
         const newEditais = result2.map((edital: Edital) => ({
           id: edital.id,
@@ -84,7 +83,7 @@ export function DashFavoritos() {
         setFilteredCards(newCards);
         setCardData(newCards);
       })
-    });
+
   }, []);
 
   const searchCards = (searchTerm: string) => {

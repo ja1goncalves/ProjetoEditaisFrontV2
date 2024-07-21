@@ -35,7 +35,8 @@ interface Card {
 
 export function Teste() {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+
+  const userInfo = useContext(AuthContext).user
   
   const [currentPage, setCurrentPage] = useState("editais");
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
@@ -54,43 +55,35 @@ export function Teste() {
   }, [searchTerm]);
 
   useEffect(() => {
-    async function fetchEditais() {
-      try {
-        const user = await getUserLogin('Bot');
-        const editaisData = await getEditaisId(user.id);
-        const newEditais = editaisData.map((edital: Edital) => ({
-          ...edital,
-          link: `http://localhost:8081/upe/edital/${edital.id}/pdf`
-        }));
+    getEditaisFavoritos(userInfo.id).then((result2) => {
+      console.log(result2)
+      const newEditais = result2.map((edital: Edital) => ({
+        id: edital.id,
+        nome: edital.nome,
+        categoria: edital.categoria,
+        publicoAlvo: edital.publicoAlvo,
+        area: edital.id,
+        dataPublicacao: edital.dataPublicacao,
+        dataInicial: edital.dataInicial,
+        dataFinal: edital.dataFinal,
+        resultado: edital.resultado,
+        idOrgaoFomento: edital.idOrgaoFomento,
+        criadoPorBot: edital.criadoPorBot,
+        link: `http://localhost:8081/upe/edital/${edital.id}/pdf`
+      }));
 
-        const newCards = editaisData.map((card: Card) => ({
-          title: card.nome,
-          publication: card.dataPublicacao,
-          orgao: card.idOrgaoFomento
-        }));
+      const newCards = result2.map((card: Card) => ({
+        nome: card.nome,
+        dataPublicacao: card.dataPublicacao,
+        idOrgaoFomento: card.idOrgaoFomento
+      }));
+      
 
-        setEditais(newEditais);
-        setFilteredCards(newCards);
-        setCardData(newCards);
-      } catch (error) {
-        console.error("Erro ao buscar editais:", error);
-      }
-    }
-
-    fetchEditais();
+      setFavoritos(newCards);
+      setFilteredCards(newCards);
+      setCardData(newCards);
+    })
   }, []);
-
-  useEffect(() => {
-    async function fetchFavoritos() {
-      try {
-        const favoritosData = await getEditaisFavoritos(user.id);
-        setFavoritos(favoritosData);
-      } catch (error) {
-        console.error("Erro ao buscar editais favoritados:", error);
-      }
-    }
-    fetchFavoritos();
-  }, [user.id]);
 
   function handleLogout() {
     localStorage.removeItem('token');
@@ -142,7 +135,7 @@ export function Teste() {
   const removeFavoriteConfirmed = async () => {
     try {
       if (!selectedEdital) return;
-      await removeEditalFavorito(user.id, selectedEdital.id);
+      await removeEditalFavorito(userInfo.id, selectedEdital.id);
       const updatedFavoritos = favoritos.filter(fav => fav.id !== selectedEdital.id);
       setFavoritos(updatedFavoritos);
 
@@ -161,7 +154,6 @@ export function Teste() {
   return (
     <div className="relative ">
       <div className="min-h-screen bg-[#EBF4F6]">
-        <HeaderOut fix={false} />
         <section className="relative flex flex-col items-center min-h-[400px]">
           <div className="w-full h-[65vh] bg-gradient-to-r from-[#37B7C3] to-[#088395]" />
           <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
