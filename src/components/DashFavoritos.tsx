@@ -1,19 +1,13 @@
-"use client";
-import { useContext, useEffect, useState } from "react";
-import { FaFileUpload, FaRegStar, FaSearch, FaStar } from "react-icons/fa";
-import {
-  getEditais,
-  getEditaisFavoritos,
-  getEditaisId,
-  getUserLogin,
-  removeEditalFavorito,
-} from "@/lib/api";
+"use client"
+import React, { useContext, useEffect, useState } from "react";
+import { FaFileDownload, FaFileUpload, FaRegStar, FaRegTrashAlt, FaSearch, FaStar } from "react-icons/fa";
+import { criarPreProjeto, getEditais, getEditaisFavoritos, getEditaisId, getPreProjetos, getUserLogin, removeEditalFavorito, removerPreProjeto, uploadFile, urlBase } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { HeaderIn } from "./Header";
-import { COLORS } from "../../src/lib/AppStyles";
+import { COLORS } from '../../src/lib/AppStyles';
 import Image from "next/image";
-import Marca_FACEPE from "../../public/images/Marca-FACEPE.png";
-import FINEP from "../../public/images/FINEP.png";
+import Marca_FACEPE from '../../public/images/Marca-FACEPE.png'
+import FINEP from '../../public/images/FINEP.png'
 import { AuthContext } from "@/app/contexts/AuthContext";
 
 interface Edital {
@@ -27,68 +21,132 @@ interface Edital {
   dataFinal: string;
   resultado: string;
   idOrgaoFomento: number;
-  criadoPorBot: boolean;
-  link: string;
+  criadoPorBot: boolean,
+  link: string
+  preProjLink: string
+  preProjId: number
 }
 
 interface Card {
-  id: number;
+  id: number
   nome: string;
   dataPublicacao: string;
   idOrgaoFomento: number;
 }
 
-export function DashFavoritos() {
-  const userInfo = useContext(AuthContext).user;
+interface PreProj {
+  id: number
+  idUsuario: number
+  idEdital: number
+  link: string
+}
 
-  const [currentPage, setCurrentPage] = useState("editais");
-  const [isEditaisVisible, setIsEditaisVisible] = useState(false);
-  const [editais, setEditais] = useState<Edital[]>([]);
+export function DashFavoritos() {
+
+  const userInfo = useContext(AuthContext).user
+  const [newSearch, setNewSearch] = useState(false);
+
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+  const [isEditaisVisible, setIsEditaisVisible] = useState(false);
+
+  const [editais, setEditais] = useState<Edital[]>([]);
   const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null);
 
-  const [isSelected, setIsSelected] = useState(false);
+  
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
   const [cardData, setCardData] = useState<Card[]>([]);
 
+  const [file, setFile] = useState<File | undefined>()
+  const [preProjetos, setPreProjetos] = useState<PreProj[]>([]);
+
+
+  async function handlePreProjeto (e: React.FormEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+    if (target.files && target.files[0]) {
+      const formData = new FormData();
+      formData.append('preprojeto_pdf', target.files[0]);
+      if (selectedEdital) {
+        try {
+          const preProjetoResponse = await criarPreProjeto(userInfo.id, selectedEdital.id);
+          const uploadResponse = await uploadFile('preprojeto', preProjetoResponse.id, formData);
+          console.log('File uploaded successfully:', uploadResponse);
+          setNewSearch(!newSearch)
+          setIsEditaisVisible(false)
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+      }
+    }
+  };
+
+  async function handleRemovePreProjeto(){
+    
+    if(selectedEdital){
+      if(confirm('Deseja remover o Pré-Projeto inserido?')){
+        removerPreProjeto(selectedEdital.preProjId)
+        setNewSearch(!newSearch); 
+        setIsEditaisVisible(false)
+      }
+    }
+  }
+
   useEffect(() => {
     getEditais().then((result) => {
-      setEditais(result);
-    });
+        setEditais(result);
+      });
+    
   }, []);
 
   useEffect(() => {
-    console.log(userInfo);
-    getEditaisFavoritos(userInfo.id).then((result2) => {
-      console.log(result2);
-      const newEditais = result2.map((edital: Edital) => ({
-        id: edital.id,
-        nome: edital.nome,
-        categoria: edital.categoria,
-        publicoAlvo: edital.publicoAlvo,
-        area: edital.id,
-        dataPublicacao: edital.dataPublicacao,
-        dataInicial: edital.dataInicial,
-        dataFinal: edital.dataFinal,
-        resultado: edital.resultado,
-        idOrgaoFomento: edital.idOrgaoFomento,
-        criadoPorBot: edital.criadoPorBot,
-        link: `http://localhost:8081/upe/edital/${edital.id}/pdf`,
-      }));
+    if(userInfo.idPerfil!=0){
+      getEditaisFavoritos(userInfo.id).then((result2) => {
+        console.log(result2)
+        const newEditais = result2.map((edital: Edital) => ({
+          id: edital.id,
+          nome: edital.nome,
+          categoria: edital.categoria,
+          publicoAlvo: edital.publicoAlvo,
+          area: edital.id,
+          dataPublicacao: edital.dataPublicacao,
+          dataInicial: edital.dataInicial,
+          dataFinal: edital.dataFinal,
+          resultado: edital.resultado,
+          idOrgaoFomento: edital.idOrgaoFomento,
+          criadoPorBot: edital.criadoPorBot,
+          link: `${urlBase}edital/${edital.id}/pdf`,
+          preProjLink: '#'
+        }));
 
-      const newCards = result2.map((card: Card) => ({
-        id: card.id,
-        nome: card.nome,
-        dataPublicacao: card.dataPublicacao,
-        idOrgaoFomento: card.idOrgaoFomento,
-      }));
-      setEditais(newEditais);
-      setFilteredCards(newCards);
-      setCardData(newCards);
-    });
-  }, [userInfo]);
+        const newCards = result2.map((card: Card) => ({
+          id: card.id,
+          nome: card.nome,
+          dataPublicacao: card.dataPublicacao,
+          idOrgaoFomento: card.idOrgaoFomento
+        }));
+        setEditais(newEditais);
+        setFilteredCards(newCards);
+        setCardData(newCards);
+      })
+      getPreProjetos(userInfo.id).then((result2) => {
+        console.log(result2)
+        const newPreProjetos = result2.map((preProjeto: PreProj) => ({
+          id: preProjeto.id,
+          idUsuario: preProjeto.idUsuario,
+          idEdital: preProjeto.idEdital,
+          link: `${urlBase}preprojeto/${preProjeto.id}/pdf`
+        }));
+
+        setPreProjetos(newPreProjetos);
+
+      })
+    }
+
+  }, [userInfo, newSearch]);
 
   const searchCards = (searchTerm: string) => {
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
@@ -110,33 +168,35 @@ export function DashFavoritos() {
     searchCards(searchTerm);
   };
 
-  const handleEditalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      console.log("Selected file:", file);
-    }
-  };
-
   function showEditais(card: Card) {
-    const selectedEdital = editais.find((edital) => edital.id === card.id);
-    setSelectedEdital(selectedEdital || null);
-    setIsEditaisVisible(true);
-  }
+    const selectedEdital = editais.find(edital => edital.id === card.id);
+    
+    if (selectedEdital) {
+      const preProjeto = preProjetos.find(p => p.idEdital === selectedEdital.id);
+      if (preProjeto) {
+        selectedEdital.preProjLink = preProjeto.link;
+        selectedEdital.preProjId = preProjeto.id
+      } 
+      else {
+        selectedEdital.preProjLink = '#';
+      }
+      setSelectedEdital(selectedEdital);
+      setIsEditaisVisible(true);
+    } 
+    
+    else {
+      setSelectedEdital(null);
+      setIsEditaisVisible(false);
+    }
+  } 
 
   const handleRemoveFavorite = async (card: Card) => {
-    const confirmRemoval = confirm(
-      `Deseja apagar o edital: "${card.nome}"? Apaga-lo irá remover o pré-projeto inserido`
-    );
+    const confirmRemoval = confirm(`Deseja apagar o edital: "${card.nome}"? Apaga-lo irá remover o pré-projeto inserido`);
     if (confirmRemoval) {
       try {
         await removeEditalFavorito(userInfo.id, card.id);
-        setCardData((prevCards) =>
-          prevCards.filter((edital) => edital.id !== card.id)
-        );
-        setFilteredCards((prevCards) =>
-          prevCards.filter((edital) => edital.id !== card.id)
-        );
+        setCardData((prevCards) => prevCards.filter((edital) => edital.id !== card.id));
+        setFilteredCards((prevCards) => prevCards.filter((edital) => edital.id !== card.id));
         setIsSelected(false);
         setIsEditaisVisible(false);
         alert("Edital removido!");
@@ -213,19 +273,27 @@ export function DashFavoritos() {
                         setIsSelected(true);
                       }}
                     >
-                      <div className="flex ml-auto mb-2">
-                        {card.id == selectedEdital?.id ? (
-                          <button
-                            className="text-[#37B7C3]"
-                            onClick={() => handleRemoveFavorite(card)}
-                          >
-                            <FaStar />
-                          </button>
-                        ) : (
-                          <div className="text-gray-200">
-                            <FaStar />
-                          </div>
-                        )}
+                      <div className="flex ml-auto mb-2 gap-x-2">
+                        {(card.id==selectedEdital?.id)?
+                          (<>
+                            <a href={selectedEdital.link} className="text-[#37B7C3] hover:opacity-60">
+                              <FaFileDownload/>
+                            </a>
+                            <button className="relative group text-[#37B7C3]">
+                                <FaStar className="group-hover:hidden" />
+                                <FaRegStar className="hidden group-hover:block" onClick={() => handleRemoveFavorite(card)} />
+                            </button>
+                          </>)
+                          :
+                          (<>
+                            <div className="text-gray-200">
+                              <FaFileDownload/>
+                            </div>
+                            <div className="text-gray-200">
+                              <FaStar />
+                            </div>
+                          </>)
+                          }
                       </div>
                       <div className="flex items-start justify-between mb-4">
                         <h2 className="text-xl font-bold">{card.nome}</h2>
@@ -247,17 +315,19 @@ export function DashFavoritos() {
               className="bg-[#F5F5F5] lg:w-[60vw] lg:mr-16 mb-12 h-[80vh] rounded-xl shadow-lg lg:shadow-2xl flex flex-col overflow-y-scroll"
               style={{ maxHeight: "80vh", scrollbarWidth: "thin" }}
             >
-              <div className="flex items-center justify-center mt-8">
+              <div className="flex items-center justify-center mt-8 border-b py-5">
                 {selectedEdital.idOrgaoFomento === 1 ? (
                   <Image
                     src={Marca_FACEPE}
                     alt="Marca FACEPE"
-                    width={150}
-                    height={150}
-                    className="w-1/2"
+                    width={300}
+                    height={200}
                   />
                 ) : (
-                  <Image src={FINEP} alt="FINEP" width={50} height={50} />
+                  <Image src={FINEP} 
+                  alt="FINEP"
+                  width={300}
+                  height={200}/>
                 )}
               </div>
               <div className="flex text-center items-center justify-center w-full mt-6">
@@ -265,6 +335,7 @@ export function DashFavoritos() {
                   {selectedEdital.nome}
                 </p>
               </div>
+
               <div className="mx-4 mt-6">
                 <div className="flex flex-col gap-y-6">
                   <div className="flex items-center gap-x-2 text-center">
@@ -312,6 +383,41 @@ export function DashFavoritos() {
                     </div>
                   </div>
                 </div>
+                <div className="w-full grid grid-cols-none lg:grid-cols-2 grid-rows-2 lg:grid-rows-none justify-center gap-y-4 py-4 ">
+
+                  {selectedEdital.preProjLink!='#'?(<div className="flex flex-row justify-center lg:justify-start">
+                    <a href={selectedEdital.preProjLink} className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-green-1200 hover:opacity-60 select-none whitespace-nowrap">
+                      <FaFileDownload  className="mr-2"/> Baixar Pre-Projeto
+                    </a>
+                  </div>):(<div/>)}
+
+                  <div className="flex flex-row justify-end w-full items-center gap-x-4 ">
+                    {selectedEdital.preProjLink!='#'?(
+                    <div className="flex flex-row justify-end">
+                      <button onClick={handleRemovePreProjeto} className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#DC1D00]  hover:opacity-60 select-none whitespace-nowrap">
+                        Remover Pré-Projeto <FaRegTrashAlt    className="ml-2"/> 
+                      </button>
+                    </div>
+                    
+                    ) : (
+                    <div className="relative inline-block">
+                      <input
+                        type="file"
+                        id="file-upload"
+                        className="hidden"
+                        onChange={handlePreProjeto}
+                      />
+                      <label
+                        htmlFor="file-upload"
+                        className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
+                      >
+                        <span>Subir pré-projeto</span> <FaFileUpload className="ml-2" />
+                      </label>
+                    </div>
+                    )}
+                  </div>
+                </div>
+
               </div>
             </div>
           )}
