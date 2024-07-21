@@ -58,6 +58,16 @@ export async function loginUser(login: string, senha: string) {
   }
 }
 
+export async function criarEdital(data : any) {
+  try {  
+    const response = await api.post('edital', data);
+    console.log("Edital cadastrado com sucesso.")
+    return response.data;
+  } catch(error){
+    console.log("Erro ao cadastrar edital.")
+  }
+}
+
 export async function getEditaisId(id: string) {
   const response = await api.get('edital/usuario/'+id, {});
   return response.data;
