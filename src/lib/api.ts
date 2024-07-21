@@ -73,11 +73,15 @@ export async function getEditaisId(id: string) {
   return response.data;
 }
 
+export async function getPreProjetos(id: number) {
+  const response = await api.get('preprojeto/usuario/'+id, {});
+  return response.data;
+}
+
+
 export async function updateEditais(id: number, nome: string, categoria: string, publicoAlvo: string, area: string, dataPublicacao: string, dataInicial: string, dataFinal: string, resultado: string, idUsuario: number, idOrgaoFomento: number, criadoPorBot: boolean
 ) { 
   try {
-    console.log('oiee')
-    console.log(id, nome, categoria, publicoAlvo, area, dataPublicacao, dataInicial, dataFinal, resultado, idUsuario, idOrgaoFomento, criadoPorBot)
     const response = await api.put(`edital`, {
       id: id,
       nome: nome,
@@ -104,6 +108,10 @@ export async function removerEdital(id: number) {
   return response.data;
 }
 
+export async function removerPreProjeto(id: number) {
+  const response = await api.delete('preprojeto/'+id, {});
+  return response.data;
+}
 
 export async function getEditaisFavoritos(idUsuario: number) {
   try {
@@ -134,6 +142,34 @@ export async function removeEditalFavorito(idUsuario: number, idEdital: number){
     return response.data;
   } catch (error) {
     console.error('Erro ao desfavoritar edital', error);
+    throw error;
+  }
+}
+
+export async function criarPreProjeto(idUsuario: number, idEdital: number){
+  try {
+    const response = await api.post(`preprojeto`,{
+      idUsuario: idUsuario,
+      idEdital: idEdital,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao criar pre projeto', error);
+    throw error;
+  }
+}
+
+export async function uploadFile(tipo: string, id:number, formData: FormData) {
+  try {
+    const response = await api.post(`${tipo}/inserir/${id}/pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading file:', error);
     throw error;
   }
 }
