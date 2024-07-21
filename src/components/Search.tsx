@@ -172,27 +172,28 @@ export function Search() {
 
               {/* -------------- DASHBOARD -------------- */}
               <div className="flex flex-col mx-4 lg:mx-40 rounded-3xl bg-white border-2 border-[#088395] mb-16">
-                <div className="border-b grid grid-cols-3 gap-2 w-full items-center px-4 lg:px-24 py-4">
+                <div className="border-b grid grid-cols-3 gap-2 w-full items-center px-4 lg:px-14 py-4">
                   <p className="text-lg lg:text-xl">
                     Total de {filteredCards.length} editais disponíveis
                   </p>
-                  <div className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
-                    <button
-                      onClick={() => setVizualizacao("grid")}
-                      className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "grid" && "opacity-60"}`}
-                    >
-                      <IoGrid size={20} />
-                    </button>
-                    <div className="border-l h-6 mx-2 border-white"></div>
-                    <button
-                      onClick={() => setVizualizacao("row")}
-                      className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "row" && "opacity-60"}`}
-                    >
-                      <MdTableRows size={24} />
-                    </button>
-                  </div>
-                  <div className="flex justify-end">
-                    <button className="items-center flex gap-2 bg-[#088395] rounded-md text-white px-2 py-2"> <MdCreateNewFolder />Novo Edital</button>
+                  <div/>
+                  <div className="flex flex-row items-center gap-x-5 justify-end">
+                    <div className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
+                      <button
+                        onClick={() => setVizualizacao("grid")}
+                        className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "grid" && "opacity-60"}`}
+                      >
+                        <IoGrid size={20} />
+                      </button>
+                      <div className="border-l h-6 mx-2 border-white"></div>
+                      <button
+                        onClick={() => setVizualizacao("row")}
+                        className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "row" && "opacity-60"}`}
+                      >
+                        <MdTableRows size={24} />
+                      </button>
+                    </div>
+                    <button className="bg-[#37B7C3] text-white flex items-center justify-around py-2 h-14 w-14 rounded-full hover:opacity-60"> <MdCreateNewFolder size={30}/></button>
                   </div>
                 </div>
                 <div
