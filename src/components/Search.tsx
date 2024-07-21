@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getEditais, getEditaisId, getUserLogin, urlBase } from "../lib/api";
+import { criarEdital, getEditais, getEditaisId, getUserLogin, urlBase } from "../lib/api";
 import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
 import { IoGrid } from "react-icons/io5";
-import { MdTableRows } from "react-icons/md";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { MdCreateNewFolder, MdTableRows } from "react-icons/md";
+import { FaSearch, FaFilter, FaFilePdf } from "react-icons/fa";
 import { parseCookies } from 'nookies'
 import decode from "jwt-decode";
 
@@ -38,6 +38,20 @@ export function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [cardData, setCardData] = useState<Card[]>([]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
+  const [edital, setEdital] = useState<Card[]>([]);
+  const [editaisData, setEditaisData] = useState({
+    nome: '',
+    categoria: '',
+    publicoAlvo: '',
+    area: '',
+    dataPublicacao: '',
+    dataInicial: '',
+    dataFinal: '',
+    resultado: '',
+    idOrgaoFomento: 1, // Exemplo: 1 para FACEPE
+    criadoPorBot: false,
+    idUsuario: user?.id || 0, // Usando o ID do usuário se disponível
+  });
 
   const [vizualizacao, setVizualizacao] = useState("row");
 
@@ -80,6 +94,14 @@ export function Search() {
     );
 
     setFilteredCards(filtered);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditaisData({
+      ...editaisData,
+      [name]: value,
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -150,7 +172,7 @@ export function Search() {
 
               {/* -------------- DASHBOARD -------------- */}
               <div className="flex flex-col mx-4 lg:mx-40 rounded-3xl bg-white border-2 border-[#088395] mb-16">
-                <div className="border-b flex flex-row w-full items-center justify-between px-4 lg:px-24 py-4">
+                <div className="border-b grid grid-cols-3 gap-2 w-full items-center px-4 lg:px-24 py-4">
                   <p className="text-lg lg:text-xl">
                     Total de {filteredCards.length} editais disponíveis
                   </p>
@@ -168,6 +190,9 @@ export function Search() {
                     >
                       <MdTableRows size={24} />
                     </button>
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="items-center flex gap-2 bg-[#088395] rounded-md text-white px-2 py-2"> <MdCreateNewFolder />Novo Edital</button>
                   </div>
                 </div>
                 <div
