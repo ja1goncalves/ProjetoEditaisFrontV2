@@ -47,7 +47,7 @@ export async function getUser(id: string) {
 
 export async function getUserLogin(login: string) {
   const response = await api.get('usuario/login/'+login, {});
-  console.log('oiee')
+  console.log('Logado')
   return response.data;
 }
 
@@ -92,8 +92,7 @@ export async function getEditaisId(id: string) {
 }
 
 export async function updateEditais(id: number, nome: string, categoria: string, publicoAlvo: string, area: string, dataPublicacao: string, dataInicial: string, dataFinal: string, resultado: string, idUsuario: number, idOrgaoFomento: number, criadoPorBot: boolean
-) {
-  
+) { 
   try {
     console.log('oiee')
     console.log(id, nome, categoria, publicoAlvo, area, dataPublicacao, dataInicial, dataFinal, resultado, idUsuario, idOrgaoFomento, criadoPorBot)
@@ -134,9 +133,10 @@ export async function getEditaisFavoritos(idUsuario: number) {
   }
 }
 
-export async function setEditalFavorito(idUsuario: string, idEdital: string){
+export async function setEditalFavorito(idUsuario: number, idEdital: number){
   try {
-    const response = await api.get(`/edital/${idEdital}/usuario/${idUsuario}/favoritar`);
+    const response = await api.post(`/edital/${idEdital}/usuario/${idUsuario}/favoritar`);
+    console.log('Favoritado.')
     return response.data;
   } catch (error) {
     console.error('Erro ao favoritar edital', error);

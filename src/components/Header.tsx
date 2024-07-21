@@ -61,7 +61,14 @@ export function HeaderOut(props: HeaderOutProps) {
             <li className="w-full lg:w-auto">
               <Link href="/search">
                 <p className="py-3 lg:py-0 text-center lg:text-left">
-                  Editais Disponíveis
+                  Editais
+                </p>
+              </Link>
+            </li>
+            <li className="w-full lg:w-auto">
+              <Link href="/favorites">
+                <p className="py-3 lg:py-0 text-center lg:text-left">
+                  Favoritos
                 </p>
               </Link>
             </li>
