@@ -124,9 +124,13 @@ export function VerMais(props:CardsProps) {
     setShowModal(false)
   }
 
-  function removeEdital(){
-    removerEdital(props.id)
-    setShowModal(false)
+  function removeEdital() {
+    if (confirm(`Deseja apagar o edital: "${props.nome}"?`)) {
+      removerEdital(props.id);
+      props.setFilteredCards(props.filteredCards.filter(edital => edital.id !== props.id));
+      alert("Edital removido!");
+      setShowModal(false);
+    }
   }
 
   return (

@@ -2,36 +2,8 @@ import axios from "axios";
 
 export const urlBase = "http://localhost:8081/upe/"
 
-/*export async function downloadAndCachePDF(id: number) {
-  const pdfUrl = `${urlBase}edital/${id}/pdf`;
-  const response = await axios.get(pdfUrl, {
-    responseType: "arraybuffer"
-  });
-
-  const filePath = path.resolve(__dirname, `edital_${id}.pdf`);
-  fs.writeFileSync(filePath, response.data);
-
-  return filePath;
-}
-
-export async function uploadPDF(filePath: any, id: number) {
-  const formData = new FormData();
-  formData.append('edital_pdf', fs.createReadStream(filePath), {
-    filename: `edital_${id}.pdf`
-  });
-
-  const response = await axios.post(`${urlBase}edital/inserir/${id}/pdf`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  });
-
-  return response.data;
-}
-*/
-
 export async function getEditais() {
-  const response = await api.get('editais', {});
+  const response = await api.get('edital', {});
   return response.data;
 }
 

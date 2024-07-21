@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getEditaisId, getUserLogin, urlBase } from "../lib/api";
+import { getEditais, getEditaisId, getUserLogin, urlBase } from "../lib/api";
 import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
 import { IoGrid } from "react-icons/io5";
@@ -50,29 +50,26 @@ export function Search() {
   },[])
 
   useEffect(() => {
-    getUserLogin('Bot').then((result) => {
-      console.log(result)
-      getEditaisId(result.id).then((result2) => {
-        console.log(result2)
-        const newEditais = result2.map((edital: Card) => ({
-          id: edital.id,
-          nome: edital.nome,
-          categoria: edital.categoria,
-          publicoAlvo: edital.publicoAlvo,
-          area: edital.area,
-          dataPublicacao: edital.dataPublicacao,
-          dataInicial: edital.dataInicial,
-          dataFinal: edital.dataFinal,
-          resultado: edital.resultado,
-          idOrgaoFomento: edital.idOrgaoFomento,
-          criadoPorBot: edital.criadoPorBot,
-          idUsuario: edital.idUsuario,
-          link: `${urlBase}edital/${edital.id}/pdf`
-        }));
-        setCardData(newEditais);
-        setFilteredCards(newEditais);
-      })
-    });
+    getEditais().then((result2) => {
+      console.log(result2)
+      const newEditais = result2.map((edital: Card) => ({
+        id: edital.id,
+        nome: edital.nome,
+        categoria: edital.categoria,
+        publicoAlvo: edital.publicoAlvo,
+        area: edital.area,
+        dataPublicacao: edital.dataPublicacao,
+        dataInicial: edital.dataInicial,
+        dataFinal: edital.dataFinal,
+        resultado: edital.resultado,
+        idOrgaoFomento: edital.idOrgaoFomento,
+        criadoPorBot: edital.criadoPorBot,
+        idUsuario: edital.idUsuario,
+        link: `${urlBase}edital/${edital.id}/pdf`
+      }));
+      setCardData(newEditais);
+      setFilteredCards(newEditais);
+    })
   }, []);
 
   const searchCards = (searchTerm: string) => {
