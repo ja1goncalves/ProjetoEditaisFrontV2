@@ -186,6 +186,11 @@ export async function adicionarNovoPDF(idEdital: number){
   }
 }
 
+export async function gedEdital(id: number) {
+  const response = await api.get('edital/'+id+'/pdf', {});
+  return response.data;
+}
+
 export const api = axios.create({
   baseURL: urlBase
 })

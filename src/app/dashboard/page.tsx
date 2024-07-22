@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function dashboard() {
   //await getData();
-  return <DashboardUsuarios />;
+  return <DashAdm />;
 }
 
 /*

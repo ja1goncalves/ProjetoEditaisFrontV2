@@ -1,7 +1,9 @@
 "use client";
 import { AuthContext } from "@/app/contexts/AuthContext";
-import { criarEdital } from "@/lib/api";
+import { criarEdital, criarPreProjeto, uploadFile, urlBase } from "@/lib/api";
+import { userInfo } from "os";
 import React, { useContext, useEffect, useState } from "react";
+import { FaFileUpload } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
@@ -40,7 +42,7 @@ interface Card {
 }
 
 export function NovoEdital(props: ModalProps) {
-  const [showModal, setShowModal] = useState(false);
+  const [file, setFile] = useState<File | undefined>();
   const [editaisData, setEditaisData] = useState({
     nome: "",
     categoria: "",
@@ -56,7 +58,7 @@ export function NovoEdital(props: ModalProps) {
     horaPublicacao: "",
     horaInicial: "",
     horaFinal: "",
-    linkPDF: "",
+    link: "#",
   });
 
   useEffect(() => {
@@ -84,8 +86,11 @@ export function NovoEdital(props: ModalProps) {
     return `${day}/${month}/${year} ${hour}:${minute}:00`;
   };
 
-  function resetModal() {
-    setShowModal(true);
+  async function subirPdf(e: React.FormEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+    setFile(target.files[0])
   }
 
   const cadastrarEdital = async () => {
@@ -109,19 +114,42 @@ export function NovoEdital(props: ModalProps) {
       dataFinal,
     };
 
-    try {
-      const novoEdital = await criarEdital(editalData);
+    if (file) {
+      
+      try {
+        const novoEdital:Card = await criarEdital(editalData);
 
-      const updatedCardData = [...props.cardData, novoEdital];
-      const updatedFilteredEditais = [...props.filteredEditais, novoEdital];
+        const formData = new FormData();
+        formData.append("edital_pdf", file);
+        try {
+          const uploadResponse = await uploadFile(
+            "edital",
+            novoEdital.id,
+            formData
+          );
+          console.log("File uploaded successfully:", uploadResponse);
+          novoEdital.link = `${urlBase}edital/${novoEdital.id}/pdf`
+        } catch (error) {
+          console.error("Error uploading file:", error);
+        }
+        
+  
+        const updatedCardData = [...props.cardData, novoEdital];
+        const updatedFilteredEditais = [...props.filteredEditais, novoEdital];
+  
+        props.setCardData(updatedCardData);
+        props.setFilteredEditais(updatedFilteredEditais);
+        
+        setFile(undefined)
+        props.onClose();
+        console.log("Edital cadastrado com sucesso.");
+      } catch (error) {
+        console.error("Erro ao criar edital", error);
+      }
+    }
 
-      props.setCardData(updatedCardData);
-      props.setFilteredEditais(updatedFilteredEditais);
-
-      props.onClose();
-      console.log("Edital cadastrado com sucesso.");
-    } catch (error) {
-      console.error("Erro ao criar edital", error);
+    else{
+      alert('Insira algum arquivo para criar o edital')
     }
   };
 
@@ -133,7 +161,7 @@ export function NovoEdital(props: ModalProps) {
         <div className="bg-[#F0F0F0] h-auto w-[50vw] rounded-lg shadow-lg overflow-y-auto">
           <div className="ml-8 mt-4">
             <button
-              onClick={props.onClose}
+              onClick={()=>{setFile(undefined);props.onClose()}}
               className="flex items-center gap-1 hover:underline hover:text-[#088395] text-lg"
             >
               <IoIosArrowRoundBack size={22} /> Voltar
@@ -330,10 +358,27 @@ export function NovoEdital(props: ModalProps) {
               />
             </div>
           </div>
-          <div className="flex justify-end mx-8 my-4">
+          <div className="flex justify-between mx-8 my-4">
+
+            <div className="relative inline-block">
+              <input
+                type="file"
+                id="file-upload"
+                className="hidden"
+                onChange={subirPdf}
+              />
+              <label
+                htmlFor="file-upload"
+                className={`flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer ${!file?('bg-green-700'):('bg-[#DC1D00]')} hover:opacity-60 select-none whitespace-nowrap`}
+              >
+                {file?(<span>Escolher outro arquivo</span>):(<span>Subir PDF</span>)}
+                <FaFileUpload className="ml-2" />
+              </label>
+            </div>
+
             <button
               onClick={cadastrarEdital}
-              className="bg-[#088395] px-4 py-3 items-center text-white rounded-md text-xl"
+              className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
             >
               Enviar
             </button>

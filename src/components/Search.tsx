@@ -118,13 +118,15 @@ export function Search() {
     }
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+
 
   const onClick = () => {
     searchCards(searchTerm);
@@ -209,23 +211,26 @@ export function Search() {
                         <MdTableRows size={24} />
                       </button>
                     </div>
-                    <button
-                      onClick={handleOpenModal}
-                      className="bg-[#37B7C3] text-white flex items-center justify-around py-2 h-14 w-14 rounded-full hover:opacity-60"
-                    >
-                      {" "}
-                      <MdCreateNewFolder size={30} />
-                    </button>
-                    {user && (
-                      <NovoEdital
-                        isOpen={isModalOpen}
-                        onClose={handleCloseModal}
-                        user={user}
-                        cardData={cardData}
-                        filteredEditais={filteredCards}
-                        setCardData={setCardData}
-                        setFilteredEditais={setFilteredCards}
-                      />
+                    
+                    {user&&user.idPerfil==2 && (
+                      <>
+                        <button
+                          onClick={handleOpenModal}
+                          className="bg-[#37B7C3] text-white flex items-center justify-around py-2 h-14 w-14 rounded-full hover:opacity-60"
+                        >
+                          {" "}
+                          <MdCreateNewFolder size={30} />
+                        </button>
+                        <NovoEdital
+                          isOpen={isModalOpen}
+                          onClose={handleCloseModal}
+                          user={user}
+                          cardData={cardData}
+                          filteredEditais={filteredCards}
+                          setCardData={setCardData}
+                          setFilteredEditais={setFilteredCards}
+                        />
+                      </>
                     )}
                   </div>
                 </div>

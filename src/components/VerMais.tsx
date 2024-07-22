@@ -7,9 +7,11 @@ import { AiFillEdit } from "react-icons/ai";
 import { FaSave, FaTrash } from "react-icons/fa";
 import {
   adicionarNovoPDF,
+  gedEdital,
   removerEdital,
   updateEditais,
   uploadFile,
+  urlBase,
 } from "@/lib/api";
 
 interface Card {
@@ -52,6 +54,7 @@ export function VerMais(props: CardsProps) {
   const [nomeEdital, setNomeEdital] = useState(props.nome);
   const [categoria, setCategoria] = useState(props.categoria);
   const [publicoAlvo, setPublicoAlvo] = useState(props.publicoAlvo);
+  const [editalLink, setEditalLink] = useState('');
   const [area, setArea] = useState(props.area);
 
   const [dataPublicacao, setDataPublicacao] = useState(
@@ -468,19 +471,7 @@ export function VerMais(props: CardsProps) {
 
                     {props.editar && (
                       <div className="flex flex-row gap-x-5">
-                        <input
-                          type="file"
-                          id="file-upload"
-                          className="hidden"
-                          onChange={handleAdicionarPDF}
-                        />
-                        <label
-                          htmlFor="file-upload"
-                          className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-green-700 hover:opacity-60 select-none whitespace-nowrap"
-                        >
-                          <FaFileDownload className="mr-2" />
-                          <span>Adicionar PDF</span>{" "}
-                        </label>
+                       
                         <button
                           onClick={removeEdital}
                           className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-red-500 hover:opacity-60"
