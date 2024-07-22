@@ -60,9 +60,7 @@ export function HeaderOut(props: HeaderOutProps) {
             </li>
             <li className="w-full lg:w-auto">
               <Link href="/search">
-                <p className="py-3 lg:py-0 text-center lg:text-left">
-                  Editais
-                </p>
+                <p className="py-3 lg:py-0 text-center lg:text-left">Editais</p>
               </Link>
             </li>
             <li className="w-full lg:w-auto">
@@ -110,6 +108,12 @@ export function HeaderOut(props: HeaderOutProps) {
 }
 
 export function HeaderIn(props: HeaderInProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div
       className={`flex justify-center w-full bg-[#E9EDF0] py-3 bg-opacity-90 fixed top-0 z-40`}
@@ -146,23 +150,92 @@ export function HeaderIn(props: HeaderInProps) {
             </li>
           </ul>
           <div className="flex flex-row justify-end gap-x-5 items-center">
+            <div className="lg:hidden">
+              <button onClick={toggleMenu} className="text-2xl">
+                {isMenuOpen ? <FaTimes /> : <FaBars />}
+              </button>
+            </div>
             <Link href={`/`}>
-              <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+              <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                 <IoIosHome /> Inicio
               </button>
             </Link>
             <Link href={`/search`}>
-              <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+              <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                 <FaSearch /> Editais
               </button>
             </Link>
             <Link href={`/api/auth/logout`}>
-              <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+              <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                 <IoEnterOutline /> Sair
               </button>
             </Link>
           </div>
         </div>
+        {isMenuOpen && (
+          <div className="lg:hidden mt-2">
+            <ul className="flex flex-col gap-y-4 items-center justify-center">
+              <li>
+                <button
+                  onClick={() => {
+                    props.setPage("editais");
+                    toggleMenu();
+                  }}
+                >
+                  <p
+                    className={`${props.curPage == "editais" && "underline underline-offset-4 font-semibold"} hover:opacity-50`}
+                  >
+                    Editais
+                  </p>
+                </button>
+              </li>
+              <li className={`${!props.adm && "hidden"}`}>
+                <button
+                  onClick={() => {
+                    props.setPage("users");
+                    toggleMenu();
+                  }}
+                >
+                  <p
+                    className={`${props.curPage == "users" && "underline underline-offset-4 font-semibold"} hover:opacity-50`}
+                  >
+                    Usuários
+                  </p>
+                </button>
+              </li>
+              <li>
+                <Link href={`/`}>
+                  <button
+                    onClick={toggleMenu}
+                    className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
+                  >
+                    <IoIosHome /> Inicio
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link href={`/search`}>
+                  <button
+                    onClick={toggleMenu}
+                    className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
+                  >
+                    <FaSearch /> Editais
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link href={`/api/auth/logout`}>
+                  <button
+                    onClick={toggleMenu}
+                    className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
+                  >
+                    <IoEnterOutline /> Sair
+                  </button>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

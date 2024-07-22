@@ -1,13 +1,33 @@
-"use client"
+"use client";
 import React, { useContext, useEffect, useState } from "react";
-import { FaFileDownload, FaFileUpload, FaRegStar, FaRegTrashAlt, FaSearch, FaStar } from "react-icons/fa";
-import { criarPreProjeto, getEditais, getEditaisFavoritos, getEditaisId, getPreProjetos, getUserLogin, removeEditalFavorito, removerPreProjeto, uploadFile, urlBase } from "@/lib/api";
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaFileDownload,
+  FaFileUpload,
+  FaRegStar,
+  FaRegTrashAlt,
+  FaSearch,
+  FaStar,
+} from "react-icons/fa";
+import {
+  criarPreProjeto,
+  getEditais,
+  getEditaisFavoritos,
+  getEditaisId,
+  getPreProjetos,
+  getUserLogin,
+  removeEditalFavorito,
+  removerPreProjeto,
+  uploadFile,
+  urlBase,
+} from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { HeaderIn } from "./Header";
-import { COLORS } from '../../src/lib/AppStyles';
+import { COLORS } from "../../src/lib/AppStyles";
 import Image from "next/image";
-import Marca_FACEPE from '../../public/images/Marca-FACEPE.png'
-import FINEP from '../../public/images/FINEP.png'
+import Marca_FACEPE from "../../public/images/Marca-FACEPE.png";
+import FINEP from "../../public/images/FINEP.png";
 import { AuthContext } from "@/app/contexts/AuthContext";
 
 interface Edital {
@@ -21,29 +41,28 @@ interface Edital {
   dataFinal: string;
   resultado: string;
   idOrgaoFomento: number;
-  criadoPorBot: boolean,
-  link: string
-  preProjLink: string
-  preProjId: number
+  criadoPorBot: boolean;
+  link: string;
+  preProjLink: string;
+  preProjId: number;
 }
 
 interface Card {
-  id: number
+  id: number;
   nome: string;
   dataPublicacao: string;
   idOrgaoFomento: number;
 }
 
 interface PreProj {
-  id: number
-  idUsuario: number
-  idEdital: number
-  link: string
+  id: number;
+  idUsuario: number;
+  idEdital: number;
+  link: string;
 }
 
 export function DashFavoritos() {
-
-  const userInfo = useContext(AuthContext).user
+  const userInfo = useContext(AuthContext).user;
   const [newSearch, setNewSearch] = useState(false);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -53,59 +72,61 @@ export function DashFavoritos() {
   const [editais, setEditais] = useState<Edital[]>([]);
   const [selectedEdital, setSelectedEdital] = useState<Edital | null>(null);
 
-  
-
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
   const [cardData, setCardData] = useState<Card[]>([]);
 
-  const [file, setFile] = useState<File | undefined>()
+  const [file, setFile] = useState<File | undefined>();
   const [preProjetos, setPreProjetos] = useState<PreProj[]>([]);
 
-
-  async function handlePreProjeto (e: React.FormEvent<HTMLInputElement>) {
+  async function handlePreProjeto(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     if (target.files && target.files[0]) {
       const formData = new FormData();
-      formData.append('preprojeto_pdf', target.files[0]);
+      formData.append("preprojeto_pdf", target.files[0]);
       if (selectedEdital) {
         try {
-          const preProjetoResponse = await criarPreProjeto(userInfo.id, selectedEdital.id);
-          const uploadResponse = await uploadFile('preprojeto', preProjetoResponse.id, formData);
-          console.log('File uploaded successfully:', uploadResponse);
-          setNewSearch(!newSearch)
-          setIsEditaisVisible(false)
+          const preProjetoResponse = await criarPreProjeto(
+            userInfo.id,
+            selectedEdital.id
+          );
+          const uploadResponse = await uploadFile(
+            "preprojeto",
+            preProjetoResponse.id,
+            formData
+          );
+          console.log("File uploaded successfully:", uploadResponse);
+          setNewSearch(!newSearch);
+          setIsEditaisVisible(false);
         } catch (error) {
-          console.error('Error uploading file:', error);
+          console.error("Error uploading file:", error);
         }
       }
     }
-  };
+  }
 
-  async function handleRemovePreProjeto(){
-    
-    if(selectedEdital){
-      if(confirm('Deseja remover o Pré-Projeto inserido?')){
-        removerPreProjeto(selectedEdital.preProjId)
-        setNewSearch(!newSearch); 
-        setIsEditaisVisible(false)
+  async function handleRemovePreProjeto() {
+    if (selectedEdital) {
+      if (confirm("Deseja remover o Pré-Projeto inserido?")) {
+        removerPreProjeto(selectedEdital.preProjId);
+        setNewSearch(!newSearch);
+        setIsEditaisVisible(false);
       }
     }
   }
 
   useEffect(() => {
     getEditais().then((result) => {
-        setEditais(result);
-      });
-    
+      setEditais(result);
+    });
   }, []);
 
   useEffect(() => {
-    if(userInfo.idPerfil!=0){
+    if (userInfo.idPerfil != 0) {
       getEditaisFavoritos(userInfo.id).then((result2) => {
-        console.log(result2)
+        console.log(result2);
         const newEditais = result2.map((edital: Edital) => ({
           id: edital.id,
           nome: edital.nome,
@@ -119,33 +140,31 @@ export function DashFavoritos() {
           idOrgaoFomento: edital.idOrgaoFomento,
           criadoPorBot: edital.criadoPorBot,
           link: `${urlBase}edital/${edital.id}/pdf`,
-          preProjLink: '#'
+          preProjLink: "#",
         }));
 
         const newCards = result2.map((card: Card) => ({
           id: card.id,
           nome: card.nome,
           dataPublicacao: card.dataPublicacao,
-          idOrgaoFomento: card.idOrgaoFomento
+          idOrgaoFomento: card.idOrgaoFomento,
         }));
         setEditais(newEditais);
         setFilteredCards(newCards);
         setCardData(newCards);
-      })
+      });
       getPreProjetos(userInfo.id).then((result2) => {
-        console.log(result2)
+        console.log(result2);
         const newPreProjetos = result2.map((preProjeto: PreProj) => ({
           id: preProjeto.id,
           idUsuario: preProjeto.idUsuario,
           idEdital: preProjeto.idEdital,
-          link: `${urlBase}preprojeto/${preProjeto.id}/pdf`
+          link: `${urlBase}preprojeto/${preProjeto.id}/pdf`,
         }));
 
         setPreProjetos(newPreProjetos);
-
-      })
+      });
     }
-
   }, [userInfo, newSearch]);
 
   const searchCards = (searchTerm: string) => {
@@ -169,34 +188,39 @@ export function DashFavoritos() {
   };
 
   function showEditais(card: Card) {
-    const selectedEdital = editais.find(edital => edital.id === card.id);
-    
+    const selectedEdital = editais.find((edital) => edital.id === card.id);
+
     if (selectedEdital) {
-      const preProjeto = preProjetos.find(p => p.idEdital === selectedEdital.id);
+      const preProjeto = preProjetos.find(
+        (p) => p.idEdital === selectedEdital.id
+      );
       if (preProjeto) {
         selectedEdital.preProjLink = preProjeto.link;
-        selectedEdital.preProjId = preProjeto.id
-      } 
-      else {
-        selectedEdital.preProjLink = '#';
+        selectedEdital.preProjId = preProjeto.id;
+      } else {
+        selectedEdital.preProjLink = "#";
       }
       setSelectedEdital(selectedEdital);
       setIsEditaisVisible(true);
-    } 
-    
-    else {
+    } else {
       setSelectedEdital(null);
       setIsEditaisVisible(false);
     }
-  } 
+  }
 
   const handleRemoveFavorite = async (card: Card) => {
-    const confirmRemoval = confirm(`Deseja apagar o edital: "${card.nome}"? Apaga-lo irá remover o pré-projeto inserido`);
+    const confirmRemoval = confirm(
+      `Deseja apagar o edital: "${card.nome}"? Apaga-lo irá remover o pré-projeto inserido`
+    );
     if (confirmRemoval) {
       try {
         await removeEditalFavorito(userInfo.id, card.id);
-        setCardData((prevCards) => prevCards.filter((edital) => edital.id !== card.id));
-        setFilteredCards((prevCards) => prevCards.filter((edital) => edital.id !== card.id));
+        setCardData((prevCards) =>
+          prevCards.filter((edital) => edital.id !== card.id)
+        );
+        setFilteredCards((prevCards) =>
+          prevCards.filter((edital) => edital.id !== card.id)
+        );
         setIsSelected(false);
         setIsEditaisVisible(false);
         alert("Edital removido!");
@@ -207,9 +231,16 @@ export function DashFavoritos() {
     }
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isCardsVisible, setIsCardsVisible] = useState(false);
+
+  const toggleCardsVisibility = () => {
+    setIsCardsVisible(!isCardsVisible);
+  };
+
   return (
     <div className="relative ">
-      <div className={` bg-[#C5E2E6]`}>
+      <div className={`bg-[#C5E2E6]`}>
         <section className="relative flex flex-col items-center min-h-[400px]">
           <div className="w-full h-[65vh] bg-gradient-to-r from-[#37B7C3] to-[#088395]" />
           <div className="absolute bottom-0 left-0 w-[100%] overflow-hidden">
@@ -229,7 +260,7 @@ export function DashFavoritos() {
         </section>
 
         <div className="absolute top-28 w-full justify-between flex flex-col lg:flex-row">
-          <div className="bg-[#C5E2E6] w-full lg:w-[28vw] mb-12 lg:ml-16 h-[80vh] rounded-xl shadow-lg lg:shadow-2xl flex flex-col items-center">
+          <div className="bg-[#C5E2E6] w-full lg:w-[28vw] mb-12 lg:ml-16 lg:h-[80vh] rounded-xl shadow-lg lg:shadow-2xl flex flex-col items-center">
             <div className="items-center flex justify-center my-5">
               <FaRegStar
                 className="mr-2 items-center flex text-[#088395]"
@@ -260,40 +291,53 @@ export function DashFavoritos() {
                   </button>
                 </div>
 
+                <button
+                  className="lg:hidden flex items-center justify-center bg-[#37B7C3] rounded-2xl px-10 py-3 mb-3 text-white"
+                  onClick={toggleCardsVisibility}
+                >
+                  {isCardsVisible ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
+
                 <div
-                  className="flex flex-col w-full px-5 overflow-y-scroll h-[55vh] border-t pt-5"
+                  className={`flex flex-col w-full px-5 overflow-y-scroll h-[55vh] pt-5 ${!isCardsVisible && "hidden"} lg:block`}
                   style={{ scrollbarWidth: "thin" }}
                 >
                   {filteredCards.map((card, index) => (
                     <div
                       key={index}
-                      className={`bg-white rounded-xl p-3 mb-4 shadow-md w-[100%] hover:opacity-60 flex flex-col justify-between ${card.id == selectedEdital?.id && "cursor-pointer"} ${isSelected ? (card.id == selectedEdital?.id ? "border bgb" : "opacity-30") : ""}`}
+                      className={`bg-white rounded-xl p-3 mb-4 shadow-md w-[100%] hover:opacity-60 flex flex-col justify-between ${card.id === selectedEdital?.id && "cursor-pointer"} ${isSelected ? (card.id === selectedEdital?.id ? "border bgb" : "opacity-30") : ""}`}
                       onClick={() => {
                         showEditais(card);
                         setIsSelected(true);
                       }}
                     >
                       <div className="flex ml-auto mb-2 gap-x-2">
-                        {(card.id==selectedEdital?.id)?
-                          (<>
-                            <a href={selectedEdital.link} className="text-[#37B7C3] hover:opacity-60">
-                              <FaFileDownload/>
+                        {card.id === selectedEdital?.id ? (
+                          <>
+                            <a
+                              href={selectedEdital.link}
+                              className="text-[#37B7C3] hover:opacity-60"
+                            >
+                              <FaFileDownload />
                             </a>
                             <button className="relative group text-[#37B7C3]">
-                                <FaStar className="group-hover:hidden" />
-                                <FaRegStar className="hidden group-hover:block" onClick={() => handleRemoveFavorite(card)} />
+                              <FaStar className="group-hover:hidden" />
+                              <FaRegStar
+                                className="hidden group-hover:block"
+                                onClick={() => handleRemoveFavorite(card)}
+                              />
                             </button>
-                          </>)
-                          :
-                          (<>
+                          </>
+                        ) : (
+                          <>
                             <div className="text-gray-200">
-                              <FaFileDownload/>
+                              <FaFileDownload />
                             </div>
                             <div className="text-gray-200">
                               <FaStar />
                             </div>
-                          </>)
-                          }
+                          </>
+                        )}
                       </div>
                       <div className="flex items-start justify-between mb-4">
                         <h2 className="text-xl font-bold">{card.nome}</h2>
@@ -318,16 +362,18 @@ export function DashFavoritos() {
               <div className="flex items-center justify-center mt-8 border-b py-5">
                 {selectedEdital.idOrgaoFomento === 1 ? (
                   <Image
-                    src={Marca_FACEPE}
+                    src="/path/to/Marca_FACEPE.png"
                     alt="Marca FACEPE"
                     width={300}
                     height={200}
                   />
                 ) : (
-                  <Image src={FINEP} 
-                  alt="FINEP"
-                  width={300}
-                  height={200}/>
+                  <Image
+                    src="/path/to/FINEP.png"
+                    alt="FINEP"
+                    width={300}
+                    height={200}
+                  />
                 )}
               </div>
               <div className="flex text-center items-center justify-center w-full mt-6">
@@ -384,40 +430,48 @@ export function DashFavoritos() {
                   </div>
                 </div>
                 <div className="w-full grid grid-cols-none lg:grid-cols-2 grid-rows-2 lg:grid-rows-none justify-center gap-y-4 py-4 ">
-
-                  {selectedEdital.preProjLink!='#'?(<div className="flex flex-row justify-center lg:justify-start">
-                    <a href={selectedEdital.preProjLink} className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-green-1200 hover:opacity-60 select-none whitespace-nowrap">
-                      <FaFileDownload  className="mr-2"/> Baixar Pre-Projeto
-                    </a>
-                  </div>):(<div/>)}
+                  {selectedEdital.preProjLink != "#" ? (
+                    <div className="flex flex-row justify-center lg:justify-start">
+                      <a
+                        href={selectedEdital.preProjLink}
+                        className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-green-1200 hover:opacity-60 select-none whitespace-nowrap"
+                      >
+                        <FaFileDownload className="mr-2" /> Baixar Pre-Projeto
+                      </a>
+                    </div>
+                  ) : (
+                    <div />
+                  )}
 
                   <div className="flex flex-row justify-end w-full items-center gap-x-4 ">
-                    {selectedEdital.preProjLink!='#'?(
-                    <div className="flex flex-row justify-end">
-                      <button onClick={handleRemovePreProjeto} className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#DC1D00]  hover:opacity-60 select-none whitespace-nowrap">
-                        Remover Pré-Projeto <FaRegTrashAlt    className="ml-2"/> 
-                      </button>
-                    </div>
-                    
+                    {selectedEdital.preProjLink != "#" ? (
+                      <div className="flex flex-row justify-end">
+                        <button
+                          onClick={handleRemovePreProjeto}
+                          className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#DC1D00]  hover:opacity-60 select-none whitespace-nowrap"
+                        >
+                          Remover Pré-Projeto <FaRegTrashAlt className="ml-2" />
+                        </button>
+                      </div>
                     ) : (
-                    <div className="relative inline-block">
-                      <input
-                        type="file"
-                        id="file-upload"
-                        className="hidden"
-                        onChange={handlePreProjeto}
-                      />
-                      <label
-                        htmlFor="file-upload"
-                        className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
-                      >
-                        <span>Subir pré-projeto</span> <FaFileUpload className="ml-2" />
-                      </label>
-                    </div>
+                      <div className="relative inline-block">
+                        <input
+                          type="file"
+                          id="file-upload"
+                          className="hidden"
+                          onChange={handlePreProjeto}
+                        />
+                        <label
+                          htmlFor="file-upload"
+                          className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
+                        >
+                          <span>Subir pré-projeto</span>{" "}
+                          <FaFileUpload className="ml-2" />
+                        </label>
+                      </div>
                     )}
                   </div>
                 </div>
-
               </div>
             </div>
           )}
