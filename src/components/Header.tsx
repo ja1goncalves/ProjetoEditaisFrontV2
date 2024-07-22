@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FaBars, FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
-import { parseCookies } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 import { IoIosHome } from "react-icons/io";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
@@ -21,6 +21,13 @@ interface HeaderInProps {
 export function HeaderOut(props: HeaderOutProps) {
   const [logged, setLogged] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout");
+    destroyCookie(null, "engsoft.token");
+    setLogged(false);
+    window.location.reload(); // Reload the page to ensure the state is updated
+  };
 
   useEffect(() => {
     const { "engsoft.token": token } = parseCookies();
@@ -68,6 +75,17 @@ export function HeaderOut(props: HeaderOutProps) {
                 <p className="py-3 lg:py-0 text-center lg:text-left">Sobre</p>
               </Link>
             </li>
+            {logged&&<li>
+                <Link
+                href="/api/auth/logout"
+                onClick={handleLogout}
+              >
+                <button className="font-normal border lg:hidden border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <IoEnterOutline /> Sair
+                </button>
+              </Link>
+            </li>
+              }
           </ul>
           <div className="flex items-center gap-x-5">
             {!logged ? (
@@ -90,11 +108,9 @@ export function HeaderOut(props: HeaderOutProps) {
                 </Link>
                 <Link
                   href="/api/auth/logout"
-                  onClick={() => {
-                    setLogged(false);
-                  }}
+                  onClick={handleLogout}
                 >
-                  <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                  <button className="font-normal border border-white rounded-xl hidden lg:flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                     <IoEnterOutline /> Sair
                   </button>
                 </Link>
@@ -112,6 +128,12 @@ export function HeaderIn(props: HeaderInProps) {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout");
+    destroyCookie(null, "engsoft.token");
+    window.location.reload(); // Reload the page to ensure the state is updated
   };
 
   return (
@@ -135,7 +157,7 @@ export function HeaderIn(props: HeaderInProps) {
                 <p
                   className={`${props.curPage == "editais" && "underline underline-offset-4 font-semibold"} hover:opacity-50`}
                 >
-                  Editais
+                  Favoritos
                 </p>
               </button>
             </li>
@@ -165,11 +187,9 @@ export function HeaderIn(props: HeaderInProps) {
                 <FaSearch /> Editais
               </button>
             </Link>
-            <Link href={`/api/auth/logout`}>
-              <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-                <IoEnterOutline /> Sair
-              </button>
-            </Link>
+            <button onClick={handleLogout} className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+              <IoEnterOutline /> Sair
+            </button>
           </div>
         </div>
         {isMenuOpen && (
@@ -185,7 +205,7 @@ export function HeaderIn(props: HeaderInProps) {
                   <p
                     className={`${props.curPage == "editais" && "underline underline-offset-4 font-semibold"} hover:opacity-50`}
                   >
-                    Editais
+                    Favoritos
                   </p>
                 </button>
               </li>
@@ -224,14 +244,12 @@ export function HeaderIn(props: HeaderInProps) {
                 </Link>
               </li>
               <li>
-                <Link href={`/api/auth/logout`}>
-                  <button
-                    onClick={toggleMenu}
-                    className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
-                  >
-                    <IoEnterOutline /> Sair
-                  </button>
-                </Link>
+                <button
+                  onClick={()=>{toggleMenu(); handleLogout()}}
+                  className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
+                >
+                  <IoEnterOutline /> Sair
+                </button>
               </li>
             </ul>
           </div>
