@@ -61,7 +61,7 @@ export function Search() {
     idUsuario: user?.id || 0, // Usando o ID do usuário se disponível
   });
 
-  const [vizualizacao, setVizualizacao] = useState("row");
+  const [vizualizacao, setVizualizacao] = useState("grid");
 
   useEffect(() => {
     const { "engsoft.token": token } = parseCookies();
@@ -196,7 +196,7 @@ export function Search() {
                   </p>
                   <div />
                   <div className="flex flex-row items-center gap-x-5 justify-end">
-                    <div className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
+                    <div className="bg-[#37B7C3] text-white hidden lg:flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
                       <button
                         onClick={() => setVizualizacao("grid")}
                         className={`p-2 lg:p-3 hover:opacity-60 ${vizualizacao == "grid" && "opacity-60"}`}

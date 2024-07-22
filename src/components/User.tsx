@@ -21,7 +21,7 @@ export function User(props:PhoneProps){
         </div>
         <div className='flex flex-col gap-y-2 pr-5'>
 
-          <RedefinirSenha admin={true} id={props.id}/>
+          <div></div>
 
           <button title='Apagar usuário' className='text-xl bg-red-500 p-2 rounded-full hover:opacity-70' onClick={()=>props.onDelete()}><MdOutlineDeleteOutline/></button>
 

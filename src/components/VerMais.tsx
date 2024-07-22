@@ -277,14 +277,14 @@ export function VerMais(props: CardsProps) {
                             type="date"
                             value={dataPublicacao}
                             onChange={(e) => setDataPublicacao(e.target.value)}
-                            className="w-full md:w-[80%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tl-full rounded-bl-full focus:border-[#088395]"
+                            className="w-full md:w-[80%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tr-none lg:rounded-br-none rounded-tl-full rounded-bl-full focus:border-[#088395]"
                             required
                           />
                           <input
                             type="time"
                             value={horaPublicacao}
                             onChange={(e) => setHoraPublicacao(e.target.value)}
-                            className="w-full md:w-[50%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tr-full rounded-br-full focus:border-[#088395]"
+                            className="w-full md:w-[50%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tl-none lg:rounded-bl-none rounded-tr-full rounded-br-full focus:border-[#088395]"
                             required
                           />
                         </div>
@@ -382,14 +382,14 @@ export function VerMais(props: CardsProps) {
                               type="date"
                               value={dataInicial}
                               onChange={(e) => setDataInicial(e.target.value)}
-                              className="w-full md:w-[55%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tl-full rounded-bl-full focus:border-[#088395]"
+                              className="w-full md:w-[55%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tr-none lg:rounded-br-none rounded-tl-full rounded-bl-full focus:border-[#088395]"
                               required
                             />
                             <input
                               type="time"
                               value={horaInicial}
                               onChange={(e) => setHoraInicial(e.target.value)}
-                              className="w-full md:w-[45%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tr-full rounded-br-full focus:border-[#088395]"
+                              className="w-full md:w-[45%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tl-none lg:rounded-bl-none rounded-tr-full rounded-br-full focus:border-[#088395]"
                               required
                             />
                           </div>
@@ -408,14 +408,14 @@ export function VerMais(props: CardsProps) {
                               type="date"
                               value={dataFinal}
                               onChange={(e) => setDataFinal(e.target.value)}
-                              className="w-full md:w-[50%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tl-full rounded-bl-full focus:border-[#088395]"
+                              className="w-full md:w-[50%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tr-none lg:rounded-br-none rounded-tl-full rounded-bl-full focus:border-[#088395]"
                               required
                             />
                             <input
                               type="time"
                               value={horaFinal}
                               onChange={(e) => setHoraFinal(e.target.value)}
-                              className="w-full md:w-[45%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tr-full rounded-br-full focus:border-[#088395]"
+                              className="w-full md:w-[45%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tl-none lg:rounded-bl-none rounded-tr-full rounded-br-full focus:border-[#088395]"
                               required
                             />
                           </div>
@@ -434,14 +434,14 @@ export function VerMais(props: CardsProps) {
                               type="date"
                               value={dataResultado}
                               onChange={(e) => setDataResultado(e.target.value)}
-                              className="w-full md:w-[60%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tl-full rounded-bl-full focus:border-[#088395]"
+                              className="w-full md:w-[60%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tr-none lg:rounded-br-none rounded-tl-full rounded-bl-full focus:border-[#088395]"
                               required
                             />
                             <input
                               type="time"
                               value={horaResultado}
                               onChange={(e) => setHoraResultado(e.target.value)}
-                              className="w-full md:w-[40%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-tr-full rounded-br-full focus:border-[#088395]"
+                              className="w-full md:w-[40%] block text-base text-[#1C1C1C] bg-transparent appearance-none outline-none ring-0 rounded-full lg:rounded-tl-none lg:rounded-bl-none rounded-tr-full rounded-br-full focus:border-[#088395]"
                               required
                             />
                           </div>
