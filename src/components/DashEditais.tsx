@@ -42,13 +42,13 @@ export function DashEditais() {
     <>
       <div className="min-h-screen">
         <HeaderOut fix={false} />
-        <div className="w-full mb-44">
-          <section className="relative flex flex-col items-center min-h-[400px]">
+        <div className="w-full mb-20 md:mb-32 lg:mb-44">
+          <section className="relative flex flex-col items-center min-h-[300px] md:min-h-[350px] lg:min-h-[400px]">
             <div className="flex flex-row w-full justify-end absolute">
               {images.map((image, index) => (
                 <div
                   key={index}
-                  className={`justify-center flex h-[80vh] w-[100vw] overflow-hidden relative `}
+                  className="justify-center flex h-[60vh] md:h-[70vh] lg:h-[80vh] w-full overflow-hidden relative"
                   style={
                     index === currentIndex
                       ? {
@@ -66,30 +66,28 @@ export function DashEditais() {
                   <Image
                     src={image}
                     alt=""
-                    objectFit="fit"
-                    className="w-full md:w-[75vw] lg:w-[100vw] h-[80vh] absolute opacity-40"
+                    objectFit="cover"
+                    className="w-full h-full absolute opacity-40"
                   />
                 </div>
               ))}
             </div>
-            <div className="w-full h-[80vh] bg-[#088395]" />
-            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-7 px-4 md:px-96">
-              <p className="text-white text-2xl md:text-5xl font-medium text-center">
+            <div className="w-full h-[60vh] md:h-[70vh] lg:h-[80vh] bg-[#088395]" />
+            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-4 px-4 md:px-8 lg:px-12">
+              <p className="text-white text-lg md:text-2xl lg:text-3xl font-medium text-center">
                 Encontre os editais ideais para você em um só lugar
               </p>
-              <p className="text-white font-[300] text-lg md:text-2xl text-center">
+              <p className="text-white font-[300] text-base md:text-lg lg:text-xl text-center">
                 Acesse as principais oportunidades de apoio à pesquisa
                 oferecidas por instituições de referência
               </p>
-                <Link
-                  href="/search"
-                  
-                  className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-3 text-white font-semibold text-lg cursor-pointer mb-6 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus items-center flex-row gap-x-3"
-                >
-                  <p>Comece agora a explorar os editais</p>
-                  <RiSearchEyeLine />
-                </Link>
-
+              <Link
+                href="/search"
+                className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] px-4 py-2 md:px-6 md:py-3 text-white font-semibold text-base md:text-lg cursor-pointer mb-4 hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus items-center flex-row gap-x-3"
+              >
+                <p>Comece agora a explorar os editais</p>
+                <RiSearchEyeLine />
+              </Link>
             </div>
             <div className="absolute bottom-0 left-0 w-full overflow-hidden">
               <svg
@@ -101,7 +99,7 @@ export function DashEditais() {
               >
                 <path
                   d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                  className="relative block h-[600px] fill-white"
+                  className="relative block h-[300px] md:h-[400px] lg:h-[600px] fill-white"
                 ></path>
               </svg>
             </div>

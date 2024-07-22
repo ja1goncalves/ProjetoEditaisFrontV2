@@ -55,13 +55,13 @@ export function Login() {
               </Link>
             </div>
             <div className="py-6 md:py-10">
-              <h2 className="text-3xl text-left font-sans ml-12 text-[#088395] mb-6">
+              <h2 className="text-3xl text-center font-sans text-[#088395] mb-6">
                 Acesse sua conta
               </h2>
               <div className="flex flex-col items-center text-left">
-                <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
+                <div className="relative my-4 w-full md:w-4/5 hover:opacity-70 hover:border-gray-400">
                   <input
-                    type="username"
+                    type="text" // Corrigido para "text"
                     value={login}
                     onChange={(e) => setLogin(e.target.value)}
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
@@ -70,7 +70,7 @@ export function Login() {
                   />
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
                 </div>
-                <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
+                <div className="relative my-4 w-full md:w-4/5 hover:opacity-70 hover:border-gray-400">
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
                   <div className="flex items-center border border-[#1C1C1C] rounded-md pl-7 pr-3 w-full bg-transparent">
                     <input
@@ -83,20 +83,24 @@ export function Login() {
                     />
                     <button
                       type="button"
-                      className="text-xl flex-shrink-0 ml-2 hover:opacity-60"
+                      className="text-lg md:text-xl flex-shrink-0 ml-2 hover:opacity-60"
                       onClick={(e) => {
                         e.preventDefault();
                         setMostrarSenha(!mostrarSenha);
                       }}
                     >
-                      {mostrarSenha ? <IoMdEye /> : <IoMdEyeOff />}
+                      {mostrarSenha ? (
+                        <IoMdEye className="w-5 h-5" />
+                      ) : (
+                        <IoMdEyeOff className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                 </div>
               </div>
               <button
                 type="submit"
-                className="hover:opacity-70 w-48 mb-4 text-[18px] mt-6 rounded-xl bg-gradient-to-r from-[#37B7C3] to-[#088395] px-4 text-white font-semibold font-sans py-2 "
+                className="hover:opacity-70 w-48 mb-4 text-[18px] mt-6 rounded-xl bg-gradient-to-r from-[#37B7C3] to-[#088395] px-4 text-white font-semibold font-sans py-2"
               >
                 Entrar
               </button>
@@ -124,7 +128,7 @@ export function Login() {
               </Link>
             </div>
           </form>
-          <div className="w-full md:w-2/5  bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12"></div>
+          <div className="w-full md:w-2/5 bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12"></div>
         </div>
       </main>
     </div>
