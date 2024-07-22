@@ -261,6 +261,7 @@ export function Search() {
                         filteredCards={filteredCards}
                         setFilteredCards={setFilteredCards}
                         logged={user?.idPerfil == 2 ? true : false}
+                        user={user}
                       />
                     ) : vizualizacao === "row" ? (
                       <CardsRow
@@ -281,6 +282,7 @@ export function Search() {
                         filteredCards={filteredCards}
                         setFilteredCards={setFilteredCards}
                         logged={user?.idPerfil == 2 ? true : false}
+                        user={user}
                       />
                     ) : null
                   )}

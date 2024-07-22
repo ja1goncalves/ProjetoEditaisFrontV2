@@ -4,7 +4,12 @@ import { NovoUsuario } from "./NovoUsuario";
 import { User } from "./User";
 import { deleteUser, getUsers } from "@/lib/api";
 
-export function DashboardUsuarios() {
+interface NameCheck{
+  loggedUser : string
+}
+
+
+export function DashboardUsuarios(props: NameCheck) {
   const [user, setUser] = useState<
     { id: number; login: string; nome: string; idPerfil: number }[]
   >([]);
@@ -30,7 +35,7 @@ export function DashboardUsuarios() {
     getUsers().then((result) => {
       console.log(result);
       const newUsers = result
-        .filter((user: User) => user.login !== "Bot" && user.login !== "bot")
+        .filter((user: User) => user.login !== "Bot" && user.login !== "bot" && user.login !== props.loggedUser)
         .map((user: User) => ({
           id: user.id,
           nome: user.nome,
