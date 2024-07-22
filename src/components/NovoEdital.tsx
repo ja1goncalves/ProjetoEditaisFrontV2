@@ -56,6 +56,7 @@ export function NovoEdital(props: ModalProps) {
     horaPublicacao: "",
     horaInicial: "",
     horaFinal: "",
+    linkPDF: "",
   });
 
   useEffect(() => {

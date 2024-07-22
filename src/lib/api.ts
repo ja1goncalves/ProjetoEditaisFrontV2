@@ -175,6 +175,17 @@ export async function uploadFile(tipo: string, id:number, formData: FormData) {
   }
 }
 
+export async function adicionarNovoPDF(idEdital: number){
+  try {
+    const response = await api.post(`/edital/inserir/${idEdital}/pdf`)
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao adicionar novo PDF', error);
+    throw error;
+  }
+}
+
 export const api = axios.create({
   baseURL: urlBase
 })
