@@ -57,10 +57,10 @@ export function Register() {
               </Link>
             </div>
             <div className="py-6 md:py-10">
-              <h2 className="text-3xl text-left font-sans ml-12 text-[#088395] mb-2">
+              <h2 className="text-3xl text-center font-sans text-[#088395] mb-2">
                 Cadastro de Usuário
               </h2>
-              <p className="text-sm text-left font-sans ml-12 mr-3 text-gray-400 mb-5">
+              <p className="text-sm text-center font-sans mr-3 text-gray-400 mb-5">
                 Crie sua conta e encontre oportunidades de inovação tecnológica
                 facilmente.
               </p>
