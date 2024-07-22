@@ -63,9 +63,9 @@ interface PreProj {
 
 export function DashFavoritos() {
   const userInfo = useContext(AuthContext).user;
+  const router = useRouter();
   const [newSearch, setNewSearch] = useState(false);
 
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [isEditaisVisible, setIsEditaisVisible] = useState(false);
 
@@ -108,9 +108,9 @@ export function DashFavoritos() {
   async function handleRemovePreProjeto() {
     if (selectedEdital) {
       if (confirm("Deseja remover o Pré-Projeto inserido?")) {
+        selectedEdital.preProjLink = '#';
         removerPreProjeto(selectedEdital.preProjId);
-        setNewSearch(!newSearch);
-        setIsEditaisVisible(false);
+        window.location.reload()
       }
     }
   }
@@ -150,7 +150,7 @@ export function DashFavoritos() {
         setEditais(newEditais);
         setFilteredCards(newCards);
         setCardData(newCards);
-        console.log(editais)
+        console.log(editais);
       });
       getPreProjetos(userInfo.id).then((result2) => {
         console.log(result2);
@@ -199,6 +199,7 @@ export function DashFavoritos() {
       } else {
         selectedEdital.preProjLink = "#";
       }
+      selectedEdital.link = `${urlBase}edital/${selectedEdital.id}/pdf`
       setSelectedEdital(selectedEdital);
       setIsEditaisVisible(true);
     } else {
@@ -209,7 +210,7 @@ export function DashFavoritos() {
 
   const handleRemoveFavorite = async (card: Card) => {
     const confirmRemoval = confirm(
-      `Deseja apagar o edital: "${card.nome}"? Apaga-lo irá remover o pré-projeto inserido`
+      `Deseja apagar o edital: "${card.nome}"?`
     );
     if (confirmRemoval) {
       try {
@@ -430,7 +431,7 @@ export function DashFavoritos() {
                   </div>
                 </div>
                 <div className="w-full grid grid-cols-none lg:grid-cols-2 grid-rows-2 lg:grid-rows-none justify-center gap-y-4 py-4 ">
-                  {selectedEdital.preProjLink != "#" ? (
+                  {selectedEdital.preProjLink != '#' ? (
                     <div className="flex flex-row justify-center lg:justify-start">
                       <a
                         href={selectedEdital.preProjLink}

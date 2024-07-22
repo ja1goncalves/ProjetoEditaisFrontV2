@@ -1,11 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-
+import finep from "../../public/images/FINEP.png";
 import facepe from "../../public/images/Marca-FACEPE.png";
 import { VerMais } from "./VerMais";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { getEditaisFavoritos, setEditalFavorito } from "@/lib/api";
 import { AuthContext } from "@/app/contexts/AuthContext";
+
+type User = {
+  id: number;
+  login: string;
+  nome: string;
+  idPerfil: number;
+  senha: string;
+};
 
 interface Card {
   id: number;
@@ -39,6 +47,7 @@ interface CardsProps {
   logged: boolean;
   filteredCards: Card[];
   setFilteredCards: Function;
+  user: User | null
 }
 
 export function CardsGrid(props: CardsProps) {
@@ -78,7 +87,19 @@ export function CardsGrid(props: CardsProps) {
   return (
     <div className="border rounded-lg shadow-md h-auto sm:h-[38vh] flex flex-col">
       <div className="relative border-b px-4 sm:px-8">
-        <Image src={facepe} alt={props.nome} className="object-fill w-full" />
+      {props.idOrgaoFomento === 1 ? (
+          <Image
+            src={facepe}
+            alt="Descrição da imagem do FACEPE"
+            className="object-fill w-full"
+          />
+        ) : (
+          <Image
+            src={finep}
+            alt="Descrição da imagem da FINEP"
+            className="object-fill w-full"
+          />
+        )}
       </div>
       <div className="flex flex-col gap-y-2 sm:gap-y-3 items-center py-4 px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between w-full items-center gap-y-2 sm:gap-x-10">
@@ -87,7 +108,7 @@ export function CardsGrid(props: CardsProps) {
               ? `${props.nome.slice(0, 40)}...`
               : props.nome}
           </h3>
-          <button
+          {props.user&&<button
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             onClick={handleFavoriteClick}
@@ -98,7 +119,7 @@ export function CardsGrid(props: CardsProps) {
             ) : (
               <FaRegStar size={26} className="text-[#088395] cursor-pointer" />
             )}
-          </button>
+          </button>}
           {props.logged && (
             <VerMais
               id={props.id}
@@ -184,13 +205,23 @@ export function CardsRow(props: CardsProps) {
   return (
     <div className="border rounded-lg shadow-md w-full flex flex-col md:flex-row">
       <div className="relative border-b md:border-r px-5 py-4 md:w-[30%] flex items-center justify-center">
-        <Image
-          src={facepe}
-          alt={props.nome}
-          layout="responsive"
-          width={300}
-          height={200}
-        />
+        
+        {props.idOrgaoFomento === 1 ? (
+          <Image
+            src={facepe}
+            alt="Descrição da imagem do FACEPE"
+            width={300}
+            height={200}
+          />
+        ) : (
+          <Image
+            src={finep}
+            alt="Descrição da imagem da FINEP"
+            width={300}
+            height={200}
+          />
+        )}
+      
       </div>
       <div className="flex flex-col w-full items-center gap-y-6 py-3 px-6">
         <div className="flex flex-row justify-between w-full items-center gap-x-10">
@@ -200,7 +231,7 @@ export function CardsRow(props: CardsProps) {
               : props.nome}
           </h3>
           <div className="justify-between flex gap-4 items-center">
-            <button
+          {props.user&&<button
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               onClick={handleFavoriteClick}
@@ -213,7 +244,7 @@ export function CardsRow(props: CardsProps) {
                   className="text-[#088395] cursor-pointer"
                 />
               )}
-            </button>
+            </button>}
             {props.logged && (
               <VerMais
                 id={props.id}
