@@ -150,6 +150,7 @@ export function DashFavoritos() {
         setEditais(newEditais);
         setFilteredCards(newCards);
         setCardData(newCards);
+        console.log(editais)
       });
       getPreProjetos(userInfo.id).then((result2) => {
         console.log(result2);
@@ -347,6 +348,7 @@ export function DashFavoritos() {
                       </div>
                     </div>
                   ))}
+                  {cardData.length===0&&(<p className="w-full justify-center items-center flex flex-row">Nenhum edital favoritado</p>)}
                 </div>
               </div>
             </div>

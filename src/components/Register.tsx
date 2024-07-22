@@ -10,19 +10,22 @@ import { AxiosError } from "axios";
 import { parseCookies } from "nookies";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoEnterOutline } from "react-icons/io5";
+import { createUser } from "@/lib/api";
 
 export function Register() {
+  const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
+  
   const { signIn } = useContext(AuthContext);
-  const [badLogin, setBadLogin] = useState(false);
+  const [badRegister, setBadRegister] = useState(false);
   const router = useRouter();
 
   async function handleLogin() {
     try {
-      await signIn({ login, senha });
+      await createUser( nome,login, senha, 1 ).then(()=>{signIn({login, senha})});
     } catch (error) {
-      setBadLogin(true);
+      setBadRegister(true);
     }
   }
 
@@ -31,7 +34,7 @@ export function Register() {
     if (token) {
       router.push("/dashboard");
     }
-    setBadLogin(false);
+    setBadRegister(false);
   }, []);
 
   return (
@@ -68,7 +71,8 @@ export function Register() {
                 <div className="relative my-4 w-4/5 hover:opacity-70 hover:border-gray-400">
                   <input
                     type="username"
-                    value={login}
+                    value={nome}
+                    onChange={(e) => {setNome(e.target.value); setBadRegister(false)}}
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
                     placeholder="Nome Completo"
                     required
@@ -79,6 +83,7 @@ export function Register() {
                   <input
                     type="username"
                     value={login}
+                    onChange={(e) => {setLogin(e.target.value); setBadRegister(false)}}
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
                     placeholder="Usuário"
                     required
@@ -89,12 +94,14 @@ export function Register() {
                   <input
                     type="password"
                     value={senha}
+                    onChange={(e) =>{ setSenha(e.target.value); setBadRegister(false)}}
                     className="hover:opacity-70 border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
                     placeholder="Senha"
                     required
                   />
                   <AiOutlineLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[#1C1C1C]" />
                 </div>
+                {badRegister&&(<p className="text-red-400">Já existe um usuário com esse login</p>)}
               </div>
               <button
                 type="submit"
