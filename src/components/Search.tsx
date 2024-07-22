@@ -1,21 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { criarEdital, getEditais, getEditaisId, getUserLogin, urlBase } from "../lib/api";
+import {
+  criarEdital,
+  getEditais,
+  getEditaisId,
+  getUserLogin,
+  urlBase,
+} from "../lib/api";
 import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
 import { IoGrid } from "react-icons/io5";
 import { MdCreateNewFolder, MdTableRows } from "react-icons/md";
 import { FaSearch, FaFilter, FaFilePdf } from "react-icons/fa";
-import { parseCookies } from 'nookies'
+import { parseCookies } from "nookies";
 import decode from "jwt-decode";
 import { NovoEdital } from "./NovoEdital";
 
 type User = {
-  id: number,
-  login: string,
-  nome: string,
-  idPerfil: number,
-  senha: string
+  id: number;
+  login: string;
+  nome: string;
+  idPerfil: number;
+  senha: string;
 };
 
 interface Card {
@@ -30,26 +36,26 @@ interface Card {
   resultado: string;
   idOrgaoFomento: number;
   idUsuario: number;
-  criadoPorBot: boolean,
-  link: string
+  criadoPorBot: boolean;
+  link: string;
 }
 
 export function Search() {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cardData, setCardData] = useState<Card[]>([]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
   const [edital, setEdital] = useState<Card[]>([]);
   const [editaisData, setEditaisData] = useState({
-    nome: '',
-    categoria: '',
-    publicoAlvo: '',
-    area: '',
-    dataPublicacao: '',
-    dataInicial: '',
-    dataFinal: '',
-    resultado: '',
+    nome: "",
+    categoria: "",
+    publicoAlvo: "",
+    area: "",
+    dataPublicacao: "",
+    dataInicial: "",
+    dataFinal: "",
+    resultado: "",
     idOrgaoFomento: 1, // Exemplo: 1 para FACEPE
     criadoPorBot: false,
     idUsuario: user?.id || 0, // Usando o ID do usuário se disponível
@@ -58,16 +64,16 @@ export function Search() {
   const [vizualizacao, setVizualizacao] = useState("row");
 
   useEffect(() => {
-    const { 'engsoft.token': token } = parseCookies()
-    if(token){
-      const user: User = decode(token)
-      setUser(user)
+    const { "engsoft.token": token } = parseCookies();
+    if (token) {
+      const user: User = decode(token);
+      setUser(user);
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     getEditais().then((result2) => {
-      console.log(result2)
+      console.log(result2);
       const newEditais = result2.map((edital: Card) => ({
         id: edital.id,
         nome: edital.nome,
@@ -81,11 +87,11 @@ export function Search() {
         idOrgaoFomento: edital.idOrgaoFomento,
         criadoPorBot: edital.criadoPorBot,
         idUsuario: edital.idUsuario,
-        link: `${urlBase}edital/${edital.id}/pdf`
+        link: `${urlBase}edital/${edital.id}/pdf`,
       }));
       setCardData(newEditais);
       setFilteredCards(newEditais);
-    })
+    });
   }, []);
 
   const searchCards = (searchTerm: string) => {
@@ -119,7 +125,6 @@ export function Search() {
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
 
   const onClick = () => {
     searchCards(searchTerm);
@@ -187,7 +192,7 @@ export function Search() {
                   <p className="text-lg lg:text-xl">
                     Total de {filteredCards.length} editais disponíveis
                   </p>
-                  <div/>
+                  <div />
                   <div className="flex flex-row items-center gap-x-5 justify-end">
                     <div className="bg-[#37B7C3] text-white flex items-center justify-around p-2 rounded-full lg:w-48 lg:h-14">
                       <button
@@ -204,12 +209,32 @@ export function Search() {
                         <MdTableRows size={24} />
                       </button>
                     </div>
-                    <button onClick={handleOpenModal} className="bg-[#37B7C3] text-white flex items-center justify-around py-2 h-14 w-14 rounded-full hover:opacity-60"> <MdCreateNewFolder size={30}/></button>
-                    {user&&<NovoEdital isOpen={isModalOpen} onClose={handleCloseModal} user={user} cardData={cardData} filteredEditais={filteredCards} setCardData={setCardData} setFilteredEditais={setFilteredCards}/>}
+                    <button
+                      onClick={handleOpenModal}
+                      className="bg-[#37B7C3] text-white flex items-center justify-around py-2 h-14 w-14 rounded-full hover:opacity-60"
+                    >
+                      {" "}
+                      <MdCreateNewFolder size={30} />
+                    </button>
+                    {user && (
+                      <NovoEdital
+                        isOpen={isModalOpen}
+                        onClose={handleCloseModal}
+                        user={user}
+                        cardData={cardData}
+                        filteredEditais={filteredCards}
+                        setCardData={setCardData}
+                        setFilteredEditais={setFilteredCards}
+                      />
+                    )}
                   </div>
                 </div>
                 <div
-                  className={`${vizualizacao == "grid" ? "grid grid-cols-2" : "flex flex-col"} m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}
+                  className={`${
+                    vizualizacao === "grid"
+                      ? "grid grid-cols-1 sm:grid-cols-2"
+                      : "flex flex-col"
+                  } m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}
                 >
                   {filteredCards.map((card, index) =>
                     vizualizacao === "grid" ? (
@@ -228,9 +253,9 @@ export function Search() {
                         idUsuario={card.idUsuario}
                         criadoPorBot={card.criadoPorBot}
                         link={card.link}
-                        filteredCards = {filteredCards}
-                        setFilteredCards = {setFilteredCards}
-                        logged = {user?.idPerfil==2?(true):(false)}
+                        filteredCards={filteredCards}
+                        setFilteredCards={setFilteredCards}
+                        logged={user?.idPerfil == 2 ? true : false}
                       />
                     ) : vizualizacao === "row" ? (
                       <CardsRow
@@ -248,9 +273,9 @@ export function Search() {
                         idUsuario={card.idUsuario}
                         criadoPorBot={card.criadoPorBot}
                         link={card.link}
-                        filteredCards = {filteredCards}
-                        setFilteredCards = {setFilteredCards}
-                        logged = {user?.idPerfil==2?(true):(false)}
+                        filteredCards={filteredCards}
+                        setFilteredCards={setFilteredCards}
+                        logged={user?.idPerfil == 2 ? true : false}
                       />
                     ) : null
                   )}
