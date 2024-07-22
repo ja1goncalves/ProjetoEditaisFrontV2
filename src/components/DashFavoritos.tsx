@@ -360,14 +360,14 @@ export function DashFavoritos() {
               <div className="flex items-center justify-center mt-8 border-b py-5">
                 {selectedEdital.idOrgaoFomento === 1 ? (
                   <Image
-                    src="/path/to/Marca_FACEPE.png"
+                    src={Marca_FACEPE}
                     alt="Marca FACEPE"
                     width={300}
                     height={200}
                   />
                 ) : (
                   <Image
-                    src="/path/to/FINEP.png"
+                    src={FINEP}
                     alt="FINEP"
                     width={300}
                     height={200}

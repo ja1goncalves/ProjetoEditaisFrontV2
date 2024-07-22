@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function dashboard() {
-  await getData();
+  //await getData();
   return <DashAdm />;
 }
 
