@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaFileDownload } from "react-icons/fa";
 import { AiFillEdit } from "react-icons/ai";
 import { FaSave, FaTrash  } from "react-icons/fa";
-import { removerEdital, updateEditais } from "@/lib/api";
+import { adicionarNovoPDF, removerEdital, updateEditais, uploadFile } from "@/lib/api";
 
 interface Card {
   id: number;
@@ -18,8 +18,8 @@ interface Card {
   dataFinal: string;
   resultado: string;
   idOrgaoFomento: number;
-  criadoPorBot: boolean,
-  link: string
+  criadoPorBot: boolean;
+  link: string;
 }
 
 interface CardsProps {
@@ -62,7 +62,10 @@ export function VerMais(props:CardsProps) {
   const [dataResultado, setDataResultado] = useState(props.resultado.split(' ')[0]);
   const [horaResultado, setHoraResultado] = useState(props.resultado.split(' ')[1]);
 
+  const [linkpdf, setLinkPDF] = useState(props.link);
+  
   useEffect(() => {
+    console.log("Link: "+props.link);
     if (showModal) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -73,6 +76,7 @@ export function VerMais(props:CardsProps) {
     };
   }, [showModal]);
 
+
   function formatDate(date:any) {
     const [day, month, year] = date.split('/');
     return `${year}-${month}-${day}`;
@@ -81,6 +85,23 @@ export function VerMais(props:CardsProps) {
   function reFormatDate(date:any) {
     const [day, month, year] = date.split('-');
     return `${year}/${month}/${day}`;
+  }
+
+  async function handleAdicionarPDF(e: React.FormEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+    if (target.files && target.files[0]) {
+      const formData = new FormData();
+      formData.append('edital_pdf', target.files[0]); // Altere para 'edital_pdf' se estiver adicionando um PDF de edital
+      console.log("Id do edital: "+props.id)
+      try {
+        const uploadResponse = await uploadFile('edital', props.id, formData); // Verifique se 'edital' é o tipo correto para upload
+        console.log('File uploaded successfully:', uploadResponse);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
   }
   
   function resetModal(){
@@ -106,7 +127,7 @@ export function VerMais(props:CardsProps) {
   const publicacao = `${reFormatDate(dataPublicacao)} ${horaPublicacao}`;
   const inicio = `${reFormatDate(dataInicial)} ${horaInicial}`;
   const final = `${reFormatDate(dataFinal)} ${horaFinal}`;
-  const resultado = `${reFormatDate(dataResultado)} ${horaResultado}`;
+  const resultado = `${(dataResultado)} ${horaResultado}`;
 
   updateEditais(props.id, nomeEdital, categoria, publicoAlvo, area, publicacao, inicio, final, resultado, props.idUsuario, props.idOrgaoFomento, props.criadoPorBot)
     const updatedMachines = props.filteredCards.map(cards => {
@@ -151,12 +172,12 @@ export function VerMais(props:CardsProps) {
         Ver mais
       </button>
       )}
-
       {props.editar &&(
         <button onClick={() => resetModal()} className="flex justify-center leading-none border-none outline-none rounded-xl bg-[#088395] py-2 px-2 text-lg text-white items-center cursor-pointer hover:shadow-button-Home-hover-focus focus:shadow-button-Home-hover-focus">
           <AiFillEdit />
         </button>
       )}
+
           
       {showModal ? (
         <>
@@ -351,14 +372,32 @@ export function VerMais(props:CardsProps) {
                       </a>
                     )}
 
-                    {props.editar&&(
+                    {props.editar && (
                       <div className="flex flex-row gap-x-5">
-                        <button onClick={removeEdital} className="mr-2 flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-red-500 hover:opacity-60">
-                          <FaTrash  className="mr-2"/> Remover Edital
-                        </button>
-
-                        <button onClick={handleEditalChanges} className="mr-2 flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60">
-                          <FaSave className="mr-2"/> Salvar Alterações
+                            <input
+                            type="file"
+                            id="file-upload"
+                            className="hidden"
+                            onChange={handleAdicionarPDF}/>
+                            <label
+                              htmlFor="file-upload"
+                              className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-green-700 hover:opacity-60 select-none whitespace-nowrap"
+                              >
+                              <FaFileDownload className="mr-2" />
+                              <span>Adicionar PDF</span>{" "}
+                            </label>
+                          <button
+                            onClick={removeEdital}
+                            className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-red-500 hover:opacity-60"
+                          >
+                            <FaTrash className="mr-2" /> Remover Edital
+                          </button>
+                        
+                        <button
+                          onClick={handleEditalChanges}
+                          className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60"
+                        >
+                          <FaSave className="mr-2" /> Salvar Alterações
                         </button>
                       </div>
                     )}
