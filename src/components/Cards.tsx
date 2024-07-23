@@ -4,7 +4,7 @@ import finep from "../../public/images/FINEP.png";
 import facepe from "../../public/images/Marca-FACEPE.png";
 import { VerMais } from "./VerMais";
 import { FaRegStar, FaStar } from "react-icons/fa6";
-import { getEditaisFavoritos, setEditalFavorito } from "@/lib/api";
+import { getEditaisFavoritos, removeEditalFavorito, setEditalFavorito } from "@/lib/api";
 import { AuthContext } from "@/app/contexts/AuthContext";
 
 type User = {
@@ -67,6 +67,21 @@ export function CardsGrid(props: CardsProps) {
     }
   };
 
+  const handleRemoveFavorite = async () => {
+    const confirmRemoval = confirm(
+      `Deseja desfavoritar o edital: "${props.nome}"?`
+    );
+    if (confirmRemoval) {
+      try {
+        await removeEditalFavorito(userInfo.id, props.id);
+        setFavorited(false);
+      } catch (error) {
+        console.error("Failed to remove edital from favorites:", error);
+        alert("Falha ao remover o edital dos favoritos.");
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchEditaisFavoritos = async () => {
       try {
@@ -102,24 +117,32 @@ export function CardsGrid(props: CardsProps) {
         )}
       </div>
       <div className="flex flex-col gap-y-2 sm:gap-y-3 items-center py-4 px-4 sm:px-6">
-        <div className="flex flex-col sm:flex-row justify-between w-full items-center gap-y-2 sm:gap-x-10">
-          <h3 className="text-base sm:text-lg font-semibold text-center">
+        <div className="flex flex-col sm:flex-row justify-end w-full items-center gap-y-2 sm:gap-x-10">
+          <h3 className="text-base sm:text-lg font-semibold text-start  w-full">
             {props.nome.length > 40
               ? `${props.nome.slice(0, 40)}...`
               : props.nome}
-          </h3>
-          {props.user&&<button
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            onClick={handleFavoriteClick}
-            className="flex-shrink-0"
-          >
-            {favorited || hovered ? (
-              <FaStar size={26} className="text-[#088395] cursor-pointer" />
+          </h3> 
+          {props.user&&favorited? (
+              <button className="relative group text-[#37B7C3]">
+              <FaStar className="group-hover:hidden" size={26}/>
+              <FaRegStar
+                className="hidden group-hover:block"
+                onClick={handleRemoveFavorite}
+                size={26}
+              />
+              </button>
             ) : (
-              <FaRegStar size={26} className="text-[#088395] cursor-pointer" />
+              <button className="relative group text-[#37B7C3]">
+                <FaStar className="hidden group-hover:block" 
+                onClick={handleFavoriteClick}
+                size={26}/>
+                <FaRegStar
+                  className="group-hover:hidden"
+                  size={26}
+                />
+              </button>
             )}
-          </button>}
           {props.logged && (
             <VerMais
               id={props.id}
@@ -185,6 +208,21 @@ export function CardsRow(props: CardsProps) {
     }
   };
 
+  const handleRemoveFavorite = async () => {
+    const confirmRemoval = confirm(
+      `Deseja desfavoritar o edital: "${props.nome}"?`
+    );
+    if (confirmRemoval) {
+      try {
+        await removeEditalFavorito(userInfo.id, props.id);
+        setFavorited(false);
+      } catch (error) {
+        console.error("Failed to remove edital from favorites:", error);
+        alert("Falha ao remover o edital dos favoritos.");
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchEditaisFavoritos = async () => {
       try {
@@ -231,20 +269,26 @@ export function CardsRow(props: CardsProps) {
               : props.nome}
           </h3>
           <div className="justify-between flex gap-4 items-center">
-          {props.user&&<button
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-              onClick={handleFavoriteClick}
-            >
-              {favorited || hovered ? (
-                <FaStar size={26} className="text-[#088395] cursor-pointer" />
-              ) : (
+          {props.user&&favorited? (
+              <button className="relative group text-[#37B7C3]">
+              <FaStar className="group-hover:hidden" size={26}/>
+              <FaRegStar
+                className="hidden group-hover:block"
+                onClick={handleRemoveFavorite}
+                size={26}
+              />
+              </button>
+            ) : (
+              <button className="relative group text-[#37B7C3]">
+                <FaStar className="hidden group-hover:block" 
+                onClick={handleFavoriteClick}
+                size={26}/>
                 <FaRegStar
+                  className="group-hover:hidden"
                   size={26}
-                  className="text-[#088395] cursor-pointer"
                 />
-              )}
-            </button>}
+              </button>
+            )}
             {props.logged && (
               <VerMais
                 id={props.id}

@@ -60,6 +60,7 @@ export function NovoEdital(props: ModalProps) {
     horaFinal: "",
     link: "#",
   });
+  {/*props.user.id,*/}
 
   useEffect(() => {
     if (props.isOpen) {

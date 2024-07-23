@@ -18,12 +18,6 @@ import finep from "../../public/images/finep_img.jpg";
 import poli from "../../public/images/poli.png";
 import { Footer } from "./Footer";
 
-interface Card {
-  title: string;
-  publication: string;
-  edital: string;
-}
-
 export function DashEditais() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [rec4, rec3, portoGalinhas, rec2, recAntigo1, rec1];
@@ -74,10 +68,10 @@ export function DashEditais() {
             </div>
             <div className="w-full h-[60vh] md:h-[70vh] lg:h-[80vh] bg-[#088395]" />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-y-4 px-4 md:px-8 lg:px-12">
-              <p className="text-white text-lg md:text-2xl lg:text-3xl font-medium text-center">
+              <p className="text-white text-lg md:text-2xl lg:text-3xl  font-semibold text-center">
                 Encontre os editais ideais para você em um só lugar
               </p>
-              <p className="text-white font-[300] text-base md:text-lg lg:text-xl text-center">
+              <p className="text-white text-base md:text-lg lg:text-xl text-center  font-semibold">
                 Acesse as principais oportunidades de apoio à pesquisa
                 oferecidas por instituições de referência
               </p>
