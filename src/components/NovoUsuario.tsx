@@ -7,7 +7,7 @@ interface NumberProps {
   setNewUser: Function;
   newUser: boolean;
 }
-export function NovoUsuario(props: NumberProps) {
+export function NovoUsuario(props: NumberProps) { //Criação de Usuário pelo Admin
   const [showModal, setShowModal] = React.useState(false);
   const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");

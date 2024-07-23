@@ -18,7 +18,7 @@ interface HeaderInProps {
   curPage: string;
 }
 
-export function HeaderOut(props: HeaderOutProps) {
+export function HeaderOut(props: HeaderOutProps) { //header não logado
   const [logged, setLogged] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -123,7 +123,7 @@ export function HeaderOut(props: HeaderOutProps) {
   );
 }
 
-export function HeaderIn(props: HeaderInProps) {
+export function HeaderIn(props: HeaderInProps) { //Header logado
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

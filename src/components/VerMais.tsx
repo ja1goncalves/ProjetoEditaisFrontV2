@@ -48,7 +48,7 @@ interface CardsProps {
   setFilteredCards: Function;
 }
 
-export function VerMais(props: CardsProps) {
+export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações dos editais */}
   const [showModal, setShowModal] = useState(false);
 
   const [nomeEdital, setNomeEdital] = useState(props.nome);
@@ -122,7 +122,7 @@ export function VerMais(props: CardsProps) {
     }
   }
 
-  function resetModal() {
+  function resetModal() { //Função que abre o modal
     setShowModal(true);
     setNomeEdital(props.nome);
     setCategoria(props.categoria);
@@ -141,7 +141,7 @@ export function VerMais(props: CardsProps) {
     setHoraResultado(props.resultado.split(" ")[1]);
   }
 
-  function handleEditalChanges() {
+  function handleEditalChanges() {  //Função para atualizar informações
     const publicacao = `${reFormatDate(dataPublicacao)} ${horaPublicacao}`;
     const inicio = `${reFormatDate(dataInicial)} ${horaInicial}`;
     const final = `${reFormatDate(dataFinal)} ${horaFinal}`;
@@ -187,7 +187,7 @@ export function VerMais(props: CardsProps) {
     setShowModal(false);
   }
 
-  function removeEdital() {
+  function removeEdital() { //Função deletar edital
     if (confirm(`Deseja apagar o edital: "${props.nome}"?`)) {
       removerEdital(props.id);
       props.setFilteredCards(
@@ -217,7 +217,7 @@ export function VerMais(props: CardsProps) {
         </button>
       )}
 
-      {showModal ? (
+      {showModal ? ( //Verifica condições de "editar" e "só visualização"
         <>
           <div className="flex items-center justify-center min-h-screen overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
             <div

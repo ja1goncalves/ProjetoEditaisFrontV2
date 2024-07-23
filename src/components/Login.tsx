@@ -35,7 +35,7 @@ export function Login() {
     setBadLogin(false);
   }, []);
 
-  return (
+  return ( //Página de Login
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-[#EBF4F6]">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-6 sm:px-10 text-center">
         <div className="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">

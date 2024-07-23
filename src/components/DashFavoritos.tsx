@@ -77,7 +77,7 @@ export function DashFavoritos() {
   const [cardData, setCardData] = useState<Card[]>([]);
   const [preProjetos, setPreProjetos] = useState<PreProj[]>([]);
 
-  async function handlePreProjeto(e: React.FormEvent<HTMLInputElement>) {
+  async function handlePreProjeto(e: React.FormEvent<HTMLInputElement>) { //Upload de Arquivo PDF Pré-projeto
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
@@ -105,7 +105,7 @@ export function DashFavoritos() {
     }
   }
 
-  async function handleRemovePreProjeto() {
+  async function handleRemovePreProjeto() { //Função que deleta arquivo PDF pré-projeto
     if (selectedEdital) {
       if (confirm("Deseja remover o Pré-Projeto inserido?")) {
         selectedEdital.preProjLink = '#';
@@ -121,7 +121,7 @@ export function DashFavoritos() {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { //Expõe editais favoritos dos cards
     if (userInfo.idPerfil != 0) {
       getEditaisFavoritos(userInfo.id).then((result2) => {
         console.log(result2);
@@ -152,7 +152,7 @@ export function DashFavoritos() {
         setCardData(newCards);
         console.log(editais);
       });
-      getPreProjetos(userInfo.id).then((result2) => {
+      getPreProjetos(userInfo.id).then((result2) => { //Pega informações do pré projeto
         console.log(result2);
         const newPreProjetos = result2.map((preProjeto: PreProj) => ({
           id: preProjeto.id,
@@ -166,7 +166,7 @@ export function DashFavoritos() {
     }
   }, [userInfo, newSearch]);
 
-  const searchCards = (searchTerm: string) => {
+  const searchCards = (searchTerm: string) => { //Função Pesquisar
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
@@ -176,17 +176,17 @@ export function DashFavoritos() {
     setFilteredCards(filtered);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { //Aceita enter em pesquisa
     if (e.key === "Enter") {
       searchCards(searchTerm);
     }
   };
 
-  const onClickSearch = () => {
+  const onClickSearch = () => { //Pesquisa
     searchCards(searchTerm);
   };
 
-  function showEditais(card: Card) {
+  function showEditais(card: Card) { //Expõe editais
     const selectedEdital = editais.find((edital) => edital.id === card.id);
 
     if (selectedEdital) {
@@ -208,7 +208,7 @@ export function DashFavoritos() {
     }
   }
 
-  const handleRemoveFavorite = async (card: Card) => {
+  const handleRemoveFavorite = async (card: Card) => { //Remove edital dos favoritos
     const confirmRemoval = confirm(
       `Deseja apagar o edital: "${card.nome}"?`
     );

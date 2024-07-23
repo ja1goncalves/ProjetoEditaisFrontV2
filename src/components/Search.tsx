@@ -72,7 +72,7 @@ export function Search() {
   }, []);
 
   useEffect(() => {
-    getEditais().then((result2) => {
+    getEditais().then((result2) => { //Recebe informações de editais já existentes 
       console.log(result2);
       const newEditais = result2.map((edital: Card) => ({
         id: edital.id,
@@ -94,7 +94,7 @@ export function Search() {
     });
   }, []);
 
-  const searchCards = (searchTerm: string) => {
+  const searchCards = (searchTerm: string) => { //Função para pesquisa de editais
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
@@ -112,21 +112,21 @@ export function Search() {
     });
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { //Função para aceitar Enter em pesquisar
     if (e.key === "Enter") {
       searchCards(searchTerm);
     }
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = () => { //Abre modal criar Novo Edital
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () => { //Fecha modal criar Novo Edital
     setIsModalOpen(false);
   };
 
-  const onClick = () => {
+  const onClick = () => { //Função para botão pesquisar
     searchCards(searchTerm);
   };
 
@@ -153,7 +153,7 @@ export function Search() {
             </div>
           </section>
 
-          <div className="absolute top-[14.58vh] w-[100vw]">
+          <div className="absolute top-[14.58vh] w-[100vw]"> {/*Início da Página*/}
             <div className="flex flex-col justify-center">
               <p className="text-white text-5xl font-semibold px-8 lg:px-96 pb-8 text-center">
                 Pesquisar
@@ -207,7 +207,7 @@ export function Search() {
                       </button>
                     </div>
 
-                    {user && user.idPerfil == 2 && (
+                    {user && user.idPerfil == 2 && ( //Botão criar edital exclusivo para adms
                       <>
                         <button
                           onClick={handleOpenModal}
@@ -236,7 +236,7 @@ export function Search() {
                       : "flex flex-col"
                   } m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}
                 >
-                  {filteredCards.map((card, index) =>
+                  {filteredCards.map((card, index) => //Seta o modo de visualização grid/row
                     vizualizacao === "grid" ? (
                       <CardsGrid
                         key={index}
