@@ -10,7 +10,7 @@ interface NameCheck{
 }
 
 
-export function DashboardUsuarios(props: NameCheck) {
+export function DashboardUsuarios(props: NameCheck) { //Dash exclusivo do admin com acesso aos usuários cadastrados
   const [user, setUser] = useState<
     { id: number; login: string; nome: string; idPerfil: number }[]
   >([]);

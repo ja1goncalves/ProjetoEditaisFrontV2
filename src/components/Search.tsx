@@ -54,8 +54,8 @@ export function Search() {
   }, []);
 
   useEffect(() => {
-    //Recebe os editais do back e os formata para serem mostrados e/ou filtrados na barra de pesquisa
-    getEditais().then((result2) => {
+     //Recebe os editais do back e os formata para serem mostrados e/ou filtrados na barra de pesquisa
+     getEditais().then((result2) => {
       const newEditais = result2.map((edital: Card) => ({
         id: edital.id,
         nome: edital.nome,
@@ -95,15 +95,14 @@ export function Search() {
     }
   };
 
-  ////Abre e fecha a janela modal
-  const handleOpenModal = () => {
+ ////Abre e fecha a janela modal
+ const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () => { //Fecha modal criar Novo Edital
     setIsModalOpen(false);
   };
-  ////
 
   return (
     <>
@@ -128,7 +127,7 @@ export function Search() {
             </div>
           </section>
 
-          <div className="absolute top-[14.58vh] w-[100vw]">
+          <div className="absolute top-[14.58vh] w-[100vw]"> {/*Início da Página*/}
             <div className="flex flex-col justify-center">
               <p className="text-white text-5xl font-semibold px-8 lg:px-96 pb-8 text-center">
                 Pesquisar
@@ -182,7 +181,7 @@ export function Search() {
                       </button>
                     </div>
 
-                    {user && user.idPerfil == 2 && (
+                    {user && user.idPerfil == 2 && ( //Botão criar edital exclusivo para adms
                       <>
                         <button
                           onClick={handleOpenModal}
@@ -211,7 +210,7 @@ export function Search() {
                       : "flex flex-col"
                   } m-10 gap-x-20 gap-y-10 max-h-[80vh] overflow-scroll`}
                 >
-                  {filteredCards.map((card, index) =>
+                  {filteredCards.map((card, index) => //Seta o modo de visualização grid/row
                     vizualizacao === "grid" ? (
                       <CardsGrid
                         key={index}

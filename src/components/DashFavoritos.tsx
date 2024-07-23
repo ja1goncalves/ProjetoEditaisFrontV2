@@ -152,7 +152,7 @@ export function DashFavoritos() {
         setCardData(newCards);
         console.log(editais);
       });
-      getPreProjetos(userInfo.id).then((result2) => {
+      getPreProjetos(userInfo.id).then((result2) => { //Pega informações do pré projeto
         console.log(result2);
         const newPreProjetos = result2.map((preProjeto: PreProj) => ({
           id: preProjeto.id,
@@ -177,17 +177,17 @@ export function DashFavoritos() {
     setFilteredCards(filtered);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { //Aceita enter em pesquisa
     if (e.key === "Enter") {
       searchCards(searchTerm);
     }
   };
 
-  const onClickSearch = () => {
+  const onClickSearch = () => { //Pesquisa
     searchCards(searchTerm);
   };
 
-  function showEditais(card: Card) {
+  function showEditais(card: Card) { //Expõe editais
     const selectedEdital = editais.find((edital) => edital.id === card.id);
 
     if (selectedEdital) {

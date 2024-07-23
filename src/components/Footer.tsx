@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 
-export function Footer() {
+export function Footer() { {/*Exposição de Informações no final da página */}
   return (
     <>
       <footer>

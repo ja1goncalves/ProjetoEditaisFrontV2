@@ -43,7 +43,7 @@ interface CardsProps {
   setFilteredCards: Function;
 }
 
-export function VerMais(props: CardsProps) {
+export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações dos editais */}
   const [showModal, setShowModal] = useState(false);
 
   const [nomeEdital, setNomeEdital] = useState(props.nome);
@@ -197,7 +197,7 @@ export function VerMais(props: CardsProps) {
         </button>
       )}
 
-      {showModal ? (
+      {showModal ? ( //Verifica condições de "editar" e "só visualização"
         <>
           <div className="flex items-center justify-center min-h-screen overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
             <div
