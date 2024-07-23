@@ -209,7 +209,7 @@ export function Search() {
                       </button>
                     </div>
                     
-                    {user&&user.idPerfil==2 && (
+                    {/*user&&user.idPerfil==2 && */(
                       <>
                         <button
                           onClick={handleOpenModal}
@@ -221,7 +221,7 @@ export function Search() {
                         <NovoEdital
                           isOpen={isModalOpen}
                           onClose={handleCloseModal}
-                          user={user}
+                          //user={user}
                           cardData={cardData}
                           filteredEditais={filteredCards}
                           setCardData={setCardData}

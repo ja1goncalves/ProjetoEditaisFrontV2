@@ -18,7 +18,7 @@ type User = {
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  user: User;
+  //user: User;
   cardData: Card[];
   setCardData: (cards: Card[]) => void;
   filteredEditais: Card[];
@@ -54,7 +54,7 @@ export function NovoEdital(props: ModalProps) {
     resultado: "",
     idOrgaoFomento: 1,
     criadoPorBot: false,
-    idUsuario: props.user.id,
+    idUsuario: /*props.user.id*/ 5,
     horaPublicacao: "",
     horaInicial: "",
     horaFinal: "",
