@@ -1,4 +1,4 @@
-import { RedefinirSenha } from './RedefinirSenha';
+//Usuario do sistema
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 

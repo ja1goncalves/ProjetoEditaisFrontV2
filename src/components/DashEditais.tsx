@@ -1,6 +1,6 @@
+//Tela inicial do projeto
 "use client";
 import React, { useEffect, useState } from "react";
-import { createUser } from "../lib/api";
 import { RiSearchEyeLine } from "react-icons/ri";
 import { HeaderOut } from "./Header";
 import Image from "next/image";
@@ -23,6 +23,7 @@ export function DashEditais() {
   const images = [rec4, rec3, portoGalinhas, rec2, recAntigo1, rec1];
 
   useEffect(() => {
+    //Alterna as imagens mostradas no começo da página a cada 3 segundos
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
@@ -204,11 +205,6 @@ export function DashEditais() {
             </div>
           </section>
 
-          <div className="text-black top-0 left-0 w-full h-full flex flex-row items-center justify-center gap-x-7">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
           <Footer />
         </div>
       </div>

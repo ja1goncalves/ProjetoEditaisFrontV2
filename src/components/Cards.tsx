@@ -1,3 +1,4 @@
+//Cards para a pré vizualização dos editais, em grid e em row
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import finep from "../../public/images/FINEP.png";
@@ -50,13 +51,11 @@ interface CardsProps {
   user: User | null
 }
 
-export function CardsGrid(props: CardsProps) {
-  const [hovered, setHovered] = useState(false);
+export function CardsGrid(props: CardsProps) {;
   const [favorited, setFavorited] = useState(false);
-  const [editais, setEditais] = useState([]);
-
   const userInfo = useContext(AuthContext).user;
 
+  ////Favorita e desfavorita o edital desejado
   const handleFavoriteClick = async () => {
     try {
       await setEditalFavorito(userInfo.id, props.id);
@@ -81,8 +80,10 @@ export function CardsGrid(props: CardsProps) {
       }
     }
   };
+  ////
 
   useEffect(() => {
+    //Puxa os editais favoritados pelo usuário e compara com os editais existentes
     const fetchEditaisFavoritos = async () => {
       try {
         const favoritos = await getEditaisFavoritos(userInfo.id);
@@ -192,10 +193,7 @@ export function CardsGrid(props: CardsProps) {
 }
 
 export function CardsRow(props: CardsProps) {
-  const [hovered, setHovered] = useState(false);
   const [favorited, setFavorited] = useState(false);
-  const [editais, setEditais] = useState([]);
-
   const userInfo = useContext(AuthContext).user;
 
   const handleFavoriteClick = async () => {

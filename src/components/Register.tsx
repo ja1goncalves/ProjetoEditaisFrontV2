@@ -1,12 +1,11 @@
+//Cadastro de novo usuário
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaRegEye } from "react-icons/fa6";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 import { AuthContext } from "../app/contexts/AuthContext";
-import { AxiosError } from "axios";
 import { parseCookies } from "nookies";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoEnterOutline } from "react-icons/io5";
@@ -30,13 +29,14 @@ export function Register() {
   }
 
   useEffect(() => {
+    //Checa se o usuário já está logado e o manda para a dashboard de editais favoritados e crud de usuários (se o user for adm)
     const { "engsoft.token": token } = parseCookies();
     if (token) {
       router.push("/dashboard");
     }
     setBadRegister(false);
   }, []);
-
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-[#EBF4F6]">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-6 sm:px-10 text-center">

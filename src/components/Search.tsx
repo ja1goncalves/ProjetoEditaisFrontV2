@@ -1,17 +1,12 @@
+//CRUD e pesquisa de editais
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  criarEdital,
-  getEditais,
-  getEditaisId,
-  getUserLogin,
-  urlBase,
-} from "../lib/api";
+import { getEditais, urlBase } from "../lib/api";
 import { CardsGrid, CardsRow } from "./Cards";
 import { HeaderOut } from "./Header";
 import { IoGrid } from "react-icons/io5";
 import { MdCreateNewFolder, MdTableRows } from "react-icons/md";
-import { FaSearch, FaFilter, FaFilePdf } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { parseCookies } from "nookies";
 import decode from "jwt-decode";
 import { NovoEdital } from "./NovoEdital";
@@ -46,24 +41,11 @@ export function Search() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cardData, setCardData] = useState<Card[]>([]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
-  const [edital, setEdital] = useState<Card[]>([]);
-  const [editaisData, setEditaisData] = useState({
-    nome: "",
-    categoria: "",
-    publicoAlvo: "",
-    area: "",
-    dataPublicacao: "",
-    dataInicial: "",
-    dataFinal: "",
-    resultado: "",
-    idOrgaoFomento: 1, // Exemplo: 1 para FACEPE
-    criadoPorBot: false,
-    idUsuario: user?.id || 0, // Usando o ID do usuário se disponível
-  });
 
   const [vizualizacao, setVizualizacao] = useState("grid");
 
   useEffect(() => {
+    //Checa a existência de um token de login e, em caso positivo, decodifica sua criptografia JWT e salva as informações do usuário logado
     const { "engsoft.token": token } = parseCookies();
     if (token) {
       const user: User = decode(token);
@@ -72,8 +54,8 @@ export function Search() {
   }, []);
 
   useEffect(() => {
+    //Recebe os editais do back e os formata para serem mostrados e/ou filtrados na barra de pesquisa
     getEditais().then((result2) => {
-      console.log(result2);
       const newEditais = result2.map((edital: Card) => ({
         id: edital.id,
         nome: edital.nome,
@@ -95,6 +77,7 @@ export function Search() {
   }, []);
 
   const searchCards = (searchTerm: string) => {
+    //Procura pelo edital pesquisado
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
@@ -104,20 +87,15 @@ export function Search() {
     setFilteredCards(filtered);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditaisData({
-      ...editaisData,
-      [name]: value,
-    });
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //Detecta o aperto de enter na barra de pesquisa
     if (e.key === "Enter") {
       searchCards(searchTerm);
     }
   };
 
+  ////Abre e fecha a janela modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -125,10 +103,7 @@ export function Search() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const onClick = () => {
-    searchCards(searchTerm);
-  };
+  ////
 
   return (
     <>
@@ -175,7 +150,7 @@ export function Search() {
                     onKeyDown={handleKeyDown}
                   />
                   <button
-                    onClick={onClick}
+                    onClick={()=>searchCards(searchTerm)}
                     className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-5 py-5 hover:opacity-60"
                   >
                     <FaSearch className="text-white" />

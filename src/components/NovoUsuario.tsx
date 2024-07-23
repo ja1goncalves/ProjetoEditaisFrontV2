@@ -1,3 +1,4 @@
+//Modal para criação de usuários
 import { createUser } from "@/lib/api";
 import { isAxiosError } from "axios";
 import React, { useState } from "react";
@@ -15,6 +16,7 @@ export function NovoUsuario(props: NumberProps) {
   const [rule, setRule] = useState("USER");
 
   async function handleNewUser() {
+    //Checa se o usuários ja existe e, caso não, cria um usuário novo
     let idP = rule === "USER" ? 2 : 1;
     try {
       await createUser(nome, login, senha, idP);

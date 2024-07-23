@@ -1,10 +1,8 @@
+//Modal para a criação de um novo edital, visível apenas para usuários administradores
 "use client";
-import { AuthContext } from "@/app/contexts/AuthContext";
 import { criarEdital, criarPreProjeto, uploadFile, urlBase } from "@/lib/api";
-import { userInfo } from "os";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
-import { FaFilePdf } from "react-icons/fa6";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 type User = {
@@ -62,6 +60,7 @@ export function NovoEdital(props: ModalProps) {
   });
 
   useEffect(() => {
+    //Bloqueia o scroll pela página quando o modal está aberto
     if (props.isOpen) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -73,6 +72,7 @@ export function NovoEdital(props: ModalProps) {
   }, [props.isOpen]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //Atualiza as informações do edital com o preenchimento dos inputs
     const { name, value } = e.target;
     setEditaisData({
       ...editaisData,
@@ -81,12 +81,14 @@ export function NovoEdital(props: ModalProps) {
   };
 
   const formatDateTime = (date: string, time: string) => {
+    //Converte as infos de data e horários dos inputs para se adequar ao backend
     const [year, month, day] = date.split("-");
     const [hour, minute] = time.split(":");
     return `${day}/${month}/${year} ${hour}:${minute}:00`;
   };
 
   async function subirPdf(e: React.FormEvent<HTMLInputElement>) {
+    //Lida com o upload de pdf's de editais
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
@@ -94,6 +96,7 @@ export function NovoEdital(props: ModalProps) {
   }
 
   const cadastrarEdital = async () => {
+    //Agrega todas as informações do edital
     const dataPublicacao = formatDateTime(
       editaisData.datapublicacao,
       editaisData.horaPublicacao || "00:00:00"
@@ -116,8 +119,10 @@ export function NovoEdital(props: ModalProps) {
 
     if (file) {
       try {
+        //Cria um edital com as informaÇões
         const novoEdital: Card = await criarEdital(editalData);
 
+        //Linka o pdf inserido ao edital criado
         const formData = new FormData();
         formData.append("edital_pdf", file);
         try {

@@ -1,3 +1,4 @@
+//Dashboard para a vizualização de editais favoritados e criação de pré-projeto
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -14,17 +15,13 @@ import {
   criarPreProjeto,
   getEditais,
   getEditaisFavoritos,
-  getEditaisId,
   getPreProjetos,
-  getUserLogin,
   removeEditalFavorito,
   removerPreProjeto,
   uploadFile,
   urlBase,
 } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import { HeaderIn } from "./Header";
-import { COLORS } from "../../src/lib/AppStyles";
 import Image from "next/image";
 import Marca_FACEPE from "../../public/images/Marca-FACEPE.png";
 import FINEP from "../../public/images/FINEP.png";
@@ -78,6 +75,7 @@ export function DashFavoritos() {
   const [preProjetos, setPreProjetos] = useState<PreProj[]>([]);
 
   async function handlePreProjeto(e: React.FormEvent<HTMLInputElement>) {
+    //Gera o pré-projeto a partir do arquido pdf inserido
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
@@ -106,6 +104,7 @@ export function DashFavoritos() {
   }
 
   async function handleRemovePreProjeto() {
+    //Apaga o pré-projeto inserido
     if (selectedEdital) {
       if (confirm("Deseja remover o Pré-Projeto inserido?")) {
         selectedEdital.preProjLink = '#';
@@ -122,6 +121,7 @@ export function DashFavoritos() {
   }, []);
 
   useEffect(() => {
+    //Recebe os editais favoritos e os pre projetos criados pelo usuários e linka os dois
     if (userInfo.idPerfil != 0) {
       getEditaisFavoritos(userInfo.id).then((result2) => {
         console.log(result2);
@@ -167,6 +167,7 @@ export function DashFavoritos() {
   }, [userInfo, newSearch]);
 
   const searchCards = (searchTerm: string) => {
+    //Busca pelos editais favoritados
     const lowerCaseSearch = searchTerm.toLowerCase().trim();
 
     const filtered = cardData.filter((card) =>
@@ -209,6 +210,7 @@ export function DashFavoritos() {
   }
 
   const handleRemoveFavorite = async (card: Card) => {
+    //Remove o edital selecionado dos favoritos
     const confirmRemoval = confirm(
       `Deseja apagar o edital: "${card.nome}"?`
     );
@@ -231,7 +233,6 @@ export function DashFavoritos() {
     }
   };
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isCardsVisible, setIsCardsVisible] = useState(false);
 
   const toggleCardsVisibility = () => {
