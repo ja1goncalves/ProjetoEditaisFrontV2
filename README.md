@@ -53,7 +53,7 @@ Sugestão: VSCode (https://code.visualstudio.com)
 Dependendo do gerenciador de pacotes que você está usando (npm ou yarn), instale as dependências do projeto no terminal da IDE (VSCode, de preferência).
 
 npm install
-# ou
+ou
 yarn install
 
 ### Passo 5: Executar o Projeto
