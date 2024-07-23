@@ -31,6 +31,40 @@ Observações:
   - Descrever de forma clara (para um completo leigo) como executar esse projeto (de forma local), consequentemente (quando estiver aprovado) vamos disponibilizar online.
 - Ideias: https://ecossistema.pe/
 
+# Como rodar o projeto
+
+### Passo 1: Pré-requisitos
+Para rodar a parte Front-end do projeto, você deve ter o Node.js e o npm (ou yarn) instalados em sua máquina.
+
+Node.js (https://nodejs.org/)
+npm (vem com o Node.js) ou yarn (https://classic.yarnpkg.com/en/docs/install/)
+
+### Passo 2: Clonar o Repositório
+Clone o repositório do GitHub em sua máquina:
+
+git clone https://github.com/dgois11/ProjetoEditaisFront.git
+cd Projeto_SM_2024-Front
+
+### Passo 3: Instalar um Ambiente de Desenvolvimento
+Uma IDE facilita o desenvolvimento ao fornecer recursos como autocompletar, depuração, controle de versão integrado e muito mais.
+Sugestão: VSCode (https://code.visualstudio.com)
+
+### Passo 4: Instalar Dependências
+Dependendo do gerenciador de pacotes que você está usando (npm ou yarn), instale as dependências do projeto no terminal da IDE (VSCode, de preferência).
+
+npm install
+# ou
+yarn install
+
+### Passo 5: Executar o Projeto
+Depois de instalar as dependências, inicie o servidor de desenvolvimento digitando no terminal da IDE: npm run dev
+
+### Passo 6: Acessar a Aplicação
+A aplicação estará rodando no local host informado pelo console. Em seguida, abra este link no seu navegador.
+Para acessar páginas em específico, verifique as pastas na API do projeto. 
+Você pode acessar diretamente, como:
+http://localhost:XXXX/search ou http://localhost:XXXX/login
+
 # Pages
 
 ### DashEditais
