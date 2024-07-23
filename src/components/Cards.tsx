@@ -123,7 +123,7 @@ export function CardsGrid(props: CardsProps) {
               ? `${props.nome.slice(0, 40)}...`
               : props.nome}
           </h3> 
-          {props.user&&favorited? (
+          {props.user&&(favorited? (
               <button className="relative group text-[#37B7C3]">
               <FaStar className="group-hover:hidden" size={26}/>
               <FaRegStar
@@ -142,7 +142,7 @@ export function CardsGrid(props: CardsProps) {
                   size={26}
                 />
               </button>
-            )}
+            ))}
           {props.logged && (
             <VerMais
               id={props.id}
@@ -269,7 +269,7 @@ export function CardsRow(props: CardsProps) {
               : props.nome}
           </h3>
           <div className="justify-between flex gap-4 items-center">
-          {props.user&&favorited? (
+          {props.user&&(favorited? (
               <button className="relative group text-[#37B7C3]">
               <FaStar className="group-hover:hidden" size={26}/>
               <FaRegStar
@@ -288,7 +288,7 @@ export function CardsRow(props: CardsProps) {
                   size={26}
                 />
               </button>
-            )}
+            ))}
             {props.logged && (
               <VerMais
                 id={props.id}
