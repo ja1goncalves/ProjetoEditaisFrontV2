@@ -1,3 +1,4 @@
+//Exibe as informações do Edital, para vizualização ou edição, junto com seu botão de download
 import React, { useEffect, useState } from "react";
 import Marca_FACEPE from "../../public/images/Marca-FACEPE.png";
 import FINEP from "../../public/images/FINEP.png";
@@ -5,14 +6,8 @@ import Image from "next/image";
 import { FaFileDownload } from "react-icons/fa";
 import { AiFillEdit } from "react-icons/ai";
 import { FaSave, FaTrash } from "react-icons/fa";
-import {
-  adicionarNovoPDF,
-  gedEdital,
-  removerEdital,
-  updateEditais,
-  uploadFile,
-  urlBase,
-} from "@/lib/api";
+import { removerEdital,
+  updateEditais, uploadFile } from "@/lib/api";
 
 interface Card {
   id: number;
@@ -54,7 +49,6 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
   const [nomeEdital, setNomeEdital] = useState(props.nome);
   const [categoria, setCategoria] = useState(props.categoria);
   const [publicoAlvo, setPublicoAlvo] = useState(props.publicoAlvo);
-  const [editalLink, setEditalLink] = useState('');
   const [area, setArea] = useState(props.area);
 
   const [dataPublicacao, setDataPublicacao] = useState(
@@ -81,10 +75,8 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
     props.resultado.split(" ")[1]
   );
 
-  const [linkpdf, setLinkPDF] = useState(props.link);
-
   useEffect(() => {
-    console.log("Link: " + props.link);
+    //Bloqueia o scroll pela página quando o modal está aberto
     if (showModal) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -95,6 +87,7 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
     };
   }, [showModal]);
 
+  ////Converte as infos de data e horários dos inputs para se adequar ao backend e vice versa
   function formatDate(date: any) {
     const [day, month, year] = date.split("/");
     return `${year}-${month}-${day}`;
@@ -104,25 +97,10 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
     const [day, month, year] = date.split("-");
     return `${year}/${month}/${day}`;
   }
+  ////
 
-  async function handleAdicionarPDF(e: React.FormEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    };
-    if (target.files && target.files[0]) {
-      const formData = new FormData();
-      formData.append("edital_pdf", target.files[0]); // Altere para 'edital_pdf' se estiver adicionando um PDF de edital
-      console.log("Id do edital: " + props.id);
-      try {
-        const uploadResponse = await uploadFile("edital", props.id, formData); // Verifique se 'edital' é o tipo correto para upload
-        console.log("File uploaded successfully:", uploadResponse);
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
-    }
-  }
-
-  function resetModal() { //Função que abre o modal
+  function resetModal() {
+    //Reseta as informações dos campos importantes para preparar a vizualização do novo edital
     setShowModal(true);
     setNomeEdital(props.nome);
     setCategoria(props.categoria);
@@ -141,7 +119,8 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
     setHoraResultado(props.resultado.split(" ")[1]);
   }
 
-  function handleEditalChanges() {  //Função para atualizar informações
+  function handleEditalChanges() {
+    //Lida com a atualização do edital, opção disponivel para usuários administradores
     const publicacao = `${reFormatDate(dataPublicacao)} ${horaPublicacao}`;
     const inicio = `${reFormatDate(dataInicial)} ${horaInicial}`;
     const final = `${reFormatDate(dataFinal)} ${horaFinal}`;
@@ -187,7 +166,8 @@ export function VerMais(props: CardsProps) { {/*Modal Ver Mais com informações
     setShowModal(false);
   }
 
-  function removeEdital() { //Função deletar edital
+  function removeEdital() {
+    //Apaga o edital do banco de dados
     if (confirm(`Deseja apagar o edital: "${props.nome}"?`)) {
       removerEdital(props.id);
       props.setFilteredCards(

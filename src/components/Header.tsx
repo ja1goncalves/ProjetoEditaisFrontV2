@@ -1,3 +1,4 @@
+//Header para navegação dentro e fora da área logada
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
     await fetch("/api/auth/logout");
     destroyCookie(null, "engsoft.token");
     setLogged(false);
-    window.location.reload(); // Reload the page to ensure the state is updated
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -97,14 +98,13 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
             ) : (
               <>
                 <Link
+                  className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100"
                   href="/dashboard"
                   onClick={() => {
                     setLogged(false);
                   }}
                 >
-                  <button className="font-normal border border-white rounded-xl flex flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
-                    <AiOutlineDashboard /> Dashboard
-                  </button>
+                  <AiOutlineDashboard /> Dashboard
                 </Link>
                 <Link
                   href="/api/auth/logout"

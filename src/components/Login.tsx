@@ -1,12 +1,11 @@
+//Tela de Login
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaRegEye } from "react-icons/fa6";
 import { AiOutlineLock } from "react-icons/ai";
 import { AuthContext } from "../app/contexts/AuthContext";
-import { AxiosError } from "axios";
 import { parseCookies } from "nookies";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
@@ -21,6 +20,7 @@ export function Login() {
 
   async function handleLogin() {
     try {
+      //Se comunica com o back para logar o usuário, se der tudo certo ele é logado, caso não, badLogin é ativo
       await signIn({ login, senha });
     } catch (error) {
       setBadLogin(true);
@@ -28,6 +28,7 @@ export function Login() {
   }
 
   useEffect(() => {
+    //Checa se o usuário já está logado e o manda para a dashboard de editais favoritados e crud de usuários (se o user for adm)
     const { "engsoft.token": token } = parseCookies();
     if (token) {
       router.push("/dashboard");
@@ -61,9 +62,9 @@ export function Login() {
               <div className="flex flex-col items-center text-left">
                 <div className="relative my-4 w-full md:w-4/5 hover:opacity-70 hover:border-gray-400">
                   <input
-                    type="text" // Corrigido para "text"
+                    type="text"
                     value={login}
-                    onChange={(e) => setLogin(e.target.value)}
+                    onChange={(e) => {setLogin(e.target.value); setBadLogin(false)}}
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
                     placeholder="Usuário"
                     required
@@ -76,7 +77,7 @@ export function Login() {
                     <input
                       type={mostrarSenha ? "text" : "password"}
                       value={senha}
-                      onChange={(e) => setSenha(e.target.value)}
+                      onChange={(e) => {setSenha(e.target.value); setBadLogin(false)}}
                       className="flex-1 text-sm text-[#1C1C1C] bg-transparent border-none appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
                       placeholder="Senha"
                       required
@@ -119,14 +120,6 @@ export function Login() {
             >
               Cadastre-se
             </Link>
-            <div>
-              <Link
-                href={"/ForgotPassword"}
-                className="text-xs hover:text-[#088395] hover:underline"
-              >
-                Esqueci minha senha
-              </Link>
-            </div>
           </form>
           <div className="w-full md:w-2/5 bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12"></div>
         </div>

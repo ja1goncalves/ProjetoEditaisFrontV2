@@ -46,6 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
   },[])
 
   async function signIn(data: signInData): Promise<void> {
+    //Recebe as informações do Login, manda pro edital e cria um token com codificação jwt com as informações do usuário
     try {
         const result = await loginUser(data.login, data.senha);
         if (result) {

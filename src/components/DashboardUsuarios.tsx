@@ -1,3 +1,4 @@
+//Mostra ao adm o CRUD de usuários
 "use client";
 import { useEffect, useState } from "react";
 import { NovoUsuario } from "./NovoUsuario";
