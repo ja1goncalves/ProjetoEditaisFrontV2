@@ -285,7 +285,7 @@ export function DashFavoritos() {
                   />
                   <button
                     onClick={onClickSearch}
-                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-6 py-3"
+                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-6 py-3 hover:opacity-60"
                   >
                     <FaSearch className="text-white" />
                   </button>

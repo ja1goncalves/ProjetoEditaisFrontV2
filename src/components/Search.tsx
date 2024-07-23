@@ -167,7 +167,7 @@ export function Search() {
             {/* -------------- BARRA DE PESQUISA -------------- */}
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between mb-8 px-4 lg:px-40">
-                <div className="flex items-center bg-white w-full rounded-2xl pl-3 pr-2 py-2 mr-6">
+                <div className="flex items-center bg-white w-full rounded-2xl pl-3 pr-2 py-2">
                   <input
                     type="text"
                     placeholder="Buscar editais..."
@@ -178,14 +178,11 @@ export function Search() {
                   />
                   <button
                     onClick={onClick}
-                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-5 py-5 lg:px-16 lg:py-7"
+                    className="flex items-center justify-center bg-[#37B7C3] rounded-2xl px-5 py-5 hover:opacity-60"
                   >
                     <FaSearch className="text-white" />
                   </button>
                 </div>
-                <button className="flex items-center justify-center bg-white rounded-2xl px-6 py-7 lg:px-10 lg:py-9">
-                  <FaFilter className="text-[#37B7C3]" />
-                </button>
               </div>
 
               {/* -------------- DASHBOARD -------------- */}
@@ -212,7 +209,7 @@ export function Search() {
                       </button>
                     </div>
                     
-                    {user&&user.idPerfil==2 && (
+                    {/*user&&user.idPerfil==2 && */(
                       <>
                         <button
                           onClick={handleOpenModal}
@@ -224,7 +221,7 @@ export function Search() {
                         <NovoEdital
                           isOpen={isModalOpen}
                           onClose={handleCloseModal}
-                          user={user}
+                          //user={user}
                           cardData={cardData}
                           filteredEditais={filteredCards}
                           setCardData={setCardData}
