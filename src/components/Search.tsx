@@ -126,8 +126,6 @@ export function Search() {
     setIsModalOpen(false);
   };
 
-
-
   const onClick = () => {
     searchCards(searchTerm);
   };
@@ -208,8 +206,8 @@ export function Search() {
                         <MdTableRows size={24} />
                       </button>
                     </div>
-                    
-                    {/*user&&user.idPerfil==2 && */(
+
+                    {user && user.idPerfil == 2 && (
                       <>
                         <button
                           onClick={handleOpenModal}
@@ -221,7 +219,7 @@ export function Search() {
                         <NovoEdital
                           isOpen={isModalOpen}
                           onClose={handleCloseModal}
-                          //user={user}
+                          user={user}
                           cardData={cardData}
                           filteredEditais={filteredCards}
                           setCardData={setCardData}

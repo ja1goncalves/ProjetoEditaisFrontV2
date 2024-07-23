@@ -18,7 +18,7 @@ type User = {
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  //user: User;
+  user: User;
   cardData: Card[];
   setCardData: (cards: Card[]) => void;
   filteredEditais: Card[];
@@ -54,13 +54,12 @@ export function NovoEdital(props: ModalProps) {
     resultado: "",
     idOrgaoFomento: 1,
     criadoPorBot: false,
-    idUsuario: /*props.user.id*/ 5,
+    idUsuario: props.user.id,
     horaPublicacao: "",
     horaInicial: "",
     horaFinal: "",
     link: "#",
   });
-  {/*props.user.id,*/}
 
   useEffect(() => {
     if (props.isOpen) {
@@ -91,7 +90,7 @@ export function NovoEdital(props: ModalProps) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
-    setFile(target.files[0])
+    setFile(target.files[0]);
   }
 
   const cadastrarEdital = async () => {
@@ -116,9 +115,8 @@ export function NovoEdital(props: ModalProps) {
     };
 
     if (file) {
-      
       try {
-        const novoEdital:Card = await criarEdital(editalData);
+        const novoEdital: Card = await criarEdital(editalData);
 
         const formData = new FormData();
         formData.append("edital_pdf", file);
@@ -129,28 +127,25 @@ export function NovoEdital(props: ModalProps) {
             formData
           );
           console.log("File uploaded successfully:", uploadResponse);
-          novoEdital.link = `${urlBase}edital/${novoEdital.id}/pdf`
+          novoEdital.link = `${urlBase}edital/${novoEdital.id}/pdf`;
         } catch (error) {
           console.error("Error uploading file:", error);
         }
-        
-  
+
         const updatedCardData = [...props.cardData, novoEdital];
         const updatedFilteredEditais = [...props.filteredEditais, novoEdital];
-  
+
         props.setCardData(updatedCardData);
         props.setFilteredEditais(updatedFilteredEditais);
-        
-        setFile(undefined)
+
+        setFile(undefined);
         props.onClose();
         console.log("Edital cadastrado com sucesso.");
       } catch (error) {
         console.error("Erro ao criar edital", error);
       }
-    }
-
-    else{
-      alert('Insira algum arquivo para criar o edital')
+    } else {
+      alert("Insira algum arquivo para criar o edital");
     }
   };
 
@@ -158,11 +153,14 @@ export function NovoEdital(props: ModalProps) {
 
   return props.isOpen ? (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-transparent p-6 rounded-lg shadow-lg w-[60vw]">
-        <div className="bg-[#F0F0F0] h-auto w-[50vw] rounded-lg shadow-lg overflow-y-auto">
-          <div className="ml-8 mt-4">
+      <div className="bg-transparent p-6 rounded-lg shadow-lg w-full max-w-4xl mx-4 max-h-screen overflow-y-auto">
+        <div className="bg-[#F0F0F0] h-auto w-full rounded-lg shadow-lg p-6">
+          <div className="mb-4">
             <button
-              onClick={()=>{setFile(undefined);props.onClose()}}
+              onClick={() => {
+                setFile(undefined);
+                props.onClose();
+              }}
               className="flex items-center gap-1 hover:underline hover:text-[#088395] text-lg"
             >
               <IoIosArrowRoundBack size={22} /> Voltar
@@ -173,194 +171,169 @@ export function NovoEdital(props: ModalProps) {
               Cadastrar Novo Edital
             </h2>
           </div>
-          <div className="grid grid-cols-2 ml-8">
-            <div className="items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col">
               <label
                 className="block text-[#3C3C3C] text-md font-bold mb-2"
-                htmlFor="id"
+                htmlFor="titulo"
               >
                 Título
               </label>
-              <div className="relative">
-                <input
-                  className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-[25vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="titulo"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="nome"
-                />
-              </div>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="titulo"
+                type="text"
+                onChange={handleInputChange}
+                name="nome"
+              />
             </div>
-            <div className="items-center ml-24">
+            <div className="flex flex-col">
               <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="categoria"
               >
                 Categoria
               </label>
-              <div className="relative">
-                <input
-                  className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-[15vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="categoria"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="categoria"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 ml-8 mt-6">
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
-              >
-                Público Alvo
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-[15vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="publicoalvo"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="publicoAlvo"
-                />
-              </div>
-            </div>
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
-              >
-                Área
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[15vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="area"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="area"
-                />
-              </div>
-            </div>
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
-              >
-                ID Orgão de Fomento
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-[10vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="idOrgao"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="idOrgaoFomento"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 ml-8 mt-6">
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md font-bold mb-2"
-                htmlFor="id"
-              >
-                Data e Hora de Publicação
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="datapublicacao"
-                  type="date"
-                  onChange={handleInputChange}
-                  name="datapublicacao"
-                />
-              </div>
-              <div className="relative mt-4">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="horapublicacao"
-                  type="time"
-                  onChange={handleInputChange}
-                  name="horaPublicacao"
-                />
-              </div>
-            </div>
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
-              >
-                Data e Hora Inicial
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="datainicial"
-                  type="date"
-                  onChange={handleInputChange}
-                  name="datainicial"
-                />
-              </div>
-              <div className="relative mt-4">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="horainicial"
-                  type="time"
-                  onChange={handleInputChange}
-                  name="horaInicial"
-                />
-              </div>
-            </div>
-            <div className="items-center">
-              <label
-                className="block text-[#3C3C3C] text-md  font-bold mb-2"
-                htmlFor="id"
-              >
-                Data Final
-              </label>
-              <div className="relative">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="datafinal"
-                  type="date"
-                  onChange={handleInputChange}
-                  name="datafinal"
-                />
-              </div>
-              <div className="relative mt-4">
-                <input
-                  className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="horafinal"
-                  type="time"
-                  onChange={handleInputChange}
-                  name="horaFinal"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 mt-6 mx-8">
-            <label
-              className="block text-[#3C3C3C] text-md  font-bold mb-2"
-              htmlFor="id"
-            >
-              Resultado
-            </label>
-            <div className="relative">
               <input
-                className="shadow  bg-white border-[#BEBEBE] appearance-none border rounded w-[12vw] py-1 px-4 pl-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="resultado"
-                type="date"
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="categoria"
+                type="text"
                 onChange={handleInputChange}
-                name="resultado"
+                name="categoria"
               />
             </div>
           </div>
-          <div className="flex justify-between mx-8 my-4">
-
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="publicoalvo"
+              >
+                Público Alvo
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="publicoalvo"
+                type="text"
+                onChange={handleInputChange}
+                name="publicoAlvo"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="area"
+              >
+                Área
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="area"
+                type="text"
+                onChange={handleInputChange}
+                name="area"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="idOrgao"
+              >
+                ID Orgão de Fomento
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="idOrgao"
+                type="text"
+                onChange={handleInputChange}
+                name="idOrgaoFomento"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="datapublicacao"
+              >
+                Data e Hora de Publicação
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="datapublicacao"
+                type="date"
+                onChange={handleInputChange}
+                name="datapublicacao"
+              />
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="horapublicacao"
+                type="time"
+                onChange={handleInputChange}
+                name="horaPublicacao"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="datainicial"
+              >
+                Data e Hora Inicial
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="datainicial"
+                type="date"
+                onChange={handleInputChange}
+                name="datainicial"
+              />
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="horainicial"
+                type="time"
+                onChange={handleInputChange}
+                name="horaInicial"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                className="block text-[#3C3C3C] text-md font-bold mb-2"
+                htmlFor="datafinal"
+              >
+                Data Final
+              </label>
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="datafinal"
+                type="date"
+                onChange={handleInputChange}
+                name="datafinal"
+              />
+              <input
+                className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="horafinal"
+                type="time"
+                onChange={handleInputChange}
+                name="horaFinal"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col mt-6">
+            <label
+              className="block text-[#3C3C3C] text-md font-bold mb-2"
+              htmlFor="resultado"
+            >
+              Resultado
+            </label>
+            <input
+              className="shadow bg-white border-[#BEBEBE] appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="resultado"
+              type="date"
+              onChange={handleInputChange}
+              name="resultado"
+            />
+          </div>
+          <div className="flex justify-between mt-6">
             <div className="relative inline-block">
               <input
                 type="file"
@@ -370,16 +343,21 @@ export function NovoEdital(props: ModalProps) {
               />
               <label
                 htmlFor="file-upload"
-                className={`flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer ${!file?('bg-green-700'):('bg-[#DC1D00]')} hover:opacity-60 select-none whitespace-nowrap`}
+                className={`flex items-center px-3 py-2 rounded-md text-white font-semibold cursor-pointer ${
+                  !file ? "bg-green-700" : "bg-[#DC1D00]"
+                } hover:opacity-60 select-none whitespace-nowrap`}
               >
-                {file?(<span>Escolher outro arquivo</span>):(<span>Subir PDF</span>)}
+                {file ? (
+                  <span>Escolher outro arquivo</span>
+                ) : (
+                  <span>Subir PDF</span>
+                )}
                 <FaFileUpload className="ml-2" />
               </label>
             </div>
-
             <button
               onClick={cadastrarEdital}
-              className="flex items-center px-3 py-2 rounded-md text-white text-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
+              className="flex items-center px-3 py-2 rounded-md text-white font-semibold cursor-pointer bg-[#088395] hover:opacity-60 select-none whitespace-nowrap"
             >
               Enviar
             </button>
