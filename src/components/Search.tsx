@@ -51,6 +51,12 @@ export function Search() {
       const user: User = decode(token);
       setUser(user);
     }
+
+    const { "_vercel_jwt": tokenSafe } = parseCookies();
+    if (tokenSafe) {
+      const user: User = decode(tokenSafe);
+      setUser(user);
+    }
   }, []);
 
   useEffect(() => {
