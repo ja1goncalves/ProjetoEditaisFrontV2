@@ -43,6 +43,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
       const user: User = decode(token)
       setUser(user)
     }
+    const { '_vercel_jwt': tokenSafe } = parseCookies()
+    if(tokenSafe){
+      const user: User = decode(tokenSafe)
+      setUser(user)
+    }
   },[])
 
   async function signIn(data: signInData): Promise<void> {
