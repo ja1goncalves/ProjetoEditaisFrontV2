@@ -43,11 +43,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
       const user: User = decode(token)
       setUser(user)
     }
-    const { '_vercel_jwt': tokenSafe } = parseCookies()
-    if(tokenSafe){
-      const user: User = decode(tokenSafe)
-      setUser(user)
-    }
   },[])
 
   async function signIn(data: signInData): Promise<void> {
@@ -64,9 +59,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }){
                     return;
                 }
                 if (token) {
-                    setCookie(undefined, 'engsoft.token', token, {
-                        maxAge: 60 * 60 * 3, // 3 hours
-                    });
+                  setCookie(undefined, 'engsoft.token', token, {
+                    maxAge: 60 * 60 * 3,
+                    path: '/',
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax',
+                  });
                     router.push('/search');
                 }
             });
