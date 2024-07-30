@@ -33,10 +33,6 @@ export function Login() {
     if (token) {
       router.push("/dashboard");
     }
-    const { "_vercel_jwt": tokenSafe } = parseCookies();
-    if (tokenSafe) {
-      router.push("/dashboard");
-    }
     setBadLogin(false);
   }, []);
 

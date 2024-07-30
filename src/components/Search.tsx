@@ -52,11 +52,6 @@ export function Search() {
       setUser(user);
     }
 
-    const { "_vercel_jwt": tokenSafe } = parseCookies();
-    if (tokenSafe) {
-      const user: User = decode(tokenSafe);
-      setUser(user);
-    }
   }, []);
 
   useEffect(() => {
@@ -65,13 +60,13 @@ export function Search() {
       const newEditais = result2.map((edital: Card) => ({
         id: edital.id,
         nome: edital.nome,
-        categoria: edital.categoria,
-        publicoAlvo: edital.publicoAlvo,
-        area: edital.area,
+        categoria: edital.categoria?(edital.categoria):(''),
+        publicoAlvo: edital.publicoAlvo?(edital.publicoAlvo):(''),
+        area: edital.area?(edital.area):(''),
         dataPublicacao: edital.dataPublicacao,
         dataInicial: edital.dataInicial,
         dataFinal: edital.dataFinal,
-        resultado: edital.resultado,
+        resultado: edital.resultado?(edital.resultado):(''),
         idOrgaoFomento: edital.idOrgaoFomento,
         criadoPorBot: edital.criadoPorBot,
         idUsuario: edital.idUsuario,
@@ -151,7 +146,7 @@ export function Search() {
                     placeholder="Buscar editais..."
                     className="text-gray-400 text-lg pr-2 focus:ring-0 focus:border-1 focus:outline-none appearance-none leading-tight focus:border-white placeholder:text-generic-fields w-full border-none outline-none rounded-xl py-[1em]"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {setSearchTerm(e.target.value); searchCards(e.target.value)}}
                     onKeyDown={handleKeyDown}
                   />
                   <button

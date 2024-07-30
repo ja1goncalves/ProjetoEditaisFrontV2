@@ -26,7 +26,6 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
   const handleLogout = async () => {
     await fetch("/api/auth/logout");
     destroyCookie(null, "engsoft.token");
-    destroyCookie(null, "_vercel_jwt");
     setLogged(false);
     window.location.reload();
   };
@@ -34,10 +33,6 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
   useEffect(() => {
     const { "engsoft.token": token } = parseCookies();
     if (token) {
-      setLogged(true);
-    }
-    const { "_vercel_jwt": tokenSafe } = parseCookies();
-    if (tokenSafe) {
       setLogged(true);
     }
   }, []);
@@ -138,7 +133,6 @@ export function HeaderIn(props: HeaderInProps) { //Header logado
   const handleLogout = async () => {
     await fetch("/api/auth/logout");
     destroyCookie(null, "engsoft.token");
-    destroyCookie(null, "_vercel_jwt");
     window.location.reload(); // Reload the page to ensure the state is updated
   };
 
