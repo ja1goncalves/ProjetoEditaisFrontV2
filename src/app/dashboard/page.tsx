@@ -9,7 +9,8 @@ export default async function dashboard() {
 
 async function getData() {
   //Checa a presença de um token de autenticação e se tiver, força o usuário para o dashboard
-  if (!cookies().has("engsoft.token")) {
+  if (!cookies().has("engsoft.token")&&!cookies().has("_vercel_jwt")) {
     redirect("/api/auth/logout");
   }
 }
+

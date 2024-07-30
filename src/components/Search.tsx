@@ -51,6 +51,11 @@ export function Search() {
       const user: User = decode(token);
       setUser(user);
     }
+    const { '_vercel_jwt': token2 } = parseCookies()
+    if(token2){
+      const user: User = decode(token2);
+      setUser(user);
+    }
 
   }, []);
 
