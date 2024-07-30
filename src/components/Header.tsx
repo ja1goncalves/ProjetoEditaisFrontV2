@@ -36,8 +36,8 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
     if (token) {
       setLogged(true);
     }
-    const { "_vercel_jwt": tokenSafe } = parseCookies();
-    if (tokenSafe) {
+    const { '_vercel_jwt': token2 } = parseCookies()
+    if(token2){
       setLogged(true);
     }
   }, []);

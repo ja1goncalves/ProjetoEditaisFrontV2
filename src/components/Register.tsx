@@ -34,9 +34,8 @@ export function Register() {
     if (token) {
       router.push("/dashboard");
     }
-
-    const { "_vercel_jwt": tokenSafe } = parseCookies();
-    if (tokenSafe) {
+    const { '_vercel_jwt': token2 } = parseCookies()
+    if(token2){
       router.push("/dashboard");
     }
     setBadRegister(false);
