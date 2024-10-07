@@ -122,7 +122,7 @@ export function CreateEmpresa() {
                     value={nomeFantasia}
                     onChange={(e) => {setNomeFantasia(e.target.value); setBadRegister(false)}}
                     className="border border-[#1C1C1C] rounded-md pl-10 pr-3 py-2 w-full block text-sm text-[#1C1C1C] bg-transparent border-1 appearance-none focus:outline-none focus:ring-0 focus:border-[#088395]"
-                    placeholder="Razão Social"
+                    placeholder="Nome Fantasia"
                     required
                   />
                 </div>
