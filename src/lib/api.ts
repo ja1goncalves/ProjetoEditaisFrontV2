@@ -58,6 +58,17 @@ export async function loginUser(login: string, senha: string) {
   }
 }
 
+export async function createEmpresa(nome: string, login: string, senha: string, cnpj: string, nomeFantasia: string) {
+  const response = await api.post('empresa', {
+    nome: nome,
+    login: login,
+    senha: senha,
+    cnpj: cnpj,
+    nomeFantasia: nomeFantasia
+  });
+  return response;
+}
+
 export async function criarEdital(data : any) {
   try {  
     const response = await api.post('edital', data);
