@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { FaBars, FaRegEye } from "react-icons/fa6";
+import { FaBars, FaBuilding, FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
 import { parseCookies, destroyCookie } from "nookies";
 import { IoIosHome } from "react-icons/io";
@@ -79,6 +79,11 @@ export function HeaderOut(props: HeaderOutProps) { //header não logado
             <li className="w-full lg:w-auto">
               <Link href="/#sobre">
                 <p className="py-3 lg:py-0 text-center lg:text-left">Sobre</p>
+              </Link>
+            </li>
+            <li className="w-full lg:w-auto">
+              <Link href="/registerEmpresa">
+                <p className="py-3 lg:py-0 text-center lg:text-left">Empresa</p>
               </Link>
             </li>
             {logged&&<li>
@@ -191,6 +196,11 @@ export function HeaderIn(props: HeaderInProps) { //Header logado
             <Link href={`/search`}>
               <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
                 <FaSearch /> Editais
+              </button>
+            </Link>
+            <Link href={`/registerEmpresa`}>
+              <button className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">
+                <FaBuilding /> Empresa
               </button>
             </Link>
             <button onClick={handleLogout} className="hidden lg:flex font-normal border border-white rounded-xl flex-row items-center gap-x-2 py-1 px-3 hover:opacity-60 hover:bg-gray-100">

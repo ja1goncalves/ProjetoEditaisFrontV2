@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const urlBase = "https://projetoeditaisback.onrender.com/upe/"
+export const urlBase = "http://localhost:8081/upe/"
 
 export async function getEditais() {
   const response = await api.get('edital', {});
