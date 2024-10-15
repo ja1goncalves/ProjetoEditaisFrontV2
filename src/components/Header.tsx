@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { FaBars, FaRegEye } from "react-icons/fa6";
+import { FaBars, FaBuilding, FaRegEye } from "react-icons/fa6";
 import { IoEnterOutline } from "react-icons/io5";
 import { parseCookies, destroyCookie } from "nookies";
 import { IoIosHome } from "react-icons/io";

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const urlBase = "https://projetoeditaisback.onrender.com/upe/"
+export const urlBase = "http://localhost:8081/upe/"
 
 export async function getEditais() {
   const response = await api.get('edital', {});
@@ -56,6 +56,21 @@ export async function loginUser(login: string, senha: string) {
   if (response){
     return response
   }
+}
+
+export async function createEmpresa(nome: string, login: string, senha: string, cnpj: string, nomeFantasia: string) {
+  const response = await api.post('empresas', {
+    id: 0,
+    nomeFantasia: nomeFantasia,
+    cnpj: cnpj,
+    usuario: {
+      login: login,
+      senha: senha,
+      nome: nome,
+      idPerfil: 2
+    }
+  });
+  return response;
 }
 
 export async function criarEdital(data : any) {
