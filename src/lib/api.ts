@@ -59,12 +59,16 @@ export async function loginUser(login: string, senha: string) {
 }
 
 export async function createEmpresa(nome: string, login: string, senha: string, cnpj: string, nomeFantasia: string) {
-  const response = await api.post('empresa', {
-    nome: nome,
-    login: login,
-    senha: senha,
+  const response = await api.post('empresas', {
+    id: 0,
+    nomeFantasia: nomeFantasia,
     cnpj: cnpj,
-    nomeFantasia: nomeFantasia
+    usuario: {
+      login: login,
+      senha: senha,
+      nome: nome,
+      idPerfil: 2
+    }
   });
   return response;
 }

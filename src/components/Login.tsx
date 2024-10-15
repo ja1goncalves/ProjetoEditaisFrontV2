@@ -123,6 +123,15 @@ export function Login() {
               className="hover:text-[#088395] font-sans text-left hover:underline font-bold"
             >
               Cadastre-se
+            </Link>{" "}
+            <span className="text-[#1C1C1C] text-left font-sans">
+            ou
+            </span>{" "}
+            <Link
+              href={"/registerEmpresa"}
+              className="hover:text-[#088395] font-sans text-left hover:underline font-bold"
+            >
+              Crie uma empresa
             </Link>
           </form>
           <div className="w-full md:w-2/5 bg-gradient-to-r from-[#37B7C3] to-[#088395] text-white rounded-b-2xl md:rounded-tr-2xl md:rounded-br-2xl py-10 md:py-36 px-6 md:px-12"></div>
